@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# TypeScript build output
+dist/
+*.tsbuildinfo
+
+# Package manager logs & metadata
+npm-debug.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor & IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# AI tooling
+.claude/
+.cursor/
+
+# Worktrees
+.worktrees/
