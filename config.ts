@@ -23,7 +23,7 @@ import { mapByName } from './utils';
 export const TOKENLIST_SCHEMA_URL =
   'https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json';
 export const TOKENLIST_BASE_URL =
-  'https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/';
+  'https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/';
 
 export const DATA_DIR = './data';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
