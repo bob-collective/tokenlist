@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-01T07:53:24.800Z",
+  "timestamp": "2026-04-01T08:58:39.970Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -14,7 +14,7 @@
       "name": "Avalon Avalon SOLVBTCBBN",
       "symbol": "aBOBSOLVBTCBBN",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/aBOBSOLVBTCBBN/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBSOLVBTCBBN/logo.svg",
       "extensions": {
         "tokenId": "aBOBSOLVBTCBBN",
         "bridge": {}
@@ -26,7 +26,7 @@
       "name": "Avalon Avalon TBTC",
       "symbol": "aBOBTBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/aBOBTBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBTBTC/logo.svg",
       "extensions": {
         "tokenId": "aBOBTBTC",
         "bridge": {}
@@ -38,7 +38,7 @@
       "name": "Avalon Avalon WBTC",
       "symbol": "aBOBWBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/aBOBWBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBWBTC/logo.svg",
       "extensions": {
         "tokenId": "aBOBWBTC",
         "bridge": {}
@@ -50,7 +50,7 @@
       "name": "ALEX",
       "symbol": "ALEX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ALEX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ALEX/logo.svg",
       "extensions": {
         "tokenId": "ALEX",
         "bridge": {}
@@ -62,7 +62,7 @@
       "name": "ALEX",
       "symbol": "ALEX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ALEX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ALEX/logo.svg",
       "extensions": {
         "tokenId": "ALEX",
         "bridge": {}
@@ -74,7 +74,7 @@
       "name": "Babylon",
       "symbol": "BABY",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BABY/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BABY/logo.svg",
       "extensions": {
         "tokenId": "BABY",
         "bridge": {}
@@ -86,7 +86,7 @@
       "name": "Babylon",
       "symbol": "BABY",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BABY/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BABY/logo.svg",
       "extensions": {
         "tokenId": "BABY",
         "bridge": {}
@@ -98,7 +98,7 @@
       "name": "BNB",
       "symbol": "BNB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BNB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BNB/logo.svg",
       "extensions": {
         "tokenId": "BNB",
         "bridge": {}
@@ -110,7 +110,7 @@
       "name": "BOB",
       "symbol": "BOB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BOB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BOB/logo.svg",
       "extensions": {
         "tokenId": "BOB",
         "bridge": {
@@ -125,7 +125,7 @@
       "name": "BOB",
       "symbol": "BOB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BOB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BOB/logo.svg",
       "extensions": {
         "tokenId": "BOB",
         "bridge": {
@@ -140,7 +140,7 @@
       "name": "BOB",
       "symbol": "BOB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BOB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BOB/logo.svg",
       "extensions": {
         "tokenId": "BOB",
         "bridge": {}
@@ -152,7 +152,7 @@
       "name": "BOB",
       "symbol": "BOB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BOB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BOB/logo.svg",
       "extensions": {
         "tokenId": "BOB",
         "bridge": {
@@ -167,7 +167,7 @@
       "name": "BTC+",
       "symbol": "BTC+",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BTC+/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BTC+/logo.svg",
       "extensions": {
         "tokenId": "BTC+",
         "bridge": {}
@@ -179,7 +179,7 @@
       "name": "BTC+",
       "symbol": "BTC+",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/BTC+/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BTC+/logo.svg",
       "extensions": {
         "tokenId": "BTC+",
         "bridge": {}
@@ -191,7 +191,7 @@
       "name": "Coinbase Wrapped BTC",
       "symbol": "cbBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/cbBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/cbBTC/logo.webp",
       "extensions": {
         "tokenId": "cbBTC",
         "bridge": {}
@@ -203,7 +203,7 @@
       "name": "Coinbase Wrapped BTC",
       "symbol": "cbBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/cbBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/cbBTC/logo.webp",
       "extensions": {
         "tokenId": "cbBTC",
         "bridge": {}
@@ -215,7 +215,7 @@
       "name": "Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {
@@ -229,7 +229,7 @@
       "name": "Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {
@@ -243,7 +243,7 @@
       "name": "(PoS) Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {}
@@ -255,7 +255,7 @@
       "name": "Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {}
@@ -267,7 +267,7 @@
       "name": "Dai Token",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {}
@@ -279,7 +279,7 @@
       "name": "Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {}
@@ -291,7 +291,7 @@
       "name": "Dai Stablecoin",
       "symbol": "DAI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DAI/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
         "bridge": {}
@@ -303,7 +303,7 @@
       "name": "eDLLR",
       "symbol": "eDLLR",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DLLR/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DLLR/logo.svg",
       "extensions": {
         "tokenId": "DLLR",
         "bridge": {
@@ -317,7 +317,7 @@
       "name": "DLLR",
       "symbol": "DLLR",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/DLLR/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DLLR/logo.svg",
       "extensions": {
         "tokenId": "DLLR",
         "bridge": {
@@ -331,7 +331,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -343,7 +343,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -355,7 +355,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -367,7 +367,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -379,7 +379,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -391,7 +391,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -403,7 +403,7 @@
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -415,7 +415,7 @@
       "name": "Ethereum Token",
       "symbol": "ETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/ETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
         "bridge": {}
@@ -427,7 +427,7 @@
       "name": "Fire Bitcoin",
       "symbol": "FBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
         "bridge": {
@@ -441,7 +441,7 @@
       "name": "Fire Bitcoin",
       "symbol": "FBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
         "bridge": {
@@ -455,7 +455,7 @@
       "name": "Fire Bitcoin",
       "symbol": "FBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
         "bridge": {}
@@ -467,7 +467,7 @@
       "name": "Fire Bitcoin",
       "symbol": "FBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
         "bridge": {}
@@ -479,7 +479,7 @@
       "name": "Fire Bitcoin",
       "symbol": "FBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
         "bridge": {}
@@ -491,7 +491,7 @@
       "name": "Frax",
       "symbol": "FRAX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FRAX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FRAX/logo.svg",
       "extensions": {
         "tokenId": "FRAX",
         "bridge": {
@@ -505,7 +505,7 @@
       "name": "Frax",
       "symbol": "FRAX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FRAX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FRAX/logo.svg",
       "extensions": {
         "tokenId": "FRAX",
         "bridge": {
@@ -519,7 +519,7 @@
       "name": "Frax Share",
       "symbol": "FXS",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FXS/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FXS/logo.svg",
       "extensions": {
         "tokenId": "FXS",
         "bridge": {}
@@ -531,7 +531,7 @@
       "name": "Frax Share",
       "symbol": "FXS",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/FXS/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FXS/logo.svg",
       "extensions": {
         "tokenId": "FXS",
         "bridge": {}
@@ -543,7 +543,7 @@
       "name": "Hybrid Bitcoin",
       "symbol": "HybridBTC.pendle",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/HybridBTC.pendle/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/HybridBTC.pendle/logo.svg",
       "extensions": {
         "tokenId": "HybridBTC.pendle",
         "bridge": {}
@@ -555,7 +555,7 @@
       "name": "Hybrid Bitcoin",
       "symbol": "HybridBTC.pendle",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/HybridBTC.pendle/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/HybridBTC.pendle/logo.svg",
       "extensions": {
         "tokenId": "HybridBTC.pendle",
         "bridge": {}
@@ -567,7 +567,7 @@
       "name": "Ionic tBTC v2",
       "symbol": "iontBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/iontBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/iontBTC/logo.svg",
       "extensions": {
         "tokenId": "iontBTC",
         "bridge": {}
@@ -579,7 +579,7 @@
       "name": "Ionic Wrapped BTC",
       "symbol": "ionWBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/iontWBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/iontWBTC/logo.svg",
       "extensions": {
         "tokenId": "iontWBTC",
         "bridge": {}
@@ -591,7 +591,7 @@
       "name": "Lombard Staked Bitcoin",
       "symbol": "LBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/LBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/LBTC/logo.svg",
       "extensions": {
         "tokenId": "LBTC",
         "bridge": {
@@ -605,7 +605,7 @@
       "name": "Lombard Staked Bitcoin",
       "symbol": "LBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/LBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/LBTC/logo.svg",
       "extensions": {
         "tokenId": "LBTC",
         "bridge": {
@@ -619,7 +619,7 @@
       "name": "Lombard Staked Bitcoin",
       "symbol": "LBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/LBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/LBTC/logo.svg",
       "extensions": {
         "tokenId": "LBTC",
         "bridge": {}
@@ -631,7 +631,7 @@
       "name": "Lombard Staked Bitcoin",
       "symbol": "LBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/LBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/LBTC/logo.svg",
       "extensions": {
         "tokenId": "LBTC",
         "bridge": {}
@@ -643,7 +643,7 @@
       "name": "OpenUSDT",
       "symbol": "oUSDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/oUSDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
         "bridge": {}
@@ -655,7 +655,7 @@
       "name": "OpenUSDT",
       "symbol": "oUSDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/oUSDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
         "bridge": {}
@@ -667,7 +667,7 @@
       "name": "OpenUSDT",
       "symbol": "oUSDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/oUSDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
         "bridge": {}
@@ -679,7 +679,7 @@
       "name": "OpenUSDT",
       "symbol": "oUSDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/oUSDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
         "bridge": {}
@@ -691,7 +691,7 @@
       "name": "pumpBTC",
       "symbol": "pumpBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/pumpBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/pumpBTC/logo.webp",
       "extensions": {
         "tokenId": "pumpBTC",
         "bridge": {
@@ -705,7 +705,7 @@
       "name": "pumpBTC",
       "symbol": "pumpBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/pumpBTC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/pumpBTC/logo.webp",
       "extensions": {
         "tokenId": "pumpBTC",
         "bridge": {
@@ -719,7 +719,7 @@
       "name": "Rocket Pool ETH",
       "symbol": "rETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/rETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/rETH/logo.svg",
       "extensions": {
         "tokenId": "rETH",
         "bridge": {
@@ -733,7 +733,7 @@
       "name": "Rocket Pool ETH",
       "symbol": "rETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/rETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/rETH/logo.svg",
       "extensions": {
         "tokenId": "rETH",
         "bridge": {
@@ -747,7 +747,7 @@
       "name": "Satoshi Stablecoin",
       "symbol": "satUSD",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/satUSD/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/satUSD/logo.webp",
       "extensions": {
         "tokenId": "satUSD",
         "bridge": {}
@@ -759,7 +759,7 @@
       "name": "Satoshi Stablecoin V2",
       "symbol": "satUSD",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/satUSDv2/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/satUSDv2/logo.webp",
       "extensions": {
         "tokenId": "satUSDv2",
         "bridge": {}
@@ -771,7 +771,7 @@
       "name": "sb tBTC v2",
       "symbol": "sbtBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sbtBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sbtBTC/logo.svg",
       "extensions": {
         "tokenId": "sbtBTC",
         "bridge": {}
@@ -783,7 +783,7 @@
       "name": "sb Wrapped BTC",
       "symbol": "sbWBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sbWBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sbWBTC/logo.svg",
       "extensions": {
         "tokenId": "sbWBTC",
         "bridge": {}
@@ -795,7 +795,7 @@
       "name": "Segment SOLVBTCBBN",
       "symbol": "seSOLVBTCBBN",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/seSOLVBTCBBN/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seSOLVBTCBBN/logo.svg",
       "extensions": {
         "tokenId": "seSOLVBTCBBN",
         "bridge": {}
@@ -807,7 +807,7 @@
       "name": "Segment TBTC",
       "symbol": "seTBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/seTBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seTBTC/logo.svg",
       "extensions": {
         "tokenId": "seTBTC",
         "bridge": {}
@@ -819,7 +819,7 @@
       "name": "Segment UNIBTC",
       "symbol": "seUNIBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/seUNIBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seUNIBTC/logo.svg",
       "extensions": {
         "tokenId": "seUNIBTC",
         "bridge": {}
@@ -831,7 +831,7 @@
       "name": "Segment WBTC",
       "symbol": "seWBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/seWBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seWBTC/logo.svg",
       "extensions": {
         "tokenId": "seWBTC",
         "bridge": {}
@@ -843,7 +843,7 @@
       "name": "Staked FRAX",
       "symbol": "sFRAX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sFRAX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sFRAX/logo.svg",
       "extensions": {
         "tokenId": "sFRAX",
         "bridge": {
@@ -857,7 +857,7 @@
       "name": "Staked FRAX",
       "symbol": "sFRAX",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sFRAX/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sFRAX/logo.svg",
       "extensions": {
         "tokenId": "sFRAX",
         "bridge": {
@@ -871,7 +871,7 @@
       "name": "Staked Frax Ether",
       "symbol": "sfrxETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sfrxETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sfrxETH/logo.svg",
       "extensions": {
         "tokenId": "sfrxETH",
         "bridge": {
@@ -885,7 +885,7 @@
       "name": "Staked Frax Ether",
       "symbol": "sfrxETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/sfrxETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sfrxETH/logo.svg",
       "extensions": {
         "tokenId": "sfrxETH",
         "bridge": {
@@ -899,7 +899,7 @@
       "name": "Solv",
       "symbol": "SOLV",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/Solv/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/Solv/logo.svg",
       "extensions": {
         "tokenId": "Solv",
         "bridge": {}
@@ -911,7 +911,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -923,7 +923,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -935,7 +935,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -947,7 +947,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -959,7 +959,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -971,7 +971,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -983,7 +983,7 @@
       "name": "Solv BTC",
       "symbol": "SolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
         "bridge": {}
@@ -995,7 +995,7 @@
       "name": "SolvBTC Jupiter",
       "symbol": "SolvBTC.JUP",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SolvBTC.JUP/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC.JUP/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC.JUP",
         "bridge": {}
@@ -1007,7 +1007,7 @@
       "name": "eSOV",
       "symbol": "eSOV",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SOV/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SOV/logo.svg",
       "extensions": {
         "tokenId": "SOV",
         "bridge": {
@@ -1021,7 +1021,7 @@
       "name": "SOV",
       "symbol": "SOV",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/SOV/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SOV/logo.svg",
       "extensions": {
         "tokenId": "SOV",
         "bridge": {
@@ -1035,7 +1035,7 @@
       "name": "StakeStone Ether",
       "symbol": "STONE",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/STONE/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/STONE/logo.webp",
       "extensions": {
         "tokenId": "STONE",
         "bridge": {
@@ -1049,7 +1049,7 @@
       "name": "StakeStone Ether",
       "symbol": "STONE",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/STONE/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/STONE/logo.webp",
       "extensions": {
         "tokenId": "STONE",
         "bridge": {
@@ -1063,7 +1063,7 @@
       "name": "Threshold Network Token",
       "symbol": "T",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/T/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/T/logo.svg",
       "extensions": {
         "tokenId": "T",
         "bridge": {
@@ -1077,7 +1077,7 @@
       "name": "Threshold Network Token",
       "symbol": "T",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/T/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/T/logo.svg",
       "extensions": {
         "tokenId": "T",
         "bridge": {
@@ -1091,7 +1091,7 @@
       "name": "tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {
@@ -1105,7 +1105,7 @@
       "name": "tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {}
@@ -1117,7 +1117,7 @@
       "name": "tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {
@@ -1131,7 +1131,7 @@
       "name": "BOB tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {}
@@ -1143,7 +1143,7 @@
       "name": "Optimism tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {}
@@ -1155,7 +1155,7 @@
       "name": "Arbitrum tBTC v2",
       "symbol": "tBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/tBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
         "bridge": {}
@@ -1167,7 +1167,7 @@
       "name": "Threshold USD",
       "symbol": "thUSD",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/thUSD/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/thUSD/logo.svg",
       "extensions": {
         "tokenId": "thUSD",
         "bridge": {}
@@ -1179,7 +1179,7 @@
       "name": "Threshold USD",
       "symbol": "thUSD",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/thUSD/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/thUSD/logo.svg",
       "extensions": {
         "tokenId": "thUSD",
         "bridge": {}
@@ -1191,7 +1191,7 @@
       "name": "Tellor Tributes",
       "symbol": "TRB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/TRB/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/TRB/logo.webp",
       "extensions": {
         "tokenId": "TRB",
         "bridge": {
@@ -1205,7 +1205,7 @@
       "name": "Tellor Tributes",
       "symbol": "TRB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/TRB/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/TRB/logo.webp",
       "extensions": {
         "tokenId": "TRB",
         "bridge": {
@@ -1219,7 +1219,7 @@
       "name": "Uniswap",
       "symbol": "UNI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/UNI/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/UNI/logo.webp",
       "extensions": {
         "tokenId": "UNI",
         "bridge": {
@@ -1233,7 +1233,7 @@
       "name": "Uniswap",
       "symbol": "UNI",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/UNI/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/UNI/logo.webp",
       "extensions": {
         "tokenId": "UNI",
         "bridge": {
@@ -1247,7 +1247,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1259,7 +1259,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1271,7 +1271,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1283,7 +1283,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1295,7 +1295,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1307,7 +1307,7 @@
       "name": "uniBTC",
       "symbol": "uniBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/uniBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
         "bridge": {}
@@ -1319,7 +1319,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {
@@ -1333,7 +1333,7 @@
       "name": "USDC",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1345,7 +1345,7 @@
       "name": "Bridged USDC",
       "symbol": "USDC.e",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {
@@ -1359,7 +1359,7 @@
       "name": "Bridged USDC",
       "symbol": "USDC.e",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {
@@ -1373,7 +1373,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1385,7 +1385,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1397,7 +1397,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1409,7 +1409,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1421,7 +1421,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1433,7 +1433,7 @@
       "name": "USDC",
       "symbol": "USDC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1445,7 +1445,7 @@
       "name": "USD Coin",
       "symbol": "USDC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
         "bridge": {}
@@ -1457,7 +1457,7 @@
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {
@@ -1471,7 +1471,7 @@
       "name": "Bridged USDT",
       "symbol": "USDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {
@@ -1485,7 +1485,7 @@
       "name": "TetherToken",
       "symbol": "USDt",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {}
@@ -1497,7 +1497,7 @@
       "name": "Bridged USDT",
       "symbol": "USDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {}
@@ -1509,7 +1509,7 @@
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {}
@@ -1521,7 +1521,7 @@
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
         "bridge": {}
@@ -1533,7 +1533,7 @@
       "name": "USD₮0",
       "symbol": "USD₮0",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/USDT0/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT0/logo.svg",
       "extensions": {
         "tokenId": "USDT0",
         "bridge": {}
@@ -1545,7 +1545,7 @@
       "name": "Wrapped BNB",
       "symbol": "WBNB",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBNB/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBNB/logo.svg",
       "extensions": {
         "tokenId": "WBNB",
         "bridge": {}
@@ -1557,7 +1557,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTC/logo.svg",
       "extensions": {
         "tokenId": "WBTC",
         "bridge": {
@@ -1571,7 +1571,7 @@
       "name": "Bridged WBTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTC/logo.svg",
       "extensions": {
         "tokenId": "WBTC",
         "bridge": {
@@ -1585,7 +1585,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTC/logo.svg",
       "extensions": {
         "tokenId": "WBTC",
         "bridge": {}
@@ -1597,7 +1597,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTC/logo.svg",
       "extensions": {
         "tokenId": "WBTC",
         "bridge": {}
@@ -1609,7 +1609,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1621,7 +1621,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1633,7 +1633,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1645,7 +1645,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1657,7 +1657,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1669,7 +1669,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1681,7 +1681,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1693,7 +1693,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1705,7 +1705,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1717,7 +1717,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1729,7 +1729,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1741,7 +1741,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1753,7 +1753,7 @@
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WBTCOFT/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
         "bridge": {}
@@ -1765,7 +1765,7 @@
       "name": "Wrapped Ether",
       "symbol": "WETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WETH/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WETH/logo.webp",
       "extensions": {
         "tokenId": "WETH",
         "bridge": {
@@ -1779,7 +1779,7 @@
       "name": "Wrapped Ether",
       "symbol": "WETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WETH/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WETH/logo.webp",
       "extensions": {
         "tokenId": "WETH",
         "bridge": {}
@@ -1791,7 +1791,7 @@
       "name": "Wrapped Ether",
       "symbol": "WETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WETH/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WETH/logo.webp",
       "extensions": {
         "tokenId": "WETH",
         "bridge": {
@@ -1805,7 +1805,7 @@
       "name": "Wrapped Ether",
       "symbol": "WETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/WETH/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WETH/logo.webp",
       "extensions": {
         "tokenId": "WETH",
         "bridge": {}
@@ -1817,7 +1817,7 @@
       "name": "Wrapped liquid staked Ether 2.0",
       "symbol": "wstETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/wstETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/wstETH/logo.svg",
       "extensions": {
         "tokenId": "wstETH",
         "bridge": {
@@ -1831,7 +1831,7 @@
       "name": "Wrapped liquid staked Ether 2.0",
       "symbol": "wstETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/wstETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/wstETH/logo.svg",
       "extensions": {
         "tokenId": "wstETH",
         "bridge": {}
@@ -1843,7 +1843,7 @@
       "name": "Wrapped liquid staked Ether 2.0",
       "symbol": "wstETH",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/wstETH/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/wstETH/logo.svg",
       "extensions": {
         "tokenId": "wstETH",
         "bridge": {
@@ -1857,7 +1857,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1869,7 +1869,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1881,7 +1881,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1893,7 +1893,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1905,7 +1905,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1917,7 +1917,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}
@@ -1929,7 +1929,7 @@
       "name": "xSolvBTC",
       "symbol": "xSolvBTC",
       "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/bob/refs/heads/master/tokenlist/data/xSolvBTC/logo.svg",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
         "bridge": {}

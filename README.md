@@ -145,7 +145,7 @@ pnpm verify
 
 ## Contributing
 
-Open a PR against `bob-collective/bob` with your changes.
+Open a PR against `bob-collective/tokenlist` with your changes.
 
 ## License
 
