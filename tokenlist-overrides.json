@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-01T08:58:39.970Z",
+  "timestamp": "2026-04-07T09:24:15.574Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -682,6 +682,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
+      "name": "Paxos Gold",
+      "symbol": "PAXG",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/PAXG/logo.svg",
+      "extensions": {
+        "tokenId": "PAXG",
         "bridge": {}
       }
     },
@@ -1849,6 +1861,18 @@
         "bridge": {
           "1": "0xd1559523374D93972E0F7fE1AA98642754f5c4d1"
         }
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x68749665FF8D2d112Fa859AA293F07A622782F38",
+      "name": "Tether Gold",
+      "symbol": "XAUt",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/XAUt/logo.svg",
+      "extensions": {
+        "tokenId": "XAUt",
+        "bridge": {}
       }
     },
     {
