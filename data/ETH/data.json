@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Ether",
   "symbol": "ETH",
   "decimals": 18,

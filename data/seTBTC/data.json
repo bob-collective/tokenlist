@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Segment TBTC",
   "symbol": "seTBTC",
   "decimals": 8,

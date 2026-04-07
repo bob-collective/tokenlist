@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "DLLR",
   "symbol": "DLLR",
   "decimals": 18,

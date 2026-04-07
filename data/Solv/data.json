@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Solv",
   "symbol": "SOLV",
   "decimals": 18,

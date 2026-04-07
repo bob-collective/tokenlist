@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Ionic Wrapped BTC",
   "symbol": "ionWBTC",
   "decimals": 8,

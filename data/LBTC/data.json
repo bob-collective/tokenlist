@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Lombard Staked Bitcoin",
   "symbol": "LBTC",
   "decimals": 8,

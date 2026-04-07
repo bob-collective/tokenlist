@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Rocket Pool ETH",
   "symbol": "rETH",
   "decimals": 18,

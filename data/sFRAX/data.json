@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Staked FRAX",
   "symbol": "sFRAX",
   "decimals": 18,

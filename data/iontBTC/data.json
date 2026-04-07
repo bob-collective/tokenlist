@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Ionic tBTC v2",
   "symbol": "iontBTC",
   "decimals": 18,

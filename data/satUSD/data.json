@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Satoshi Stablecoin",
   "symbol": "satUSD",
   "decimals": 18,

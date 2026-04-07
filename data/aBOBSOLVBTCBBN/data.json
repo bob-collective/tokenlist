@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Avalon Avalon SOLVBTCBBN",
   "symbol": "aBOBSOLVBTCBBN",
   "decimals": 18,

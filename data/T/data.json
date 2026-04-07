@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Threshold Network Token",
   "symbol": "T",
   "decimals": 18,

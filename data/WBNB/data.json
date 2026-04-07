@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "Wrapped BNB",
   "symbol": "WBNB",
   "decimals": 18,

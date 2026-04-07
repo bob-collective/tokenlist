@@ -1,4 +1,5 @@
 {
+  "$schema": "../../token.schema.json",
   "name": "OpenUSDT",
   "symbol": "oUSDT",
   "decimals": 6,
