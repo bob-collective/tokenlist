@@ -140,7 +140,7 @@
     }
   },
   "properties": {
-    "$schema": { "type": "string", "format": "uri-reference" },
+    "$schema": { "type": "string", "oneOf": [{ "format": "uri-reference" }, {"format": "uri"}] },
     "name": {
       "$ref": "#/definitions/Name"
     },
