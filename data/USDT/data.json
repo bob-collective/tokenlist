@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/token.schema.json",
   "name": "Tether USD",
   "symbol": "USDT",
   "decimals": 6,
