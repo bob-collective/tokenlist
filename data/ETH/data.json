@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/token.schema.json",
+  "$schema": "../../token.schema.json",
   "name": "Ether",
   "symbol": "ETH",
   "decimals": 18,
