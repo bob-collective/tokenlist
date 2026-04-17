@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-17T13:12:42.526Z",
+  "timestamp": "2026-04-17T13:28:35.867Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1290,6 +1290,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/thUSD/logo.svg",
       "extensions": {
         "tokenId": "thUSD",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 40,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Telos",
+      "symbol": "TLOS",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/TLOS/logo.svg",
+      "extensions": {
+        "tokenId": "TLOS",
         "bridge": {}
       }
     },

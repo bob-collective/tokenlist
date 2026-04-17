@@ -1,0 +1,14 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Telos",
+  "symbol": "TLOS",
+  "decimals": 18,
+  "description": "Threshold Network is the home of $tBTC, proxy re-encryption #PRE, $thUSD, and all threshold cryptography.",
+  "website": "https://threshold.network",
+  "twitter": "@TheTNetwork",
+  "tokens": {
+    "telos": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}
