@@ -1,0 +1,11 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Sei",
+  "symbol": "SEI",
+  "decimals": 18,
+  "tokens": {
+    "sei-network": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

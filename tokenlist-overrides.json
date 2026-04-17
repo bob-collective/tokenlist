@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-07T09:24:15.574Z",
+  "timestamp": "2026-04-17T13:28:35.871Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -69,6 +69,18 @@
       }
     },
     {
+      "chainId": 43114,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Avalanche",
+      "symbol": "AVAX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/AVAX/logo.svg",
+      "extensions": {
+        "tokenId": "AVAX",
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 60808,
       "address": "0xe53dCec07d16D88e386AE0710E86d9a400f83c31",
       "name": "Babylon",
@@ -89,6 +101,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BABY/logo.svg",
       "extensions": {
         "tokenId": "BABY",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 80094,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Bera Token",
+      "symbol": "BERA",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BERA/logo.svg",
+      "extensions": {
+        "tokenId": "BERA",
         "bridge": {}
       }
     },
@@ -410,6 +434,42 @@
       }
     },
     {
+      "chainId": 10,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
+      "extensions": {
+        "tokenId": "ETH",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1923,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
+      "extensions": {
+        "tokenId": "ETH",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1868,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
+      "extensions": {
+        "tokenId": "ETH",
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 56,
       "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
       "name": "Ethereum Token",
@@ -698,6 +758,18 @@
       }
     },
     {
+      "chainId": 137,
+      "address": "0x0000000000000000000000000000000000001010",
+      "name": "Polygon Ecosystem Token",
+      "symbol": "POL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/POL/logo.svg",
+      "extensions": {
+        "tokenId": "POL",
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0xF469fBD2abcd6B9de8E169d128226C0Fc90a012e",
       "name": "pumpBTC",
@@ -754,6 +826,18 @@
       }
     },
     {
+      "chainId": 146,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Sonic",
+      "symbol": "S",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/S/logo.svg",
+      "extensions": {
+        "tokenId": "S",
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 60808,
       "address": "0x78Fea795cBFcC5fFD6Fb5B845a4f53d25C283bDB",
       "name": "Satoshi Stablecoin",
@@ -798,6 +882,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sbWBTC/logo.svg",
       "extensions": {
         "tokenId": "sbWBTC",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1329,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Sei",
+      "symbol": "SEI",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SEI/logo.svg",
+      "extensions": {
+        "tokenId": "SEI",
         "bridge": {}
       }
     },
@@ -1194,6 +1290,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/thUSD/logo.svg",
       "extensions": {
         "tokenId": "thUSD",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 40,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Telos",
+      "symbol": "TLOS",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/TLOS/logo.svg",
+      "extensions": {
+        "tokenId": "TLOS",
         "bridge": {}
       }
     },

@@ -32,7 +32,14 @@ export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
 
 const supportedMainnetChains = [
-  mainnet,
+  defineChain({
+    ...mainnet,
+    rpcUrls: {
+      default: {
+        http: ['https://ethereum-rpc.publicnode.com'],
+      },
+    }
+  }),
   bob,
   bsc,
   base,

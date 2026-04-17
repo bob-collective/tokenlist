@@ -1,0 +1,11 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Sonic",
+  "symbol": "S",
+  "decimals": 18,
+  "tokens": {
+    "sonic": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

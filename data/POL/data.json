@@ -1,0 +1,11 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Polygon Ecosystem Token",
+  "symbol": "POL",
+  "decimals": 18,
+  "tokens": {
+    "polygon": {
+      "address": "0x0000000000000000000000000000000000001010"
+    }
+  }
+}
