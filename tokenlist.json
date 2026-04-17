@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-17T11:59:54.910Z",
+  "timestamp": "2026-04-17T13:12:42.526Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -222,6 +222,18 @@
       }
     },
     {
+      "chainId": 42161,
+      "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "name": "Coinbase Wrapped BTC",
+      "symbol": "cbBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/cbBTC/logo.webp",
+      "extensions": {
+        "tokenId": "cbBTC",
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
       "name": "Dai Stablecoin",
@@ -375,6 +387,18 @@
     },
     {
       "chainId": 808813,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
+      "extensions": {
+        "tokenId": "ETH",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 42161,
       "address": "0x0000000000000000000000000000000000000000",
       "name": "Ether",
       "symbol": "ETH",
@@ -730,6 +754,18 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/PAXG/logo.svg",
       "extensions": {
         "tokenId": "PAXG",
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x0000000000000000000000000000000000001010",
+      "name": "Polygon Ecosystem Token",
+      "symbol": "POL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/POL/logo.svg",
+      "extensions": {
+        "tokenId": "POL",
         "bridge": {}
       }
     },
