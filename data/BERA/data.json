@@ -1,0 +1,11 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Bera Token",
+  "symbol": "BERA",
+  "decimals": 18,
+  "tokens": {
+    "berachain": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

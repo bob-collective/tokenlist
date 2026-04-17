@@ -1,0 +1,11 @@
+{
+  "$schema": "../../token.schema.json",
+  "name": "Avalanche",
+  "symbol": "AVAX",
+  "decimals": 18,
+  "tokens": {
+    "avalanche": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}
