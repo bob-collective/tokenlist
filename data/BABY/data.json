@@ -4,9 +4,9 @@
   "symbol": "BABY",
   "decimals": 6,
   "native": true,
-  "description": "",
+  "description": "BABY is the native gas, governance, and security token of the Babylon Genesis network.",
   "website": "https://babylonlabs.io/",
-  "twitter": "@BabylonFinance",
+  "twitter": "@babylonlabs_io",
   "tokens": {
     "bob": {
       "address": "0xe53dCec07d16D88e386AE0710E86d9a400f83c31"

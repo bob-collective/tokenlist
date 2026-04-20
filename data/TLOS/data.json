@@ -6,7 +6,7 @@
   "native": true,
   "description": "Telos is a high-performance blockchain network built on the EOSIO software, designed to provide fast and scalable decentralized applications (dApps) with low latency and high throughput. It aims to create a more inclusive and user-friendly blockchain ecosystem, offering features such as free transactions, governance by the community, and support for various programming languages. Telos focuses on fostering innovation and collaboration within the blockchain space while maintaining a strong commitment to security and sustainability.",
   "website": "https://www.telos.net/",
-  "twitter": "@TelosFoundation",
+  "twitter": "@HelloTelos",
   "tokens": {
     "telos": {
       "address": "0x0000000000000000000000000000000000000000"
