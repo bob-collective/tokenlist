@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-01T08:58:39.967Z",
+  "timestamp": "2026-04-20T09:38:05.609Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -17,6 +17,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBSOLVBTCBBN/logo.svg",
       "extensions": {
         "tokenId": "aBOBSOLVBTCBBN",
+        "native": false,
         "bridge": {}
       }
     },
@@ -29,6 +30,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBTBTC/logo.svg",
       "extensions": {
         "tokenId": "aBOBTBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -41,6 +43,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/aBOBWBTC/logo.svg",
       "extensions": {
         "tokenId": "aBOBWBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -53,6 +56,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ALEX/logo.svg",
       "extensions": {
         "tokenId": "ALEX",
+        "native": false,
         "bridge": {}
       }
     },
@@ -65,6 +69,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BABY/logo.svg",
       "extensions": {
         "tokenId": "BABY",
+        "native": true,
         "bridge": {}
       }
     },
@@ -77,6 +82,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BOB/logo.svg",
       "extensions": {
         "tokenId": "BOB",
+        "native": false,
         "bridge": {
           "1": "0x827716e74F769AB7b6bb374A29235d9c2156932C",
           "56": "0x827716e74F769AB7b6bb374A29235d9c2156932C"
@@ -92,6 +98,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/BTC+/logo.svg",
       "extensions": {
         "tokenId": "BTC+",
+        "native": false,
         "bridge": {}
       }
     },
@@ -104,6 +111,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DAI/logo.svg",
       "extensions": {
         "tokenId": "DAI",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -118,6 +126,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/DLLR/logo.svg",
       "extensions": {
         "tokenId": "DLLR",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -132,6 +141,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/ETH/logo.svg",
       "extensions": {
         "tokenId": "ETH",
+        "native": true,
         "bridge": {}
       }
     },
@@ -144,6 +154,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FBTC/logo.webp",
       "extensions": {
         "tokenId": "FBTC",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -158,6 +169,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FRAX/logo.svg",
       "extensions": {
         "tokenId": "FRAX",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -172,6 +184,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/FXS/logo.svg",
       "extensions": {
         "tokenId": "FXS",
+        "native": false,
         "bridge": {}
       }
     },
@@ -184,6 +197,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/HybridBTC.pendle/logo.svg",
       "extensions": {
         "tokenId": "HybridBTC.pendle",
+        "native": false,
         "bridge": {}
       }
     },
@@ -196,6 +210,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/iontBTC/logo.svg",
       "extensions": {
         "tokenId": "iontBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -208,6 +223,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/iontWBTC/logo.svg",
       "extensions": {
         "tokenId": "iontWBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -220,6 +236,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/LBTC/logo.svg",
       "extensions": {
         "tokenId": "LBTC",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -234,6 +251,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/oUSDT/logo.webp",
       "extensions": {
         "tokenId": "oUSDT",
+        "native": false,
         "bridge": {}
       }
     },
@@ -246,6 +264,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/pumpBTC/logo.webp",
       "extensions": {
         "tokenId": "pumpBTC",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -260,6 +279,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/rETH/logo.svg",
       "extensions": {
         "tokenId": "rETH",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -274,6 +294,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/satUSD/logo.webp",
       "extensions": {
         "tokenId": "satUSD",
+        "native": false,
         "bridge": {}
       }
     },
@@ -286,6 +307,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/satUSDv2/logo.webp",
       "extensions": {
         "tokenId": "satUSDv2",
+        "native": false,
         "bridge": {}
       }
     },
@@ -298,6 +320,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sbtBTC/logo.svg",
       "extensions": {
         "tokenId": "sbtBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -310,6 +333,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sbWBTC/logo.svg",
       "extensions": {
         "tokenId": "sbWBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -322,6 +346,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seSOLVBTCBBN/logo.svg",
       "extensions": {
         "tokenId": "seSOLVBTCBBN",
+        "native": false,
         "bridge": {}
       }
     },
@@ -334,6 +359,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seTBTC/logo.svg",
       "extensions": {
         "tokenId": "seTBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -346,6 +372,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seUNIBTC/logo.svg",
       "extensions": {
         "tokenId": "seUNIBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -358,6 +385,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/seWBTC/logo.svg",
       "extensions": {
         "tokenId": "seWBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -370,6 +398,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sFRAX/logo.svg",
       "extensions": {
         "tokenId": "sFRAX",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -384,6 +413,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/sfrxETH/logo.svg",
       "extensions": {
         "tokenId": "sfrxETH",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -398,6 +428,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -410,6 +441,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SolvBTC.JUP/logo.svg",
       "extensions": {
         "tokenId": "SolvBTC.JUP",
+        "native": false,
         "bridge": {}
       }
     },
@@ -422,6 +454,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/SOV/logo.svg",
       "extensions": {
         "tokenId": "SOV",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -436,6 +469,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/STONE/logo.webp",
       "extensions": {
         "tokenId": "STONE",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -450,6 +484,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/T/logo.svg",
       "extensions": {
         "tokenId": "T",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -464,6 +499,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tBTC/logo.svg",
       "extensions": {
         "tokenId": "tBTC",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -478,6 +514,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/thUSD/logo.svg",
       "extensions": {
         "tokenId": "thUSD",
+        "native": false,
         "bridge": {}
       }
     },
@@ -490,6 +527,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/TRB/logo.webp",
       "extensions": {
         "tokenId": "TRB",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -504,6 +542,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/UNI/logo.webp",
       "extensions": {
         "tokenId": "UNI",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -518,6 +557,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/uniBTC/logo.svg",
       "extensions": {
         "tokenId": "uniBTC",
+        "native": false,
         "bridge": {}
       }
     },
@@ -530,6 +570,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
       "extensions": {
         "tokenId": "USDC",
+        "native": false,
         "bridge": {
           "1": "0xe497788F8Fcc30B773C9A181a0FFE2e60645cE90"
         }
@@ -544,6 +585,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDT/logo.webp",
       "extensions": {
         "tokenId": "USDT",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -558,6 +600,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTC/logo.svg",
       "extensions": {
         "tokenId": "WBTC",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -572,6 +615,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WBTCOFT/logo.svg",
       "extensions": {
         "tokenId": "WBTCOFT",
+        "native": false,
         "bridge": {}
       }
     },
@@ -584,6 +628,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/WETH/logo.webp",
       "extensions": {
         "tokenId": "WETH",
+        "native": false,
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
@@ -598,6 +643,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/wstETH/logo.svg",
       "extensions": {
         "tokenId": "wstETH",
+        "native": false,
         "bridge": {
           "1": "0xd1559523374D93972E0F7fE1AA98642754f5c4d1"
         }
@@ -612,6 +658,7 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/xSolvBTC/logo.svg",
       "extensions": {
         "tokenId": "xSolvBTC",
+        "native": false,
         "bridge": {}
       }
     }

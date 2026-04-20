@@ -3,6 +3,7 @@
   "name": "Avalanche",
   "symbol": "AVAX",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "avalanche": {
       "address": "0x0000000000000000000000000000000000000000"

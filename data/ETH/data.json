@@ -3,6 +3,7 @@
   "name": "Ether",
   "symbol": "ETH",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "ethereum": {
       "address": "0x0000000000000000000000000000000000000000"

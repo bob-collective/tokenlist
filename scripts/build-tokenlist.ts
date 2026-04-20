@@ -64,6 +64,7 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
+          native: tokenData.native ?? false,
           bridge,
         },
       } as Token;
@@ -96,6 +97,7 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
+          native: tokenData.native ?? false,
           bridge,
         },
       } as Token;

@@ -3,6 +3,7 @@
   "name": "Polygon Ecosystem Token",
   "symbol": "POL",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "polygon": {
       "address": "0x0000000000000000000000000000000000001010"

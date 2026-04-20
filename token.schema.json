@@ -154,6 +154,11 @@
       "type": "string",
       "description": "A description of the token or project (can be empty)"
     },
+    "native": {
+      "type": "boolean",
+      "description": "Indicates if this token is the native currency of the chain (e.g., ETH for Ethereum)",
+      "default": false
+    },
     "website": {
       "type": "string",
       "description": "URL of the project's website",

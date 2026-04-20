@@ -3,6 +3,7 @@
   "name": "Babylon",
   "symbol": "BABY",
   "decimals": 6,
+  "native": true,
   "description": "",
   "website": "https://babylonlabs.io/",
   "twitter": "@BabylonFinance",
