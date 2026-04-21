@@ -8,10 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm build              # Full build: generates types, tokenlist JSONs, then verifies
 pnpm build:tokenlist    # Generate tokenlist JSON files from /data
 pnpm build:types        # Regenerate token-ids.ts from current /data entries
+pnpm check              # Run Biome formatting, import organization, and lint checks
+pnpm check:write        # Apply safe Biome formatting/import/lint fixes
+pnpm format             # Check formatting with Biome
+pnpm format:write       # Apply Biome formatting
+pnpm lint               # Run Biome lint rules
 pnpm verify             # Validate schema + on-chain data (runs automatically after build)
 ```
-
-There is no lint or test runner configured.
 
 ## Architecture
 
