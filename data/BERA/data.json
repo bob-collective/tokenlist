@@ -3,6 +3,7 @@
   "name": "Bera Token",
   "symbol": "BERA",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "berachain": {
       "address": "0x0000000000000000000000000000000000000000"

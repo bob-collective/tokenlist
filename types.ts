@@ -18,6 +18,7 @@ export type TokenData = {
   name: string;
   symbol: string;
   decimals: number;
+  native?: boolean;
   description?: string;
   website?: string;
   twitter?: string;
@@ -43,6 +44,7 @@ export type Token = {
   logoURI: string;
   extensions: {
     tokenId: TokenId;
+    native: boolean;
     bridge?: Record<SupportedChainId, Address>;
   };
 };

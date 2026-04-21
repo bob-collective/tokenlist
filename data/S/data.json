@@ -3,6 +3,7 @@
   "name": "Sonic",
   "symbol": "S",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "sonic": {
       "address": "0x0000000000000000000000000000000000000000"

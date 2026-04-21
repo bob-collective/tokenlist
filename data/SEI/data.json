@@ -3,6 +3,7 @@
   "name": "Sei",
   "symbol": "SEI",
   "decimals": 18,
+  "native": true,
   "tokens": {
     "sei-network": {
       "address": "0x0000000000000000000000000000000000000000"
