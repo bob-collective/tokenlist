@@ -1,3 +1,4 @@
+import { defineChain } from 'viem';
 import {
   arbitrum,
   avalanche,
@@ -17,7 +18,6 @@ import {
   telos,
   unichain,
 } from 'viem/chains';
-import { defineChain } from 'viem'
 import { mapByName } from './utils';
 
 export const TOKENLIST_SCHEMA_URL =
@@ -38,7 +38,7 @@ const supportedMainnetChains = [
       default: {
         http: ['https://ethereum-rpc.publicnode.com'],
       },
-    }
+    },
   }),
   bob,
   bsc,
@@ -49,7 +49,7 @@ const supportedMainnetChains = [
       default: {
         http: ['https://optimism-rpc.publicnode.com'],
       },
-    }
+    },
   }),
   arbitrum,
   polygon,

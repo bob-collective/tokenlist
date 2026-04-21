@@ -1,5 +1,5 @@
-import { Address } from 'viem';
-import { SUPPORTED_CHAIN_MAP, SUPPORTED_CHAINS } from './config';
+import type { Address } from 'viem';
+import type { SUPPORTED_CHAIN_MAP, SUPPORTED_CHAINS } from './config';
 import type { TokenId } from './token-ids';
 
 export type KebabCase<T extends string> = T extends `${infer S} ${infer E}`
@@ -32,7 +32,7 @@ export type TokenData = {
       bridge?: Record<SupportedChain, Address>;
       overrides?: Overrides;
     }
-  >
+  >;
 };
 
 export type Token = {

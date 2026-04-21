@@ -17,10 +17,16 @@
     "build": "npm run build:types && npm run build:tokenlist",
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
+    "check": "biome check .",
+    "check:write": "biome check --write .",
+    "format": "biome format .",
+    "format:write": "biome format --write .",
+    "lint": "biome lint .",
     "postbuild": "npm run verify",
     "verify": "tsx ./scripts/verify.ts"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.12",
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.10.0",
     "ajv": "^8.17.1",

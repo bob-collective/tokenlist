@@ -216,6 +216,11 @@ pnpm verify
 | `pnpm build` | Generate types, build token lists, then run verification |
 | `pnpm build:tokenlist` | Generate the 3 tokenlist JSON files |
 | `pnpm build:types` | Generate `TokenId` and `NativeTokenId` TypeScript unions |
+| `pnpm check` | Run Biome formatting, import organization, and lint checks |
+| `pnpm check:write` | Apply safe Biome formatting/import/lint fixes |
+| `pnpm format` | Check formatting with Biome |
+| `pnpm format:write` | Apply Biome formatting |
+| `pnpm lint` | Run Biome lint rules |
 | `pnpm verify` | Validate tokenlist schema and on-chain token data |
 
 ---

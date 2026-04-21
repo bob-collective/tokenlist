@@ -15,12 +15,15 @@ const tokenlistData = tokenlistDirectories.map<[string, TokenData]>((dir) => {
   return [dir, data];
 });
 
-const nativeTokenIds = tokenlistData.reduce<string[]>((acc, [tokenId, data]) => {
+const nativeTokenIds = tokenlistData.reduce<string[]>(
+  (acc, [tokenId, data]) => {
     if (data.native) {
       acc.push(tokenId);
     }
     return acc;
-  }, []);
+  },
+  [],
+);
 
 function toUnionType(tokenIds: string[]) {
   return tokenIds.map((tokenId) => `'${tokenId}'`).join(' | ') || 'never';
