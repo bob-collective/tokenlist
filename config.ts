@@ -7,8 +7,10 @@ import {
   bob,
   bobSepolia,
   bsc,
+  hyperEvm,
   mainnet,
   optimism,
+  plasma,
   polygon,
   sei,
   sepolia,
@@ -61,6 +63,15 @@ const supportedMainnetChains = [
   berachain,
   sonic,
   telos,
+  defineChain({
+    ...hyperEvm,
+    contracts: {
+      multicall3: {
+        address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      },
+    },
+  }),
+  plasma,
 ];
 const supportedTestnetChains = [sepolia, bobSepolia];
 export const SUPPORTED_CHAINS = [

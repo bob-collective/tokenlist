@@ -4,7 +4,12 @@ import type { TokenId } from './token-ids';
 
 export type KebabCase<T extends string> = T extends `${infer S} ${infer E}`
   ? `${Lowercase<S>}-${KebabCase<E>}`
-  : Lowercase<T>;
+  : // biome-ignore lint/suspicious/noExplicitAny: any
+    T extends `${infer S}${infer E extends `${string}${any}`}`
+    ? E extends Uppercase<E>
+      ? `${Lowercase<S>}-${Lowercase<E>}`
+      : `${Lowercase<S>}${KebabCase<E>}`
+    : Lowercase<T>;
 
 export type ValueOf<T> = T[keyof T];
 export type Entries<T> = [keyof T, ValueOf<T>][];

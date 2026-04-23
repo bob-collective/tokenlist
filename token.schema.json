@@ -71,6 +71,12 @@
             },
             "telos": {
               "$ref": "#/definitions/Address"
+            },
+            "hyperevm": {
+              "$ref": "#/definitions/Address"
+            },
+            "plasma": {
+              "$ref": "#/definitions/Address"
             }
           }
         },
@@ -226,6 +232,12 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "telos": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "hyper-evm": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "plasma": {
           "$ref": "#/definitions/ChainProperties"
         }
       },
