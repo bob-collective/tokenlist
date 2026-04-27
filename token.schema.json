@@ -18,6 +18,9 @@
         "decimals": {
           "$ref": "#/definitions/Decimals"
         },
+        "native": {
+          "$ref": "#/definitions/NativeToken"
+        },
         "bridge": {
           "type": "object",
           "properties": {
@@ -143,6 +146,11 @@
         }
       ],
       "examples": ["USDC"]
+    },
+    "NativeToken": {
+      "type": "boolean",
+      "description": "Indicates if this token is the native currency of the chain (e.g., ETH for Ethereum)",
+      "default": false
     }
   },
   "properties": {
@@ -164,9 +172,7 @@
       "description": "A description of the token or project (can be empty)"
     },
     "native": {
-      "type": "boolean",
-      "description": "Indicates if this token is the native currency of the chain (e.g., ETH for Ethereum)",
-      "default": false
+      "$ref": "#/definitions/NativeToken"
     },
     "website": {
       "type": "string",
