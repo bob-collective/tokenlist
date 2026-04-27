@@ -34,6 +34,7 @@ export type TokenData = {
       name?: string;
       symbol?: string;
       decimals?: number;
+      native?: boolean;
       bridge?: Record<SupportedChain, Address>;
       overrides?: Overrides;
     }
