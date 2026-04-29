@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-27T14:16:20.164Z",
+  "timestamp": "2026-04-29T12:17:43.423Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1575,36 +1575,6 @@
       }
     },
     {
-      "chainId": 60808,
-      "address": "0xe75D0fB2C24A55cA1e3F96781a2bCC7bdba058F0",
-      "name": "Bridged USDC",
-      "symbol": "USDC.e",
-      "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
-      "extensions": {
-        "tokenId": "USDC",
-        "native": false,
-        "bridge": {
-          "1": "0xe497788F8Fcc30B773C9A181a0FFE2e60645cE90"
-        }
-      }
-    },
-    {
-      "chainId": 808813,
-      "address": "0x2c1f73d37E7cdbA2792156139b0d35A765d595C5",
-      "name": "Bridged USDC",
-      "symbol": "USDC.e",
-      "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC/logo.webp",
-      "extensions": {
-        "tokenId": "USDC",
-        "native": false,
-        "bridge": {
-          "11155111": "0x5C2A45A35ba99d8Ee58c4bB96e2Ce30dA86C530b"
-        }
-      }
-    },
-    {
       "chainId": 10,
       "address": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
       "name": "USD Coin",
@@ -1693,6 +1663,36 @@
         "tokenId": "USDC",
         "native": false,
         "bridge": {}
+      }
+    },
+    {
+      "chainId": 60808,
+      "address": "0xe75D0fB2C24A55cA1e3F96781a2bCC7bdba058F0",
+      "name": "Bridged USDC",
+      "symbol": "USDC.e",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC.e/logo.webp",
+      "extensions": {
+        "tokenId": "USDC.e",
+        "native": false,
+        "bridge": {
+          "1": "0xe497788F8Fcc30B773C9A181a0FFE2e60645cE90"
+        }
+      }
+    },
+    {
+      "chainId": 808813,
+      "address": "0x2c1f73d37E7cdbA2792156139b0d35A765d595C5",
+      "name": "Bridged USDC",
+      "symbol": "USDC.e",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC.e/logo.webp",
+      "extensions": {
+        "tokenId": "USDC.e",
+        "native": false,
+        "bridge": {
+          "11155111": "0x5C2A45A35ba99d8Ee58c4bB96e2Ce30dA86C530b"
+        }
       }
     },
     {
