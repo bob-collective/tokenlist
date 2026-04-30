@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-04-27T14:16:20.164Z",
+  "timestamp": "2026-04-30T08:22:31.973Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -240,6 +240,19 @@
     },
     {
       "chainId": 42161,
+      "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "name": "Coinbase Wrapped BTC",
+      "symbol": "cbBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/cbBTC/logo.webp",
+      "extensions": {
+        "tokenId": "cbBTC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 8453,
       "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
       "name": "Coinbase Wrapped BTC",
       "symbol": "cbBTC",
