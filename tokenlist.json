@@ -1686,7 +1686,7 @@
       "name": "Bridged USDC (BOB)",
       "symbol": "USDC.e",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC.e/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/USDC.e/logo.svg",
       "extensions": {
         "tokenId": "USDC.e",
         "native": false,
