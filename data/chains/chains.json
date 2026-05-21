@@ -16,5 +16,7 @@
   "soneium-mainnet": "soneium.svg",
   "berachain": "berachain.svg",
   "swellchain": "swellchain.svg",
-  "telos": "telos.svg"
+  "telos": "telos.svg",
+  "plasma": "plasma.svg",
+  "hyper-evm": "hyperevm.svg"
 }
