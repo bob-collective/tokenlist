@@ -1,0 +1,20 @@
+{
+  "$schema": "../../chain.schema.json",
+  "bob": "bob.svg",
+  "bob-sepolia": "bob.svg",
+  "ethereum": "ethereum.svg",
+  "sepolia": "sepolia.svg",
+  "bnb-smart-chain": "bsc.svg",
+  "base": "base.svg",
+  "op-mainnet": "optimism.svg",
+  "arbitrum-one": "arbitrum.svg",
+  "polygon": "polygon.svg",
+  "avalanche": "avalanche.svg",
+  "unichain": "unichain.svg",
+  "sonic": "sonic.svg",
+  "sei-network": "sei.svg",
+  "soneium-mainnet": "soneium.svg",
+  "berachain": "berachain.svg",
+  "swellchain": "swellchain.svg",
+  "telos": "telos.svg"
+}

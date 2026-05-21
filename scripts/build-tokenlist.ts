@@ -5,11 +5,11 @@ import { glob } from 'glob';
 import { type Address, getAddress } from 'viem';
 import { bob } from 'viem/chains';
 import {
-  DATA_DIR,
   OUTFILE_BOB,
   OUTFILE_OVERRIDES,
   OUTFILE_TOKENLIST,
   SUPPORTED_CHAIN_MAP,
+  TOKEN_DIR,
   TOKENLIST_BASE_URL,
   TOKENLIST_SCHEMA_URL,
 } from '../config';
@@ -112,15 +112,17 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
 }
 
 const tokenlistData = fs
-  .readdirSync(DATA_DIR)
+  .readdirSync(TOKEN_DIR)
   .sort((a, b) => {
     return a.toLowerCase().localeCompare(b.toLowerCase());
   })
   .map<[TokenId, TokenData, string]>((folder) => {
     const data: TokenData = JSON.parse(
-      fs.readFileSync(path.join(DATA_DIR, folder, 'data.json'), 'utf8'),
+      fs.readFileSync(path.join(TOKEN_DIR, folder, 'data.json'), 'utf8'),
     );
-    const logofiles = glob.sync(path.join(DATA_DIR, folder, 'logo.{webp,svg}'));
+    const logofiles = glob.sync(
+      path.join(TOKEN_DIR, folder, 'logo.{webp,svg}'),
+    );
     const logoext = logofiles[0].endsWith('webp') ? 'webp' : 'svg';
 
     return [
@@ -128,7 +130,7 @@ const tokenlistData = fs
       data,
       url.resolve(
         TOKENLIST_BASE_URL,
-        path.join(DATA_DIR, folder, `logo.${logoext}`),
+        path.join(TOKEN_DIR, folder, `logo.${logoext}`),
       ),
     ];
   });

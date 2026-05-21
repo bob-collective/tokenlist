@@ -27,7 +27,8 @@ export const TOKENLIST_SCHEMA_URL =
 export const TOKENLIST_BASE_URL =
   'https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/';
 
-export const DATA_DIR = './data';
+export const TOKEN_DIR = './data/tokens';
+export const CHAIN_DIR = './data/chains';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
