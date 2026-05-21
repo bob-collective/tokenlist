@@ -1,5 +1,5 @@
 {
-  "$schema": "../../token.schema.json",
+  "$schema": "../../../token.schema.json",
   "name": "Telos",
   "symbol": "TLOS",
   "decimals": 18,
