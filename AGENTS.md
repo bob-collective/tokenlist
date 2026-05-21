@@ -18,15 +18,18 @@ pnpm verify             # Validate schema + on-chain data (runs automatically af
 
 ## Architecture
 
-This package is the authoritative token registry for the BOB ecosystem. The source of truth is the `/data` directory — one subdirectory per token (named by symbol), each containing a `data.json` and a logo asset.
+This package is the authoritative token registry for the BOB ecosystem. The source of truth is the `/data` directory, which contains:
+
+- `data/tokens/` — one subdirectory per token (named by symbol), each containing a `data.json` and a logo asset
+- `data/chains/` — chain registry; `chains.json` maps each supported chain name to a logoURI
 
 **Data flow:**
 
 ```
-data/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.json
-                                                        →  tokenlist-bob.json
-                                                        →  tokenlist-overrides.json
-data/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
+data/tokens/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.json
+                                                               →  tokenlist-bob.json
+                                                               →  tokenlist-overrides.json
+data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
 ```
 
 **Key files:**
@@ -35,7 +38,8 @@ data/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto
 - `types.ts` — `TokenData` (raw input shape from data.json), `Token` (output shape for tokenlist JSONs), `SupportedChain` type.
 - `index.ts` — Public API surface; re-exports from config, types, token-ids, utils.
 - `token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
-- `token.schema.json` — JSON Schema attached to data.json files for IDE autocompletion.
+- `token.schema.json` — JSON Schema attached to `data/tokens/[TOKEN]/data.json` files for IDE autocompletion.
+- `chain.schema.json` — JSON Schema attached to `data/chains/chains.json` for IDE autocompletion.
 
 **data.json structure:**
 
@@ -58,6 +62,6 @@ These are committed to the repo and consumed downstream via the npm package.
 
 **Adding a new token:**
 
-1. Create `data/[SYMBOL]/data.json` (use `token.schema.json` for structure)
+1. Create `data/tokens/[SYMBOL]/data.json` (use `token.schema.json` for structure)
 2. Add a logo asset (`logo.svg` or `logo.webp`)
 3. Run `pnpm build` — this regenerates `token-ids.ts`, all JSON outputs, and runs on-chain verification

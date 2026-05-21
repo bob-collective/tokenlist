@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Chain Registry Schema",
+  "type": "object",
+  "definitions": {
+    "LogoURI": {
+      "type": "string",
+      "oneOf": [{ "format": "uri-reference" }, { "format": "uri" }]
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "oneOf": [{ "format": "uri-reference" }, { "format": "uri" }]
+    },
+    "bob": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "bob-sepolia": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "ethereum": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "sepolia": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "bnb-smart-chain": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "base": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "op-mainnet": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "arbitrum-one": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "polygon": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "avalanche": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "unichain": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "sonic": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "sei-network": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "soneium-mainnet": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "berachain": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "swellchain": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "telos": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "hyper-evm": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "plasma": {
+      "$ref": "#/definitions/LogoURI"
+    }
+  },
+  "additionalProperties": false
+}

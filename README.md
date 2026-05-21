@@ -81,7 +81,7 @@ The source file contains shared token metadata plus per-chain entries under `tok
 
 ```json
 {
-  "$schema": "../../token.schema.json",
+  "$schema": "../../../token.schema.json",
   "name": "USD Coin",
   "symbol": "USDC",
   "decimals": 6,
@@ -156,7 +156,7 @@ Create `data.json`:
 
 ```json
 {
-  "$schema": "../../token.schema.json",
+  "$schema": "../../../token.schema.json",
   "name": "My Token",
   "symbol": "MYTOKEN",
   "decimals": 18,

@@ -1,15 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { DATA_DIR, OUTFILE_TYPES } from '../config';
+import { OUTFILE_TYPES, TOKEN_DIR } from '../config';
 import type { TokenData } from '../types';
 
-const tokenlistDirectories = fs.readdirSync(DATA_DIR).sort((a, b) => {
+const tokenlistDirectories = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
   return a.toLowerCase().localeCompare(b.toLowerCase());
 });
 
 const tokenlistData = tokenlistDirectories.map<[string, TokenData]>((dir) => {
   const data: TokenData = JSON.parse(
-    fs.readFileSync(path.join(DATA_DIR, dir, 'data.json'), 'utf8'),
+    fs.readFileSync(path.join(TOKEN_DIR, dir, 'data.json'), 'utf8'),
   );
 
   return [dir, data];
