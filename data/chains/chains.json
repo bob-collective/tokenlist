@@ -3,6 +3,7 @@
   "bob": "bob.svg",
   "bob-sepolia": "bob.svg",
   "ethereum": "ethereum.svg",
+  "sepolia": "ethereum.svg",
   "bnb-smart-chain": "bsc.svg",
   "base": "base.svg",
   "op-mainnet": "optimism.svg",
