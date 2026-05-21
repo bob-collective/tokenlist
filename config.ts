@@ -33,6 +33,7 @@ export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
+export const OUTFILE_CHAIN = 'chainlist.json';
 
 const supportedMainnetChains = [
   defineChain({

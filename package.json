@@ -6,15 +6,13 @@
   "main": "index.ts",
   "files": [
     "index.ts",
-    "config.ts",
-    "types.ts",
-    "utils.ts",
-    "token-ids.ts",
     "tokenlist.json",
-    "tokenlist*.json"
+    "tokenlist*.json",
+    "chainlist.json"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:tokenlist",
+    "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist",
+    "build:chainlist": "tsx ./scripts/build-chain.ts",
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
     "check": "biome check .",
