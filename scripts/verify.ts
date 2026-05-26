@@ -8,14 +8,13 @@ import {
   type Chain,
   createPublicClient,
   erc20Abi,
-  getAddress,
   http,
-  isAddress,
   type MulticallReturnType,
   type PublicClient,
-  zeroAddress,
 } from 'viem';
 import { SUPPORTED_CHAINS, TOKENLIST_SCHEMA_URL } from '../config';
+import type { Token } from '../types';
+import { checksumAddress, toEvmAddress } from '../utils';
 
 const tokenlistPath = path.join(__dirname, '../tokenlist.json');
 
@@ -47,15 +46,6 @@ const clients = new Map<number, TokenValidatorClient>(
   ]),
 );
 
-interface Token {
-  name: string;
-  address: string;
-  symbol: string;
-  decimals: number;
-  chainId: number;
-  logoURI: string;
-}
-
 interface ValidationResult {
   address: string;
   symbol: string;
@@ -66,7 +56,7 @@ interface ValidationResult {
 
 function validateAddress(address: string): boolean {
   try {
-    return isAddress(address) && address === getAddress(address);
+    return address === checksumAddress(address);
   } catch {
     return false;
   }
@@ -94,10 +84,10 @@ async function validateChainTokens(
       });
       continue;
     }
-    if (token.address !== zeroAddress && !validateAddress(token.address)) {
+    if (!token.extensions.native && !validateAddress(token.address)) {
       let suggestion: string;
       try {
-        suggestion = getAddress(token.address);
+        suggestion = toEvmAddress(token.address);
       } catch {
         suggestion = '(unable to compute checksum — address is malformed)';
       }
@@ -112,23 +102,23 @@ async function validateChainTokens(
     }
   }
 
-  const contractTokens = toFetch.filter((t) => t.address !== zeroAddress);
-  const nativeTokens = toFetch.filter((t) => t.address === zeroAddress);
+  const contractTokens = toFetch.filter((t) => !t.extensions.native);
+  const nativeTokens = toFetch.filter((t) => t.extensions.native);
 
   // Single multicall for all contract tokens on this chain — one RPC round-trip regardless of count
   const calls = contractTokens.flatMap((t) => [
     {
-      address: t.address as `0x${string}`,
+      address: toEvmAddress(t.address) as `0x${string}`,
       abi: erc20Abi,
       functionName: 'name' as const,
     },
     {
-      address: t.address as `0x${string}`,
+      address: toEvmAddress(t.address) as `0x${string}`,
       abi: erc20Abi,
       functionName: 'symbol' as const,
     },
     {
-      address: t.address as `0x${string}`,
+      address: toEvmAddress(t.address) as `0x${string}`,
       abi: erc20Abi,
       functionName: 'decimals' as const,
     },

@@ -80,6 +80,9 @@
             },
             "plasma": {
               "$ref": "#/definitions/Address"
+            },
+            "tron": {
+              "$ref": "#/definitions/Address"
             }
           }
         },
@@ -114,7 +117,8 @@
       "pattern": "^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$",
       "examples": [
         "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-        "So11111111111111111111111111111111111111112"
+        "So11111111111111111111111111111111111111112",
+        "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
       ]
     },
     "Name": {
@@ -244,6 +248,9 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "plasma": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "tron": {
           "$ref": "#/definitions/ChainProperties"
         }
       },
