@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      tronweb:
-        specifier: ^6.3.0
-        version: 6.3.0
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.4.12
@@ -33,6 +29,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      tronweb:
+        specifier: ^6.3.0
+        version: 6.3.0
       tsx:
         specifier: ^4.20.6
         version: 4.20.6
