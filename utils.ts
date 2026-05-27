@@ -18,13 +18,13 @@ export function mapByName<T extends { name: string }>(
 }
 
 export function checksumAddress(address: string): string {
-  if (TronWeb.isAddress(address)) return address;
+  if (address.startsWith('T') && TronWeb.isAddress(address)) return address;
 
   return getAddress(address);
 }
 
 export function toEvmAddress(address: string): string {
-  if (TronWeb.isAddress(address)) {
+  if (address.startsWith('T') && TronWeb.isAddress(address)) {
     const tronHex = TronWeb.address.toHex(address);
 
     return `0x${tronHex.slice(2)}`;
