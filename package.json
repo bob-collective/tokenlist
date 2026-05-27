@@ -35,9 +35,11 @@
     "ajv": "^8.17.1",
     "glob": "^11.0.3",
     "lodash": "^4.17.21",
-    "tronweb": "^6.3.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "tronweb": "^6.3.0",
     "viem": "^2.47.4"
   }
 }
