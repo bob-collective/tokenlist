@@ -19,7 +19,6 @@
     "build:chainlist": "tsx ./scripts/build-chainlist.ts",
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
-    "play": "tsx ./scripts/play.ts",
     "check": "biome check .",
     "check:write": "biome check --write .",
     "format": "biome format .",
