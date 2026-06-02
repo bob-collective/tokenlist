@@ -2,7 +2,6 @@ import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
 import { glob } from 'glob';
-import { type Address, getAddress } from 'viem';
 import { bob } from 'viem/chains';
 import {
   OUTFILE_BOB,
@@ -16,6 +15,7 @@ import {
 import { version } from '../package.json';
 import type { TokenId } from '../token-ids';
 import type { Entries, Token, TokenData } from '../types';
+import { checksumAddress } from '../utils';
 
 const [major, minor, patch] = version.split('.');
 
@@ -55,12 +55,12 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
 
           return acc;
         },
-        {} as Record<number, Address>,
+        {} as Record<number, string>,
       );
 
       return {
         chainId: SUPPORTED_CHAIN_MAP[chain].id,
-        address: getAddress(token.address),
+        address: checksumAddress(token.address),
         name: token.name ?? tokenData.name,
         symbol: token.symbol ?? tokenData.symbol,
         decimals: token.decimals ?? tokenData.decimals,
@@ -90,12 +90,12 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
 
           return acc;
         },
-        {} as Record<number, Address>,
+        {} as Record<number, string>,
       );
 
       return {
         chainId: SUPPORTED_CHAIN_MAP[chain].id,
-        address: getAddress(token.address),
+        address: checksumAddress(token.address),
         name: token.overrides?.name ?? token.name ?? tokenData.name,
         symbol: token.overrides?.symbol ?? token.symbol ?? tokenData.symbol,
         decimals:

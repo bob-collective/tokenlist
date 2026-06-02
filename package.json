@@ -15,7 +15,7 @@
     "chainlist.json"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist",
+    "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist && npm run format:write",
     "build:chainlist": "tsx ./scripts/build-chainlist.ts",
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
@@ -31,12 +31,15 @@
     "@biomejs/biome": "^2.4.12",
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.10.0",
-    "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "ajv": "^8.17.1",
     "glob": "^11.0.3",
     "lodash": "^4.17.21",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "tronweb": "^6.3.0",
     "viem": "^2.47.4"
   }
 }
