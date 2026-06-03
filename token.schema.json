@@ -83,6 +83,9 @@
             },
             "tron": {
               "$ref": "#/definitions/Address"
+            },
+            "solana": {
+              "$ref": "#/definitions/Address"
             }
           }
         },
@@ -251,6 +254,9 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "tron": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "solana": {
           "$ref": "#/definitions/ChainProperties"
         }
       },

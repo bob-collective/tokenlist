@@ -30,6 +30,9 @@
     },
     "tron": {
       "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi"
+    },
+    "solana": {
+      "address": "5XZw2LKTyrfvfiskJ78AMpackRjPcyCif1WhUsPDuVqQ"
     }
   }
 }

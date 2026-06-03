@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-05-26T17:29:41.059Z",
+  "timestamp": "2026-06-03T15:51:13.661Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -254,6 +254,19 @@
     {
       "chainId": 8453,
       "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+      "name": "Coinbase Wrapped BTC",
+      "symbol": "cbBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/cbBTC/logo.svg",
+      "extensions": {
+        "tokenId": "cbBTC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1399811149,
+      "address": "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij",
       "name": "Coinbase Wrapped BTC",
       "symbol": "cbBTC",
       "decimals": 8,
@@ -1091,6 +1104,32 @@
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
+      }
+    },
+    {
+      "chainId": 1399811149,
+      "address": "So11111111111111111111111111111111111111112",
+      "name": "SOLANA",
+      "symbol": "SOL",
+      "decimals": 9,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SOL/logo.svg",
+      "extensions": {
+        "tokenId": "SOL",
+        "native": true,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF",
+      "name": "SOLANA",
+      "symbol": "SOL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SOL/logo.svg",
+      "extensions": {
+        "tokenId": "SOL",
+        "native": false,
+        "bridge": {}
       }
     },
     {
@@ -1979,6 +2018,19 @@
     {
       "chainId": 728126428,
       "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi",
+      "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WBTC/logo.svg",
+      "extensions": {
+        "tokenId": "WBTC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1399811149,
+      "address": "5XZw2LKTyrfvfiskJ78AMpackRjPcyCif1WhUsPDuVqQ",
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,

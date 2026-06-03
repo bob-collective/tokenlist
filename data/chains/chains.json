@@ -19,5 +19,6 @@
   "telos": "telos.svg",
   "plasma": "plasma.svg",
   "hyper-evm": "hyperevm.svg",
-  "tron": "tron.svg"
+  "tron": "tron.svg",
+  "solana": "solana.svg"
 }

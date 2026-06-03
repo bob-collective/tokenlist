@@ -32,6 +32,8 @@ export const TOKEN_DIR = './data/tokens';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
+export const OUTFILE_EVM = 'tokenlist-evm.json';
+export const OUTFILE_NON_EVM = 'tokenlist-non-evm.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
 
 export const CHAIN_DIR = './data/chains';
@@ -91,6 +93,23 @@ export const SUPPORTED_CHAINS = [
   ...supportedTestnetChains,
 ];
 
+export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id);
+
 export const SUPPORTED_MAINNET_CHAINS = mapByName(supportedMainnetChains);
 export const SUPPORTED_TESTNET_CHAINS = mapByName(supportedTestnetChains);
 export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
+
+// Non-EVM chains have no viem definition, so their chain IDs and name→id
+// mapping live here. Solana uses its genesis-derived numeric chain ID.
+export const SOLANA_CHAIN_ID = 1399811149;
+
+// chain name (as used in data.json keys) → chain ID, for chains absent from
+// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
+export const NON_EVM_CHAIN_ID_BY_NAME: Record<string, number> = {
+  solana: SOLANA_CHAIN_ID,
+};
+
+// Chain IDs that belong in tokenlist-non-evm.json. Tron has a viem definition
+// and is verified on-chain, but its TVM addresses make it non-EVM for output
+// splitting; Solana has no EVM RPC and is verified only by address/logo shape.
+export const NON_EVM_CHAIN_IDS = new Set<number>([SOLANA_CHAIN_ID, tron.id]);
