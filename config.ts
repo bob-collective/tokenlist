@@ -93,8 +93,6 @@ export const SUPPORTED_CHAINS = [
   ...supportedTestnetChains,
 ];
 
-export const SUPPORTED_CHAIN_IDS = SUPPORTED_CHAINS.map((chain) => chain.id);
-
 export const SUPPORTED_MAINNET_CHAINS = mapByName(supportedMainnetChains);
 export const SUPPORTED_TESTNET_CHAINS = mapByName(supportedTestnetChains);
 export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
@@ -109,11 +107,11 @@ export const SIGNET_CHAIN_ID = 1598918400;
 
 // chain name (as used in data.json keys) → chain ID, for chains absent from
 // SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
-export const NON_EVM_CHAIN_ID_BY_NAME: Record<string, number> = {
+export const NON_EVM_CHAIN_ID_BY_NAME = {
   solana: SOLANA_CHAIN_ID,
   bitcoin: BITCOIN_CHAIN_ID,
   signet: SIGNET_CHAIN_ID,
-};
+} as const satisfies Record<string, number>;
 
 // Chain IDs that belong in tokenlist-non-evm.json. Tron has a viem definition
 // and is verified on-chain, but its TVM addresses make it non-EVM for output
@@ -125,3 +123,10 @@ export const NON_EVM_CHAIN_IDS = new Set<number>([
   SIGNET_CHAIN_ID,
   tron.id,
 ]);
+
+export const SUPPORTED_CHAIN_IDS = [
+  ...SUPPORTED_CHAINS.map((chain) => chain.id),
+  SOLANA_CHAIN_ID,
+  BITCOIN_CHAIN_ID,
+  SIGNET_CHAIN_ID,
+];
