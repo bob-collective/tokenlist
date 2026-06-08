@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-08T15:16:16.587Z",
+  "timestamp": "2026-06-08T16:14:09.320Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1807,19 +1807,6 @@
       "chainId": 146,
       "address": "0x6047828dc181963ba44974801FF68e538dA5eaF9",
       "name": "Tether USD",
-      "symbol": "USDT",
-      "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
-      "extensions": {
-        "tokenId": "USDT",
-        "native": false,
-        "bridge": {}
-      }
-    },
-    {
-      "chainId": 40,
-      "address": "0x674843C06FF83502ddb4D37c2E09C01cdA38cbc8",
-      "name": "Bridged stgUSDT",
       "symbol": "USDT",
       "decimals": 6,
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
