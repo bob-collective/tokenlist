@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "XAUt0",
+  "symbol": "XAUt0",
+  "decimals": 6,
+  "tokens": {
+    "arbitrum-one": {
+      "address": "0x40461291347e1eCbb09499F3371D3f17f10d7159"
+    },
+    "avalanche": {
+      "address": "0x2775d5105276781b4b85ba6ea6a6653beed1dd32"
+    }
+  }
+}
