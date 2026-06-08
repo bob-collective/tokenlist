@@ -9,6 +9,15 @@
     },
     "avalanche": {
       "address": "0x2775d5105276781b4b85ba6ea6a6653beed1dd32"
+    },
+    "polygon": {
+      "address": "0xf1815bd50389c46847f0bda824ec8da914045d14"
+    },
+    "hyper-evm": {
+      "address": "0xf4d9235269a96aadafc9adae454a0618ebe37949"
+    },
+    "plasma": {
+      "address": "0x1b64b9025eebb9a6239575df9ea4b9ac46d4d193"
     }
   }
 }

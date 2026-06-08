@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-08T09:31:42.524Z",
+  "timestamp": "2026-06-08T10:07:57.319Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -538,7 +538,7 @@
       "name": "Euro Coin",
       "symbol": "EURC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/EURC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/EURC/logo.svg",
       "extensions": {
         "tokenId": "EURC",
         "native": false,
@@ -551,7 +551,20 @@
       "name": "EURC",
       "symbol": "EURC",
       "decimals": 6,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/EURC/logo.webp",
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/EURC/logo.svg",
+      "extensions": {
+        "tokenId": "EURC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 43114,
+      "address": "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
+      "name": "Euro Coin",
+      "symbol": "EURC",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/EURC/logo.svg",
       "extensions": {
         "tokenId": "EURC",
         "native": false,
@@ -805,6 +818,71 @@
       }
     },
     {
+      "chainId": 56,
+      "address": "0x404460C6A5EdE2D891e8297795264fDe62ADBB75",
+      "name": "ChainLink Token",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LINK/logo.svg",
+      "extensions": {
+        "tokenId": "LINK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
+      "name": "ChainLink Token",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LINK/logo.svg",
+      "extensions": {
+        "tokenId": "LINK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+      "name": "ChainLink Token",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LINK/logo.svg",
+      "extensions": {
+        "tokenId": "LINK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",
+      "name": "ChainLink Token",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LINK/logo.svg",
+      "extensions": {
+        "tokenId": "LINK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6",
+      "name": "ChainLink Token",
+      "symbol": "LINK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LINK/logo.svg",
+      "extensions": {
+        "tokenId": "LINK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x1217BfE6c773EEC6cc4A38b5Dc45B92292B6E189",
       "name": "OpenUSDT",
@@ -860,6 +938,19 @@
       "chainId": 1,
       "address": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
       "name": "Paxos Gold",
+      "symbol": "PAXG",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/PAXG/logo.svg",
+      "extensions": {
+        "tokenId": "PAXG",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x7950865a9140cB519342433146Ed5b40c6F210f7",
+      "name": "PAX Gold",
       "symbol": "PAXG",
       "decimals": 18,
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/PAXG/logo.svg",
@@ -1774,6 +1865,19 @@
       }
     },
     {
+      "chainId": 146,
+      "address": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
+      "name": "USDC",
+      "symbol": "USDC",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDC/logo.svg",
+      "extensions": {
+        "tokenId": "USDC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "name": "Tether USD",
@@ -1858,6 +1962,19 @@
     {
       "chainId": 728126428,
       "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
+      "extensions": {
+        "tokenId": "USDT",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 10,
+      "address": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 6,
@@ -2032,6 +2149,19 @@
       "chainId": 728126428,
       "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi",
       "name": "Wrapped BTC",
+      "symbol": "WBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WBTC/logo.svg",
+      "extensions": {
+        "tokenId": "WBTC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+      "name": "(PoS) Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WBTC/logo.svg",
@@ -2267,6 +2397,136 @@
       }
     },
     {
+      "chainId": 10,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 8453,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 42161,
+      "address": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 130,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1868,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1923,
+      "address": "0x4200000000000000000000000000000000000006",
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 80094,
+      "address": "0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590",
+      "name": "WETH",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 146,
+      "address": "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b",
+      "name": "Wrapped Ether on Sonic",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1329,
+      "address": "0x160345fC359604fC6e70E3c5fAcbdE5F7A9342d8",
+      "name": "WETH",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
+      "extensions": {
+        "tokenId": "WETH",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       "name": "Wrapped liquid staked Ether 2.0",
@@ -2351,6 +2611,45 @@
     {
       "chainId": 43114,
       "address": "0x2775d5105276781B4b85bA6eA6a6653bEeD1dd32",
+      "name": "XAUt0",
+      "symbol": "XAUt0",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XAUt0/logo.svg",
+      "extensions": {
+        "tokenId": "XAUt0",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0xF1815bd50389c46847f0Bda824eC8da914045D14",
+      "name": "XAUt0",
+      "symbol": "XAUt0",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XAUt0/logo.svg",
+      "extensions": {
+        "tokenId": "XAUt0",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 999,
+      "address": "0xf4D9235269a96aaDaFc9aDAe454a0618eBE37949",
+      "name": "XAUt0",
+      "symbol": "XAUt0",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XAUt0/logo.svg",
+      "extensions": {
+        "tokenId": "XAUt0",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 9745,
+      "address": "0x1B64B9025EEbb9A6239575dF9Ea4b9Ac46D4d193",
       "name": "XAUt0",
       "symbol": "XAUt0",
       "decimals": 6,

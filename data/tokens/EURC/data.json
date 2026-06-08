@@ -10,6 +10,9 @@
     "base": {
       "name": "EURC",
       "address": "0x60a3E35Cc302bFA44Cb288Bc5a4F316Fdb1adb42"
+    },
+    "avalanche": {
+      "address": "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD"
     }
   }
 }
