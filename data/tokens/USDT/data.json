@@ -42,9 +42,6 @@
     },
     "tron": {
       "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
-    },
-    "op-mainnet": {
-      "address": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58"
     }
   }
 }
