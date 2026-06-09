@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-08T10:40:59.135Z",
+  "timestamp": "2026-06-09T13:43:01.652Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -2059,6 +2059,19 @@
       "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT0/logo.svg",
       "extensions": {
         "tokenId": "USDT0",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 43114,
+      "address": "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+      "name": "Wrapped AVAX",
+      "symbol": "WAVAX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WAVAX/logo.svg",
+      "extensions": {
+        "tokenId": "WAVAX",
         "native": false,
         "bridge": {}
       }
