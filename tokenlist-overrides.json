@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-09T13:43:01.655Z",
+  "timestamp": "2026-06-10T17:00:47.616Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1398,6 +1398,32 @@
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x0a6E7Ba5042B38349e437ec6Db6214AEC7B35676",
+      "name": "SWELL",
+      "symbol": "SWELL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SWELL/logo.svg",
+      "extensions": {
+        "tokenId": "SWELL",
+        "native": true,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1923,
+      "address": "0x2826D136F5630adA89C1678b64A61620Aab77Aea",
+      "name": "SWELL",
+      "symbol": "SWELL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SWELL/logo.svg",
+      "extensions": {
+        "tokenId": "SWELL",
+        "native": true,
+        "bridge": {}
       }
     },
     {
