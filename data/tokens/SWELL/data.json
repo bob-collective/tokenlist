@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "SWELL",
+  "symbol": "SWELL",
+  "decimals": 18,
+  "description": "SWELL is a blockchain-based decentralized platform that aims to build a free, global digital content entertainment system with distributed storage technology. SWELL is the native cryptocurrency of the SWELL network.",
+  "website": "https://swell.network/",
+  "twitter": "@Swellfoundation",
+  "native": true,
+  "tokens": {
+    "ethereum": {
+      "address": "0x0a6E7Ba5042B38349e437ec6Db6214AEC7B35676"
+    },
+    "swellchain": {
+      "address": "0x2826D136F5630adA89C1678b64A61620Aab77Aea"
+    }
+  }
+}
