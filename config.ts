@@ -18,6 +18,7 @@ import {
   sonic,
   swellchain,
   telos,
+  tron,
   unichain,
 } from 'viem/chains';
 import { mapByName } from './utils';
@@ -75,6 +76,14 @@ const supportedMainnetChains = [
     },
   }),
   plasma,
+  defineChain({
+    ...tron,
+    contracts: {
+      multicall3: {
+        address: '0x32a4f47a74a6810bd0bf861cabab99656a75de9e',
+      },
+    },
+  }),
 ];
 const supportedTestnetChains = [sepolia, bobSepolia];
 export const SUPPORTED_CHAINS = [
