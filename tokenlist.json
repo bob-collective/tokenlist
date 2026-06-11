@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-10T17:00:47.613Z",
+  "timestamp": "2026-06-11T15:22:06.805Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1609,7 +1609,7 @@
     },
     {
       "chainId": 728126428,
-      "address": "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb",
+      "address": "0x0000000000000000000000000000000000000000",
       "name": "TRON",
       "symbol": "TRX",
       "decimals": 6,
@@ -1974,7 +1974,7 @@
     },
     {
       "chainId": 728126428,
-      "address": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+      "address": "0x0000000000000000000000000000000000000000",
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 6,
@@ -2173,7 +2173,7 @@
     },
     {
       "chainId": 728126428,
-      "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi",
+      "address": "0x0000000000000000000000000000000000000000",
       "name": "Wrapped BTC",
       "symbol": "WBTC",
       "decimals": 8,
