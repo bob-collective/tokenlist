@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "HYPE",
+  "symbol": "HYPE",
+  "decimals": 18,
+  "native": true,
+  "tokens": {
+    "hyper-evm": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

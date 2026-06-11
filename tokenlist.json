@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-11T17:54:15.989Z",
+  "timestamp": "2026-06-11T19:44:31.113Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -719,6 +719,19 @@
       "extensions": {
         "tokenId": "HybridBTC.pendle",
         "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 999,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "HYPE",
+      "symbol": "HYPE",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/HYPE/logo.svg",
+      "extensions": {
+        "tokenId": "HYPE",
+        "native": true,
         "bridge": {}
       }
     },
@@ -2709,6 +2722,19 @@
       "extensions": {
         "tokenId": "XAUt0",
         "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 9745,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Plasma",
+      "symbol": "XPL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XPL/logo.svg",
+      "extensions": {
+        "tokenId": "XPL",
+        "native": true,
         "bridge": {}
       }
     },
