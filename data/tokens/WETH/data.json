@@ -19,6 +19,39 @@
     },
     "bob-sepolia": {
       "address": "0x4200000000000000000000000000000000000006"
+    },
+    "op-mainnet": {
+      "address": "0x4200000000000000000000000000000000000006"
+    },
+    "base": {
+      "address": "0x4200000000000000000000000000000000000006"
+    },
+    "arbitrum-one": {
+      "address": "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+    },
+    "polygon": {
+      "address": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
+    },
+    "unichain": {
+      "address": "0x4200000000000000000000000000000000000006"
+    },
+    "soneium-mainnet": {
+      "address": "0x4200000000000000000000000000000000000006"
+    },
+    "swellchain": {
+      "address": "0x4200000000000000000000000000000000000006"
+    },
+    "berachain": {
+      "name": "WETH",
+      "address": "0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590"
+    },
+    "sonic": {
+      "name": "Wrapped Ether on Sonic",
+      "address": "0x50c42dEAcD8Fc9773493ED674b675bE577f2634b"
+    },
+    "sei-network": {
+      "name": "WETH",
+      "address": "0x160345fC359604fC6e70E3c5fAcbdE5F7A9342d8"
     }
   }
 }
