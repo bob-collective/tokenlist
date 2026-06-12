@@ -3,6 +3,7 @@
   "name": "SWELL",
   "symbol": "SWELL",
   "decimals": 18,
+  "coingeckoId": "swell-network",
   "description": "SWELL is a blockchain-based decentralized platform that aims to build a free, global digital content entertainment system with distributed storage technology. SWELL is the native cryptocurrency of the SWELL network.",
   "website": "https://swell.network/",
   "twitter": "@Swellfoundation",
