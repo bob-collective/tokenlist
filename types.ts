@@ -24,7 +24,7 @@ export type TokenData = {
   symbol: string;
   decimals: number;
   native?: boolean;
-  coingeckoId?: string;
+  coingeckoId: string;
   description?: string;
   website?: string;
   twitter?: string;
