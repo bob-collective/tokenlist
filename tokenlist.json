@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-11T15:25:50.578Z",
+  "timestamp": "2026-06-11T19:44:31.113Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -719,6 +719,19 @@
       "extensions": {
         "tokenId": "HybridBTC.pendle",
         "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 999,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "HYPE",
+      "symbol": "HYPE",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/HYPE/logo.svg",
+      "extensions": {
+        "tokenId": "HYPE",
+        "native": true,
         "bridge": {}
       }
     },
@@ -1973,6 +1986,32 @@
       }
     },
     {
+      "chainId": 10,
+      "address": "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
+      "extensions": {
+        "tokenId": "USDT",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 146,
+      "address": "0x6047828dc181963ba44974801FF68e538dA5eaF9",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
+      "extensions": {
+        "tokenId": "USDT",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 728126428,
       "address": "0x0000000000000000000000000000000000000001",
       "name": "Tether USD",
@@ -2683,6 +2722,19 @@
       "extensions": {
         "tokenId": "XAUt0",
         "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 9745,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Plasma",
+      "symbol": "XPL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XPL/logo.svg",
+      "extensions": {
+        "tokenId": "XPL",
+        "native": true,
         "bridge": {}
       }
     },

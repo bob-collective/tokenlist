@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    viewBox="0 0 300 300"
    version="1.1"
@@ -6,8 +7,15 @@
    xmlns:svg="http://www.w3.org/2000/svg">
    <defs
       id="defs1" />
+   <circle
+      style="fill:#2a5ada;fill-opacity:1;stroke-width:3.202;stroke-opacity:0.5"
+      id="path2"
+      cx="150"
+      cy="150"
+      r="150" />
    <g
-      id="layer1">
+      id="layer1"
+      transform="matrix(0.81450625,0,0,0.81450625,27.824062,27.824062)">
       <g
          id="Layer_2"
          data-name="Layer 2"
@@ -19,7 +27,7 @@
                class="cls-1"
                d="M 18.9,0 14.9,2.3 4,8.6 0,10.9 v 21.8 l 4,2.3 11,6.3 4,2.3 4,-2.3 10.8,-6.3 4,-2.3 V 10.9 L 33.8,8.6 22.9,2.3 Z M 8,28.1 V 15.5 l 10.9,-6.3 10.9,6.3 v 12.6 l -10.9,6.3 z"
                id="path1"
-               style="fill:#2a5ada" />
+               style="fill:#ffffff;fill-opacity:1" />
          </g>
       </g>
    </g>
