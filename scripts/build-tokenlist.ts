@@ -67,7 +67,7 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
-          ...(tokenData.coingeckoId && { coingeckoId: tokenData.coingeckoId }),
+          coingeckoId: tokenData.coingeckoId ?? '',
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },
@@ -104,7 +104,7 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
-          ...(tokenData.coingeckoId && { coingeckoId: tokenData.coingeckoId }),
+          coingeckoId: tokenData.coingeckoId ?? '',
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },

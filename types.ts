@@ -51,7 +51,7 @@ export type Token = {
   logoURI: string;
   extensions: {
     tokenId: TokenId;
-    coingeckoId?: string;
+    coingeckoId: string;
     native: boolean;
     bridge?: Record<SupportedChainId, Address>;
   };
