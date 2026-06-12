@@ -3,6 +3,7 @@
   "name": "BOB",
   "symbol": "BOB",
   "decimals": 18,
+  "appId": "bob-build-on-bitcoin",
   "description": "",
   "website": "https://app.gobob.xyz/",
   "twitter": "@build_on_bob",

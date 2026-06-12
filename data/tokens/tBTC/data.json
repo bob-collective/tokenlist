@@ -3,6 +3,7 @@
   "name": "tBTC v2",
   "symbol": "tBTC",
   "decimals": 18,
+  "appId": "tbtc",
   "description": "Decentralized, Permissionless Bitcoin Bridge",
   "website": "https://threshold.network",
   "twitter": "@TheTNetwork",

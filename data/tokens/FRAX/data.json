@@ -3,6 +3,7 @@
   "name": "Frax",
   "symbol": "FRAX",
   "decimals": 18,
+  "appId": "frax",
   "description": "FRAX is the original USD-pegged stablecoin of the Frax ecosystem.",
   "website": "https://frax.com/",
   "twitter": "@fraxfinance",

@@ -3,6 +3,7 @@
   "name": "BTC+",
   "symbol": "BTC+",
   "decimals": 18,
+  "appId": "solv-btc",
   "description": "BTC+ is a hybrid strategy vault providing sustainable returns for BTC without leaving the Bitcoin ecosystem.",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

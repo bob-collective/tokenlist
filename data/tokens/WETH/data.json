@@ -3,6 +3,7 @@
   "name": "Wrapped Ether",
   "symbol": "WETH",
   "decimals": 18,
+  "appId": "weth",
   "tokens": {
     "ethereum": {
       "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
@@ -15,7 +16,9 @@
     },
     "bob": {
       "address": "0x4200000000000000000000000000000000000006",
-      "bridge": { "ethereum": "0x4200000000000000000000000000000000000010" }
+      "bridge": {
+        "ethereum": "0x4200000000000000000000000000000000000010"
+      }
     },
     "bob-sepolia": {
       "address": "0x4200000000000000000000000000000000000006"

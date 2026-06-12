@@ -3,6 +3,7 @@
   "name": "StakeStone Ether",
   "symbol": "STONE",
   "decimals": 18,
+  "appId": "stakestone-ether",
   "tokens": {
     "ethereum": {
       "address": "0x7122985656e38BDC0302Db86685bb972b145bD3C",

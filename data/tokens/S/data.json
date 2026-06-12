@@ -3,6 +3,7 @@
   "name": "Sonic",
   "symbol": "S",
   "decimals": 18,
+  "appId": "sonic-3",
   "native": true,
   "tokens": {
     "sonic": {

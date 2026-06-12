@@ -3,6 +3,7 @@
   "name": "HYPE",
   "symbol": "HYPE",
   "decimals": 18,
+  "appId": "hyperliquid",
   "native": true,
   "tokens": {
     "hyper-evm": {

@@ -3,6 +3,7 @@
   "name": "Plasma",
   "symbol": "XPL",
   "decimals": 18,
+  "appId": "plasma",
   "native": true,
   "tokens": {
     "plasma": {

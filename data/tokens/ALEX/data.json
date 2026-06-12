@@ -3,6 +3,7 @@
   "name": "ALEX",
   "symbol": "ALEX",
   "decimals": 18,
+  "appId": "alexgo",
   "description": "",
   "website": "https://about.alexlab.co/",
   "twitter": "@alexlabBTC",

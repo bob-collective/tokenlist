@@ -24,6 +24,7 @@ export type TokenData = {
   symbol: string;
   decimals: number;
   native?: boolean;
+  appId?: string;
   description?: string;
   website?: string;
   twitter?: string;
@@ -50,6 +51,7 @@ export type Token = {
   logoURI: string;
   extensions: {
     tokenId: TokenId;
+    coingeckoId?: string;
     native: boolean;
     bridge?: Record<SupportedChainId, Address>;
   };

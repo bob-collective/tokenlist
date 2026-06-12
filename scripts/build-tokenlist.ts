@@ -67,6 +67,7 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
+          ...(tokenData.appId && { coingeckoId: tokenData.appId }),
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },
@@ -103,6 +104,7 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
         logoURI,
         extensions: {
           tokenId,
+          ...(tokenData.appId && { coingeckoId: tokenData.appId }),
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },

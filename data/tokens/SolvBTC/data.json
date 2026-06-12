@@ -3,6 +3,7 @@
   "name": "Solv BTC",
   "symbol": "SolvBTC",
   "decimals": 18,
+  "appId": "solv-btc",
   "description": "",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

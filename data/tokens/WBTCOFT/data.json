@@ -3,6 +3,7 @@
   "name": "Wrapped BTC",
   "symbol": "WBTC",
   "decimals": 8,
+  "appId": "wrapped-bitcoin",
   "description": "Wrapped Bitcoin delivers the power of Bitcoin with the flexibility of an ERC20 token",
   "website": "https://layerzero.network",
   "twitter": "@layerzero_core",

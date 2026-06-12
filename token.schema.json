@@ -178,6 +178,10 @@
     "native": {
       "$ref": "#/definitions/NativeToken"
     },
+    "appId": {
+      "type": "string",
+      "description": "Token identifier for the Coingecko price feed"
+    },
     "website": {
       "type": "string",
       "description": "URL of the project's website",

@@ -3,6 +3,7 @@
   "name": "USD Coin",
   "symbol": "USDC",
   "decimals": 6,
+  "appId": "usd-coin",
   "description": "USDC is a digital dollar issued by Circle, backed 100% by highly liquid cash and cash-equivalent assets and redeemable 1:1 for USD.",
   "website": "https://www.usdc.com/",
   "twitter": "@circle",
