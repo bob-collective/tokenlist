@@ -45,6 +45,7 @@ data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.t
 
 Each token directory's `data.json` specifies:
 - `name`, `symbol`, `decimals`, `logoURI`
+- `coingeckoId` — CoinGecko API ID for price feeds, emitted as `extensions.coingeckoId` in output JSONs (empty string when unset); receipt/wrapped tokens without their own listing use the underlying asset's ID
 - `addresses` — map of chain name (e.g. `"bob"`, `"ethereum"`, `"op-mainnet"`) → contract address
 - `bridgeInfo` — maps source chain name → `{ tokenAddress }` for cross-chain bridge relationships
 - `overrides` — per-chain UI overrides (e.g. rename symbol to `"USDC.e"` on BOB)

@@ -262,6 +262,6 @@
       "additionalProperties": false
     }
   },
-  "required": ["name", "symbol", "decimals", "tokens"],
+  "required": ["name", "symbol", "decimals", "tokens", "coingeckoId"],
   "additionalProperties": false
 }

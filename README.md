@@ -85,6 +85,7 @@ The source file contains shared token metadata plus per-chain entries under `tok
   "name": "USD Coin",
   "symbol": "USDC",
   "decimals": 6,
+  "coingeckoId": "usd-coin",
   "description": "USDC is a digital dollar issued by Circle.",
   "website": "https://www.usdc.com/",
   "twitter": "@circle",
@@ -120,6 +121,7 @@ Top-level fields:
 | `decimals` | Yes | Default token decimals |
 | `tokens` | Yes | Per-chain token records keyed by supported chain name |
 | `native` | No | Marks native chain assets such as ETH, BNB, POL, or TLOS |
+| `coingeckoId` | No | CoinGecko API ID used for price feeds (e.g., `usd-coin`). Emitted as `extensions.coingeckoId` in the generated token lists (empty string when unset). For receipt or wrapped tokens without their own listing, use the underlying asset's ID. |
 | `description` | No | Project or token description |
 | `website` | No | Project website URL |
 | `twitter` | No | Project Twitter/X handle |
@@ -160,6 +162,7 @@ Create `data.json`:
   "name": "My Token",
   "symbol": "MYTOKEN",
   "decimals": 18,
+  "coingeckoId": "my-token",
   "description": "Short project or token description.",
   "website": "https://example.com",
   "twitter": "@example",
@@ -182,6 +185,8 @@ Create `data.json`:
 ```
 
 For native assets, add `"native": true` at the top level and use the zero address for the native chain entries.
+
+Set `coingeckoId` to the token's API ID from the [CoinGecko coins list](https://api.coingecko.com/api/v3/coins/list) so price feeds work downstream. If the token has no listing of its own (e.g., a lending receipt token), use the underlying asset's ID.
 
 ### 3. Add Logo
 
@@ -228,6 +233,8 @@ pnpm verify
 ## Notes
 
 **Native tokens:** Native chain assets should set `"native": true` and use the zero address where the asset is native. They are exported through `NativeTokenId` and marked as `extensions.native` in the generated token lists.
+
+**CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs. Tokens without an ID get an empty string.
 
 **Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, or `tokenlist-overrides.json` by hand. Update `data/[TOKEN]/data.json` and run `pnpm build`.
 
