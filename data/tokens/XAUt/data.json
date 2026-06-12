@@ -3,7 +3,7 @@
   "name": "Tether Gold",
   "symbol": "XAUt",
   "decimals": 6,
-  "appId": "tether-gold",
+  "coingeckoId": "tether-gold",
   "tokens": {
     "ethereum": {
       "address": "0x68749665FF8D2d112Fa859AA293F07A622782F38"

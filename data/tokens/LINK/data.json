@@ -3,7 +3,7 @@
   "name": "ChainLink Token",
   "symbol": "LINK",
   "decimals": 18,
-  "appId": "chainlink",
+  "coingeckoId": "chainlink",
   "tokens": {
     "ethereum": {
       "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA"

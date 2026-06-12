@@ -3,7 +3,7 @@
   "name": "PayPal USD",
   "symbol": "PYUSD",
   "decimals": 6,
-  "appId": "paypal-usd",
+  "coingeckoId": "paypal-usd",
   "tokens": {
     "ethereum": {
       "address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8"

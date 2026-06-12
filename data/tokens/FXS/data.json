@@ -3,7 +3,7 @@
   "name": "Frax Share",
   "symbol": "FXS",
   "decimals": 18,
-  "appId": "frax-share",
+  "coingeckoId": "frax-share",
   "description": "FXS is the legacy ERC-20 representation of FRAX and can be upgraded 1:1 to FRAX on Fraxtal.",
   "website": "https://frax.com/upgrade-fxs",
   "twitter": "@fraxfinance",

@@ -3,7 +3,7 @@
   "name": "HYPE",
   "symbol": "HYPE",
   "decimals": 18,
-  "appId": "hyperliquid",
+  "coingeckoId": "hyperliquid",
   "native": true,
   "tokens": {
     "hyper-evm": {

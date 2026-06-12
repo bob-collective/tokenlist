@@ -3,7 +3,7 @@
   "name": "Tether USD",
   "symbol": "USDT",
   "decimals": 6,
-  "appId": "tether",
+  "coingeckoId": "tether",
   "description": "Bringing real world currency to the blockchain.",
   "website": "https://tether.to/",
   "twitter": "@Tether_to",

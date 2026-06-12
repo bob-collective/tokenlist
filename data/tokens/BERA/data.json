@@ -3,7 +3,7 @@
   "name": "Bera Token",
   "symbol": "BERA",
   "decimals": 18,
-  "appId": "berachain-bera",
+  "coingeckoId": "berachain-bera",
   "native": true,
   "tokens": {
     "berachain": {

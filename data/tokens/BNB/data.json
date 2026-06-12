@@ -3,7 +3,7 @@
   "name": "BNB",
   "symbol": "BNB",
   "decimals": 18,
-  "appId": "binancecoin",
+  "coingeckoId": "binancecoin",
   "native": true,
   "tokens": {
     "bnb-smart-chain": {

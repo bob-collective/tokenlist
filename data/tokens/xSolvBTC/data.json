@@ -3,7 +3,7 @@
   "name": "xSolvBTC",
   "symbol": "xSolvBTC",
   "decimals": 18,
-  "appId": "solv-protocol-solvbtc-bbn",
+  "coingeckoId": "solv-protocol-solvbtc-bbn",
   "description": "",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

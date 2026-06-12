@@ -3,7 +3,7 @@
   "name": "XAUt0",
   "symbol": "XAUt0",
   "decimals": 6,
-  "appId": "tether-gold-tokens",
+  "coingeckoId": "tether-gold-tokens",
   "tokens": {
     "arbitrum-one": {
       "address": "0x40461291347e1eCbb09499F3371D3f17f10d7159"

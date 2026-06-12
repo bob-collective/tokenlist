@@ -3,7 +3,7 @@
   "name": "Avalanche",
   "symbol": "AVAX",
   "decimals": 18,
-  "appId": "avalanche-2",
+  "coingeckoId": "avalanche-2",
   "native": true,
   "tokens": {
     "avalanche": {

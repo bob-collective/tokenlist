@@ -3,7 +3,7 @@
   "name": "Staked FRAX",
   "symbol": "sFRAX",
   "decimals": 18,
-  "appId": "frax",
+  "coingeckoId": "frax",
   "tokens": {
     "ethereum": {
       "address": "0xA663B02CF0a4b149d2aD41910CB81e23e1c41c32",
