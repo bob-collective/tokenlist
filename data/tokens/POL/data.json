@@ -3,6 +3,7 @@
   "name": "Polygon Ecosystem Token",
   "symbol": "POL",
   "decimals": 18,
+  "coingeckoId": "polygon-ecosystem-token",
   "native": true,
   "tokens": {
     "polygon": {

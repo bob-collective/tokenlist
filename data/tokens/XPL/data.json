@@ -3,6 +3,7 @@
   "name": "Plasma",
   "symbol": "XPL",
   "decimals": 18,
+  "coingeckoId": "plasma",
   "native": true,
   "tokens": {
     "plasma": {
