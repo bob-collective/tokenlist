@@ -3,13 +3,14 @@
   "name": "TRON",
   "symbol": "TRX",
   "decimals": 6,
+  "coingeckoId": "tron",
   "description": "TRON is a blockchain-based decentralized platform that aims to build a free, global digital content entertainment system with distributed storage technology. TRX is the native cryptocurrency of the TRON network.",
   "website": "https://tron.network/",
   "twitter": "@Tronfoundation",
   "native": true,
   "tokens": {
     "tron": {
-      "address": "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+      "address": "0x0000000000000000000000000000000000000000"
     }
   }
 }

@@ -3,6 +3,7 @@
   "name": "Solv",
   "symbol": "SOLV",
   "decimals": 18,
+  "coingeckoId": "solv-protocol",
   "description": "",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

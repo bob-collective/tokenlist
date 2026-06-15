@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "HYPE",
+  "symbol": "HYPE",
+  "decimals": 18,
+  "coingeckoId": "hyperliquid",
+  "native": true,
+  "tokens": {
+    "hyper-evm": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}
