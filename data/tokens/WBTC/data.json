@@ -29,11 +29,11 @@
       "address": "0x68f180fcCe6836688e9084f035309E29Bf0A2095"
     },
     "tron": {
-      "address": "0x0000000000000000000000000000000000000002"
+      "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi"
     },
     "polygon": {
       "name": "(PoS) Wrapped BTC",
-      "address": "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi"
+      "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"
     }
   }
 }
