@@ -3,6 +3,7 @@
   "name": "Rocket Pool ETH",
   "symbol": "rETH",
   "decimals": 18,
+  "coingeckoId": "rocket-pool-eth",
   "website": "https://rocketpool.net/",
   "twitter": "@Rocket_Pool",
   "tokens": {

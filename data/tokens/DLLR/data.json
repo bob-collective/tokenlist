@@ -3,6 +3,7 @@
   "name": "DLLR",
   "symbol": "DLLR",
   "decimals": 18,
+  "coingeckoId": "sovryn-dollar",
   "tokens": {
     "ethereum": {
       "name": "eDLLR",

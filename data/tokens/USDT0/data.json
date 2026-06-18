@@ -3,6 +3,7 @@
   "name": "USD₮0",
   "symbol": "USD₮0",
   "decimals": 6,
+  "coingeckoId": "usdt0",
   "description": "USDT0 expands the USDT standard to new ecosystems.",
   "website": "https://usdt0.to",
   "twitter": "@USDT0_to",

@@ -3,6 +3,7 @@
   "name": "Babylon",
   "symbol": "BABY",
   "decimals": 6,
+  "coingeckoId": "babylon",
   "description": "BABY is the native gas, governance, and security token of the Babylon Genesis network.",
   "website": "https://babylonlabs.io/",
   "twitter": "@babylonlabs_io",

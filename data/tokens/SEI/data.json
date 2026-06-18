@@ -3,6 +3,7 @@
   "name": "Sei",
   "symbol": "SEI",
   "decimals": 18,
+  "coingeckoId": "sei-network",
   "native": true,
   "tokens": {
     "sei-network": {
