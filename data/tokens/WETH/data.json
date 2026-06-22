@@ -41,9 +41,6 @@
     "soneium-mainnet": {
       "address": "0x4200000000000000000000000000000000000006"
     },
-    "swellchain": {
-      "address": "0x4200000000000000000000000000000000000006"
-    },
     "berachain": {
       "name": "WETH",
       "address": "0x2F6F07CDcf3588944Bf4C42aC74ff24bF56e7590"

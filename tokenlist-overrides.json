@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-18T13:52:35.635Z",
+  "timestamp": "2026-06-22T09:52:34.636Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -517,20 +517,6 @@
     },
     {
       "chainId": 10,
-      "address": "0x0000000000000000000000000000000000000000",
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/ETH/logo.svg",
-      "extensions": {
-        "tokenId": "ETH",
-        "coingeckoId": "ethereum",
-        "native": true,
-        "bridge": {}
-      }
-    },
-    {
-      "chainId": 1923,
       "address": "0x0000000000000000000000000000000000000000",
       "name": "Ether",
       "symbol": "ETH",
@@ -1519,34 +1505,6 @@
     },
     {
       "chainId": 1,
-      "address": "0x0a6E7Ba5042B38349e437ec6Db6214AEC7B35676",
-      "name": "SWELL",
-      "symbol": "SWELL",
-      "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SWELL/logo.svg",
-      "extensions": {
-        "tokenId": "SWELL",
-        "coingeckoId": "swell-network",
-        "native": true,
-        "bridge": {}
-      }
-    },
-    {
-      "chainId": 1923,
-      "address": "0x2826D136F5630adA89C1678b64A61620Aab77Aea",
-      "name": "SWELL",
-      "symbol": "SWELL",
-      "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SWELL/logo.svg",
-      "extensions": {
-        "tokenId": "SWELL",
-        "coingeckoId": "swell-network",
-        "native": true,
-        "bridge": {}
-      }
-    },
-    {
-      "chainId": 1,
       "address": "0xCdF7028ceAB81fA0C6971208e83fa7872994beE5",
       "name": "Threshold Network Token",
       "symbol": "T",
@@ -2486,20 +2444,6 @@
       }
     },
     {
-      "chainId": 1923,
-      "address": "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c",
-      "name": "Wrapped BTC",
-      "symbol": "WBTC",
-      "decimals": 8,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WBTCOFT/logo.svg",
-      "extensions": {
-        "tokenId": "WBTCOFT",
-        "coingeckoId": "wrapped-bitcoin",
-        "native": false,
-        "bridge": {}
-      }
-    },
-    {
       "chainId": 1329,
       "address": "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c",
       "name": "Wrapped BTC",
@@ -2715,20 +2659,6 @@
     },
     {
       "chainId": 1868,
-      "address": "0x4200000000000000000000000000000000000006",
-      "name": "Wrapped Ether",
-      "symbol": "WETH",
-      "decimals": 18,
-      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/WETH/logo.svg",
-      "extensions": {
-        "tokenId": "WETH",
-        "coingeckoId": "weth",
-        "native": false,
-        "bridge": {}
-      }
-    },
-    {
-      "chainId": 1923,
       "address": "0x4200000000000000000000000000000000000006",
       "name": "Wrapped Ether",
       "symbol": "WETH",
