@@ -58,9 +58,6 @@
     "berachain": {
       "$ref": "#/definitions/LogoURI"
     },
-    "swellchain": {
-      "$ref": "#/definitions/LogoURI"
-    },
     "telos": {
       "$ref": "#/definitions/LogoURI"
     },
