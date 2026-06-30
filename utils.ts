@@ -56,9 +56,9 @@ export function toEvmAddress(address: string): string {
 
 export function toTronAddress(address: string): string {
   if (isAddress(address)) {
-    return tronBase58.encode(
-      hexToBytes(`0x${TRON_ADDRESS_PREFIX.toString(16)}${address.slice(2)}`),
-    );
+    const prefix = TRON_ADDRESS_PREFIX.toString(16).padStart(2, '0');
+
+    return tronBase58.encode(hexToBytes(`0x${prefix}${address.slice(2)}`));
   }
 
   return address;
