@@ -19,5 +19,7 @@
   "plasma": "plasma.svg",
   "hyper-evm": "hyperevm.svg",
   "tron": "tron.svg",
-  "solana": "solana.svg"
+  "solana": "solana.svg",
+  "bitcoin": "bitcoin.svg",
+  "signet": "signet.svg"
 }

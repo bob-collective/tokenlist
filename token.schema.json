@@ -83,6 +83,12 @@
             },
             "solana": {
               "$ref": "#/definitions/Address"
+            },
+            "bitcoin": {
+              "$ref": "#/definitions/Address"
+            },
+            "signet": {
+              "$ref": "#/definitions/Address"
             }
           }
         },
@@ -255,6 +261,12 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "solana": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "bitcoin": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "signet": {
           "$ref": "#/definitions/ChainProperties"
         }
       },

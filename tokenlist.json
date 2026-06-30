@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-30T15:31:35.735Z",
+  "timestamp": "2026-06-30T15:33:51.789Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -211,6 +211,19 @@
           "1": "0x34B03Cb9086d7D758AC55af71584F81A598759FE",
           "60808": "0x34B03Cb9086d7D758AC55af71584F81A598759FE"
         }
+      }
+    },
+    {
+      "chainId": 1231006505,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/BTC/logo.svg",
+      "extensions": {
+        "tokenId": "BTC",
+        "native": true,
+        "bridge": {}
       }
     },
     {
@@ -1190,6 +1203,19 @@
         "tokenId": "sbtBTC",
         "coingeckoId": "tbtc",
         "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1598918400,
+      "address": "0x0000000000000000000000000000000000000000",
+      "name": "Signet Bitcoin",
+      "symbol": "sBTC",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/sBTC/logo.svg",
+      "extensions": {
+        "tokenId": "sBTC",
+        "native": true,
         "bridge": {}
       }
     },
