@@ -3,6 +3,7 @@
   "name": "Hybrid Bitcoin",
   "symbol": "HybridBTC.pendle",
   "decimals": 8,
+  "coingeckoId": "wrapped-bitcoin",
   "description": "",
   "website": "https://gobob.xyz/",
   "twitter": "@build_on_bob",

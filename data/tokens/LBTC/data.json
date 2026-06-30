@@ -3,6 +3,7 @@
   "name": "Lombard Staked Bitcoin",
   "symbol": "LBTC",
   "decimals": 8,
+  "coingeckoId": "lombard-staked-btc",
   "description": "",
   "website": "https://lombard.finance",
   "twitter": "@lombard_finance",

@@ -3,6 +3,7 @@
   "name": "Ether",
   "symbol": "ETH",
   "decimals": 18,
+  "coingeckoId": "ethereum",
   "native": true,
   "tokens": {
     "ethereum": {
@@ -27,9 +28,6 @@
       "address": "0x0000000000000000000000000000000000000000"
     },
     "op-mainnet": {
-      "address": "0x0000000000000000000000000000000000000000"
-    },
-    "swellchain": {
       "address": "0x0000000000000000000000000000000000000000"
     },
     "soneium-mainnet": {

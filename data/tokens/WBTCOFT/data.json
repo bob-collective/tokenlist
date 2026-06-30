@@ -3,6 +3,7 @@
   "name": "Wrapped BTC",
   "symbol": "WBTC",
   "decimals": 8,
+  "coingeckoId": "wrapped-bitcoin",
   "description": "Wrapped Bitcoin delivers the power of Bitcoin with the flexibility of an ERC20 token",
   "website": "https://layerzero.network",
   "twitter": "@layerzero_core",
@@ -23,9 +24,6 @@
       "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c"
     },
     "avalanche": {
-      "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c"
-    },
-    "swellchain": {
       "address": "0x0555e30da8f98308edb960aa94c0db47230d2b9c"
     },
     "sei-network": {

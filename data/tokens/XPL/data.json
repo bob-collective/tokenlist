@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Plasma",
+  "symbol": "XPL",
+  "decimals": 18,
+  "coingeckoId": "plasma",
+  "native": true,
+  "tokens": {
+    "plasma": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

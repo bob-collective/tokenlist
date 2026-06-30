@@ -3,6 +3,7 @@
   "name": "Wrapped BTC",
   "symbol": "WBTC",
   "decimals": 8,
+  "coingeckoId": "wrapped-bitcoin",
   "description": "Wrapped Bitcoin delivers the power of Bitcoin with the flexibility of an ERC20 token",
   "website": "https://wbtc.network/",
   "twitter": "@WrappedBTC",
@@ -33,6 +34,10 @@
     },
     "solana": {
       "address": "5XZw2LKTyrfvfiskJ78AMpackRjPcyCif1WhUsPDuVqQ"
+    },
+    "polygon": {
+      "name": "(PoS) Wrapped BTC",
+      "address": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"
     }
   }
 }

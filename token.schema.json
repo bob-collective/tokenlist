@@ -69,9 +69,6 @@
             "berachain": {
               "$ref": "#/definitions/Address"
             },
-            "swellchain": {
-              "$ref": "#/definitions/Address"
-            },
             "telos": {
               "$ref": "#/definitions/Address"
             },
@@ -187,6 +184,10 @@
     "native": {
       "$ref": "#/definitions/NativeToken"
     },
+    "coingeckoId": {
+      "type": "string",
+      "description": "Token identifier for the Coingecko price feed"
+    },
     "website": {
       "type": "string",
       "description": "URL of the project's website",
@@ -247,9 +248,6 @@
         "berachain": {
           "$ref": "#/definitions/ChainProperties"
         },
-        "swellchain": {
-          "$ref": "#/definitions/ChainProperties"
-        },
         "telos": {
           "$ref": "#/definitions/ChainProperties"
         },
@@ -276,6 +274,6 @@
       "additionalProperties": false
     }
   },
-  "required": ["name", "symbol", "decimals", "tokens"],
+  "required": ["name", "symbol", "decimals", "tokens", "coingeckoId"],
   "additionalProperties": false
 }

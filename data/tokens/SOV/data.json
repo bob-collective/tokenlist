@@ -3,6 +3,7 @@
   "name": "SOV",
   "symbol": "SOV",
   "decimals": 18,
+  "coingeckoId": "sovryn",
   "tokens": {
     "ethereum": {
       "name": "eSOV",
