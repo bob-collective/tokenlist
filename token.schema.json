@@ -69,9 +69,6 @@
             "berachain": {
               "$ref": "#/definitions/Address"
             },
-            "swellchain": {
-              "$ref": "#/definitions/Address"
-            },
             "telos": {
               "$ref": "#/definitions/Address"
             },
@@ -243,9 +240,6 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "berachain": {
-          "$ref": "#/definitions/ChainProperties"
-        },
-        "swellchain": {
           "$ref": "#/definitions/ChainProperties"
         },
         "telos": {
