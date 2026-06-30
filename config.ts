@@ -99,7 +99,7 @@ export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
 // mapping live here. Solana uses its genesis-derived numeric chain ID; the
 // Bitcoin networks use their genesis block timestamps (mainnet 2009-01-03,
 // signet 2020-09-01) since Bitcoin has no native chain-ID concept.
-export const SOLANA_CHAIN_ID = 1399811149;
+export const SOLANA_CHAIN_ID = 1584368940;
 export const BITCOIN_CHAIN_ID = 1231006505;
 export const SIGNET_CHAIN_ID = 1598918400;
 
