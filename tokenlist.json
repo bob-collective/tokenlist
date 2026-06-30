@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-30T15:29:27.884Z",
+  "timestamp": "2026-06-30T15:33:51.789Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1105,6 +1105,20 @@
       }
     },
     {
+      "chainId": 1399811149,
+      "address": "2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo",
+      "name": "PayPal USD",
+      "symbol": "PYUSD",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/PYUSD/logo.svg",
+      "extensions": {
+        "tokenId": "PYUSD",
+        "coingeckoId": "paypal-usd",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0xae78736Cd615f374D3085123A210448E74Fc6393",
       "name": "Rocket Pool ETH",
@@ -2054,6 +2068,20 @@
       }
     },
     {
+      "chainId": 1399811149,
+      "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDC/logo.svg",
+      "extensions": {
+        "tokenId": "USDC",
+        "coingeckoId": "usd-coin",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 146,
       "address": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
       "name": "USDC",
@@ -2172,6 +2200,20 @@
     {
       "chainId": 146,
       "address": "0x6047828dc181963ba44974801FF68e538dA5eaF9",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDT/logo.svg",
+      "extensions": {
+        "tokenId": "USDT",
+        "coingeckoId": "tether",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1399811149,
+      "address": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
       "name": "Tether USD",
       "symbol": "USDT",
       "decimals": 6,
@@ -2926,6 +2968,20 @@
     {
       "chainId": 9745,
       "address": "0x1B64B9025EEbb9A6239575dF9Ea4b9Ac46D4d193",
+      "name": "XAUt0",
+      "symbol": "XAUt0",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/XAUt0/logo.svg",
+      "extensions": {
+        "tokenId": "XAUt0",
+        "coingeckoId": "tether-gold-tokens",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1399811149,
+      "address": "AymATz4TCL9sWNEEV9Kvyz45CHVhDZ6kUgjTJPzLpU9P",
       "name": "XAUt0",
       "symbol": "XAUt0",
       "decimals": 6,
