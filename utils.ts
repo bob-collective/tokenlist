@@ -4,11 +4,7 @@ import kebabCase from 'lodash/fp/kebabCase';
 import { bytesToHex, getAddress, hexToBytes, isAddress, sha256 } from 'viem';
 import type { KebabCase } from './types';
 
-// Tron addresses are base58check-encoded: a 21-byte payload of the 0x41 mainnet
-// prefix followed by the same 20-byte account hash an EVM address uses. Decoding
-// it here with a base58check codec (checksum = double SHA-256, via viem's hash)
-// replaces the multi-megabyte `tronweb` SDK, which consumers were otherwise
-// forced to bundle just for this address conversion.
+// A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
 const TRON_ADDRESS_PREFIX = 0x41;
 const tronBase58 = base58check((data) => sha256(data, 'bytes'));
 
@@ -47,7 +43,6 @@ export function toEvmAddress(address: string): string {
   if (address.startsWith('T')) {
     const decoded = decodeTronAddress(address);
 
-    // Drop the 0x41 Tron prefix → the 20-byte EVM-style address.
     if (decoded) return bytesToHex(decoded.slice(1));
   }
 
