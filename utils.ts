@@ -1,7 +1,11 @@
+import path from 'node:path';
+import url from 'node:url';
 import { base58check } from '@scure/base';
 import camelCase from 'lodash/fp/camelCase';
 import kebabCase from 'lodash/fp/kebabCase';
 import { bytesToHex, getAddress, hexToBytes, isAddress, sha256 } from 'viem';
+import { TOKEN_DIR, TOKENLIST_BASE_URL } from './config';
+import type { TokenId } from './token-ids';
 import type { KebabCase } from './types';
 
 // A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
@@ -30,6 +34,13 @@ export function mapByName<T extends { name: string }>(
       return acc;
     },
     {} as Record<KebabCase<T['name']>, T>,
+  );
+}
+
+export function getLogoURI(tokenId: TokenId, logo: 'svg' | 'webp'): string {
+  return url.resolve(
+    TOKENLIST_BASE_URL,
+    path.join(TOKEN_DIR, tokenId, `logo.${logo}`),
   );
 }
 

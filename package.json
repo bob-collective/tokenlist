@@ -12,11 +12,15 @@
     "token-ids.ts",
     "tokenlist.json",
     "tokenlist*.json",
-    "chainlist.json"
+    "chainlist.json",
+    "sharedlist.json",
+    "compressedlist.json"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist && npm run format:write",
+    "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist && npm run build:sharedlist && npm run build:compressedlist && npm run format:write",
     "build:chainlist": "tsx ./scripts/build-chainlist.ts",
+    "build:compressedlist": "tsx ./scripts/build-compressedlist.ts",
+    "build:sharedlist": "tsx ./scripts/build-sharedlist.ts",
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
     "check": "biome check .",

@@ -1,0 +1,342 @@
+{
+  "aBOBSOLVBTCBBN": [
+    "Avalon Avalon SOLVBTCBBN",
+    "aBOBSOLVBTCBBN",
+    "solv-protocol-solvbtc-bbn"
+  ],
+  "aBOBTBTC": [
+    "Avalon Avalon TBTC",
+    "aBOBTBTC",
+    "tbtc"
+  ],
+  "aBOBWBTC": [
+    "Avalon Avalon WBTC",
+    "aBOBWBTC",
+    "wrapped-bitcoin"
+  ],
+  "ALEX": [
+    "ALEX",
+    "ALEX",
+    "alexgo"
+  ],
+  "AVAX": [
+    "Avalanche",
+    "AVAX",
+    "avalanche-2"
+  ],
+  "BABY": [
+    "Babylon",
+    "BABY",
+    "babylon"
+  ],
+  "BERA": [
+    "Bera Token",
+    "BERA",
+    "berachain-bera"
+  ],
+  "BNB": [
+    "BNB",
+    "BNB",
+    "binancecoin"
+  ],
+  "BOB": [
+    "BOB",
+    "BOB",
+    "bob-build-on-bitcoin"
+  ],
+  "BTC+": [
+    "BTC+",
+    "BTC+",
+    "solv-btc"
+  ],
+  "cbBTC": [
+    "Coinbase Wrapped BTC",
+    "cbBTC",
+    "coinbase-wrapped-btc"
+  ],
+  "DAI": [
+    "Dai Stablecoin",
+    "DAI",
+    "dai"
+  ],
+  "DLLR": [
+    "DLLR",
+    "DLLR",
+    "sovryn-dollar"
+  ],
+  "ETH": [
+    "Ether",
+    "ETH",
+    "ethereum"
+  ],
+  "EURC": [
+    "Euro Coin",
+    "EURC",
+    "euro-coin"
+  ],
+  "FBTC": [
+    "Fire Bitcoin",
+    "FBTC",
+    "ignition-fbtc"
+  ],
+  "FRAX": [
+    "Frax",
+    "FRAX",
+    "frax"
+  ],
+  "FXS": [
+    "Frax Share",
+    "FXS",
+    "frax-share"
+  ],
+  "HybridBTC.pendle": [
+    "Hybrid Bitcoin",
+    "HybridBTC.pendle",
+    "wrapped-bitcoin"
+  ],
+  "HYPE": [
+    "HYPE",
+    "HYPE",
+    "hyperliquid"
+  ],
+  "iontBTC": [
+    "Ionic tBTC v2",
+    "iontBTC",
+    "wrapped-bitcoin"
+  ],
+  "iontWBTC": [
+    "Ionic Wrapped BTC",
+    "ionWBTC",
+    "wrapped-bitcoin"
+  ],
+  "LBTC": [
+    "Lombard Staked Bitcoin",
+    "LBTC",
+    "lombard-staked-btc"
+  ],
+  "LINK": [
+    "ChainLink Token",
+    "LINK",
+    "chainlink"
+  ],
+  "oUSDT": [
+    "OpenUSDT",
+    "oUSDT",
+    "openusdt"
+  ],
+  "PAXG": [
+    "Paxos Gold",
+    "PAXG",
+    "pax-gold"
+  ],
+  "POL": [
+    "Polygon Ecosystem Token",
+    "POL",
+    "polygon-ecosystem-token"
+  ],
+  "pumpBTC": [
+    "pumpBTC",
+    "pumpBTC",
+    "pumpbtc"
+  ],
+  "PYUSD": [
+    "PayPal USD",
+    "PYUSD",
+    "paypal-usd"
+  ],
+  "rETH": [
+    "Rocket Pool ETH",
+    "rETH",
+    "rocket-pool-eth"
+  ],
+  "S": [
+    "Sonic",
+    "S",
+    "sonic-3"
+  ],
+  "satUSD": [
+    "Satoshi Stablecoin",
+    "satUSD",
+    "satoshi-stablecoin"
+  ],
+  "satUSDv2": [
+    "Satoshi Stablecoin V2",
+    "satUSD",
+    "satoshi-stablecoin"
+  ],
+  "sbtBTC": [
+    "sb tBTC v2",
+    "sbtBTC",
+    "tbtc"
+  ],
+  "sbWBTC": [
+    "sb Wrapped BTC",
+    "sbWBTC",
+    "wrapped-bitcoin"
+  ],
+  "SEI": [
+    "Sei",
+    "SEI",
+    "sei-network"
+  ],
+  "seSOLVBTCBBN": [
+    "Segment SOLVBTCBBN",
+    "seSOLVBTCBBN",
+    "solv-protocol-solvbtc-bbn"
+  ],
+  "seTBTC": [
+    "Segment TBTC",
+    "seTBTC",
+    "tbtc"
+  ],
+  "seUNIBTC": [
+    "Segment UNIBTC",
+    "seUNIBTC",
+    "universal-btc"
+  ],
+  "seWBTC": [
+    "Segment WBTC",
+    "seWBTC",
+    "wrapped-bitcoin"
+  ],
+  "sFRAX": [
+    "Staked FRAX",
+    "sFRAX",
+    "frax"
+  ],
+  "sfrxETH": [
+    "Staked Frax Ether",
+    "sfrxETH",
+    "staked-frax-ether"
+  ],
+  "Solv": [
+    "Solv",
+    "SOLV",
+    "solv-protocol"
+  ],
+  "SolvBTC": [
+    "Solv BTC",
+    "SolvBTC",
+    "solv-btc"
+  ],
+  "SolvBTC.JUP": [
+    "SolvBTC Jupiter",
+    "SolvBTC.JUP",
+    "solv-protocol-solvbtc-jupiter"
+  ],
+  "SOV": [
+    "SOV",
+    "SOV",
+    "sovryn"
+  ],
+  "STONE": [
+    "StakeStone Ether",
+    "STONE",
+    "stakestone-ether"
+  ],
+  "T": [
+    "Threshold Network Token",
+    "T",
+    "threshold-network-token"
+  ],
+  "tBTC": [
+    "tBTC v2",
+    "tBTC",
+    "tbtc"
+  ],
+  "thUSD": [
+    "Threshold USD",
+    "thUSD",
+    "threshold-usd"
+  ],
+  "TLOS": [
+    "Telos",
+    "TLOS",
+    "telos"
+  ],
+  "TRB": [
+    "Tellor Tributes",
+    "TRB",
+    "tellor"
+  ],
+  "TRX": [
+    "TRON",
+    "TRX",
+    "tron"
+  ],
+  "UNI": [
+    "Uniswap",
+    "UNI",
+    "uniswap"
+  ],
+  "uniBTC": [
+    "uniBTC",
+    "uniBTC",
+    "universal-btc"
+  ],
+  "USDC": [
+    "USD Coin",
+    "USDC",
+    "usd-coin"
+  ],
+  "USDT": [
+    "Tether USD",
+    "USDT",
+    "tether"
+  ],
+  "USDT0": [
+    "USD₮0",
+    "USD₮0",
+    "usdt0"
+  ],
+  "WAVAX": [
+    "Wrapped AVAX",
+    "WAVAX",
+    "wrapped-avax"
+  ],
+  "WBNB": [
+    "Wrapped BNB",
+    "WBNB",
+    "wbnb"
+  ],
+  "WBTC": [
+    "Wrapped BTC",
+    "WBTC",
+    "wrapped-bitcoin"
+  ],
+  "WBTCOFT": [
+    "Wrapped BTC",
+    "WBTC",
+    "wrapped-bitcoin"
+  ],
+  "WETH": [
+    "Wrapped Ether",
+    "WETH",
+    "weth"
+  ],
+  "wstETH": [
+    "Wrapped liquid staked Ether 2.0",
+    "wstETH",
+    "wrapped-steth"
+  ],
+  "XAUt": [
+    "Tether Gold",
+    "XAUt",
+    "tether-gold"
+  ],
+  "XAUt0": [
+    "XAUt0",
+    "XAUt0",
+    "tether-gold-tokens"
+  ],
+  "XPL": [
+    "Plasma",
+    "XPL",
+    "plasma"
+  ],
+  "xSolvBTC": [
+    "xSolvBTC",
+    "xSolvBTC",
+    "solv-protocol-solvbtc-bbn"
+  ]
+}

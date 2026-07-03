@@ -6,6 +6,7 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Compact Token List](#compact-token-list)
 - [Data Model](#data-model)
 - [Adding New Tokens](#adding-new-tokens)
 - [Scripts](#scripts)
@@ -43,6 +44,8 @@ const tokenList = require('@gobob/tokenlist/tokenlist.json');
 | `tokenlist.json` | Complete token list across all chains |
 | `tokenlist-bob.json` | Tokens on BOB chain only |
 | `tokenlist-overrides.json` | Token list with UI overrides applied |
+| `sharedlist.json` | Per-token shared metadata as `[name, symbol, coingeckoId]` tuples (see [Compact Token List](#compact-token-list)) |
+| `compressedlist.json` | Per-token, per-chain data as `[chainId, address, decimals, logo, native]` tuples (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts` | Generated token identifier types |
 
 ### TypeScript Types
@@ -61,6 +64,51 @@ import type { Token, TokenData, SupportedChain } from '@gobob/tokenlist/types';
 | `Token` | Single token object from the tokenlist |
 | `TokenData` | Token metadata structure used in `data.json` files |
 | `SupportedChain` | Union of supported chain names |
+
+---
+
+## Compact Token List
+
+> **Use only when bundle size is critical.** `tokenlist.json` is the canonical, complete list — prefer it unless you must minimize shipped bytes.
+
+`sharedlist.json` and `compressedlist.json` are a size-optimized split of the token list. Repeated per-token metadata (name, symbol, CoinGecko ID) is stored once in `sharedlist.json`, and per-chain deployment data lives in `compressedlist.json`. Logo URLs are dropped entirely and reconstructed at runtime via `getLogoURI`. Together they compress to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
+
+Shapes, both keyed by `TokenId`:
+
+```jsonc
+// sharedlist.json — one tuple per token
+// [name, symbol, coingeckoId]
+{ "USDC": ["USD Coin", "USDC", "usd-coin"] }
+
+// compressedlist.json — array of tuples, one per chain the token is on
+// [chainId, address, decimals, logo, native]  (logo = "svg" | "webp" file extension)
+{ "USDC": [[1, "0xA0b8...", 6, "svg", false], [56, "0x8AC7...", 18, "svg", false]] }
+```
+
+Reconstruct the flat token list by joining the two on `TokenId` and rebuilding each logo URL with `getLogoURI`:
+
+```typescript
+import shared from '@gobob/tokenlist/sharedlist.json';
+import compressed from '@gobob/tokenlist/compressedlist.json';
+import { getLogoURI } from '@gobob/tokenlist';
+import type { TokenId } from '@gobob/tokenlist/token-ids';
+
+const tokens = Object.entries(compressed).flatMap(([id, chains]) => {
+  const [name, symbol, coingeckoId] = shared[id as TokenId];
+
+  return chains.map(([chainId, address, decimals, logo, native]) => ({
+    chainId,
+    address,
+    name,
+    symbol,
+    decimals,
+    logoURI: getLogoURI(id as TokenId, logo),
+    extensions: { tokenId: id, coingeckoId, native },
+  }));
+});
+```
+
+**Limitations:** this compact form omits data the full lists carry — `extensions.bridge` and per-chain `name`/`symbol`/`decimals` overrides. If you need either, use `tokenlist.json` or `tokenlist-overrides.json` instead.
 
 ---
 
@@ -220,6 +268,8 @@ pnpm verify
 |---------|-------------|
 | `pnpm build` | Generate types, build token lists, then run verification |
 | `pnpm build:tokenlist` | Generate the 3 tokenlist JSON files |
+| `pnpm build:sharedlist` | Generate `sharedlist.json` (compact per-token metadata) |
+| `pnpm build:compressedlist` | Generate `compressedlist.json` (compact per-chain data) |
 | `pnpm build:types` | Generate `TokenId` and `NativeTokenId` TypeScript unions |
 | `pnpm check` | Run Biome formatting, import organization, and lint checks |
 | `pnpm check:write` | Apply safe Biome formatting/import/lint fixes |
