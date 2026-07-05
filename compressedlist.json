@@ -1,6 +1,11 @@
 {
   "aBOBSOLVBTCBBN": [
     [
+      "Avalon Avalon SOLVBTCBBN",
+      "aBOBSOLVBTCBBN",
+      "solv-protocol-solvbtc-bbn"
+    ],
+    [
       60808,
       "0x2E6500A7Add9a788753a897e4e3477f651c612eb",
       18,
@@ -9,6 +14,11 @@
     ]
   ],
   "aBOBTBTC": [
+    [
+      "Avalon Avalon TBTC",
+      "aBOBTBTC",
+      "tbtc"
+    ],
     [
       60808,
       "0x5E007Ed35c7d89f5889eb6FD0cdCAa38059560ef",
@@ -19,6 +29,11 @@
   ],
   "aBOBWBTC": [
     [
+      "Avalon Avalon WBTC",
+      "aBOBWBTC",
+      "wrapped-bitcoin"
+    ],
+    [
       60808,
       "0xd6890176e8d912142AC489e8B5D8D93F8dE74D60",
       8,
@@ -27,6 +42,11 @@
     ]
   ],
   "ALEX": [
+    [
+      "ALEX",
+      "ALEX",
+      "alexgo"
+    ],
     [
       1,
       "0xe7c3755482d0dA522678Af05945062d4427e0923",
@@ -44,6 +64,11 @@
   ],
   "AVAX": [
     [
+      "Avalanche",
+      "AVAX",
+      "avalanche-2"
+    ],
+    [
       43114,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -52,6 +77,11 @@
     ]
   ],
   "BABY": [
+    [
+      "Babylon",
+      "BABY",
+      "babylon"
+    ],
     [
       60808,
       "0xe53dCec07d16D88e386AE0710E86d9a400f83c31",
@@ -69,6 +99,11 @@
   ],
   "BERA": [
     [
+      "Bera Token",
+      "BERA",
+      "berachain-bera"
+    ],
+    [
       80094,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -78,6 +113,11 @@
   ],
   "BNB": [
     [
+      "BNB",
+      "BNB",
+      "binancecoin"
+    ],
+    [
       56,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -86,6 +126,11 @@
     ]
   ],
   "BOB": [
+    [
+      "BOB",
+      "BOB",
+      "bob-build-on-bitcoin"
+    ],
     [
       1,
       "0xC9746F73cC33a36c2cD55b8aEFD732586946Cedd",
@@ -117,6 +162,11 @@
   ],
   "BTC+": [
     [
+      "BTC+",
+      "BTC+",
+      "solv-btc"
+    ],
+    [
       1,
       "0xCEa2DAf93617B97504E05AFfc5BCF9b3922D3034",
       18,
@@ -132,6 +182,11 @@
     ]
   ],
   "cbBTC": [
+    [
+      "Coinbase Wrapped BTC",
+      "cbBTC",
+      "coinbase-wrapped-btc"
+    ],
     [
       1,
       "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
@@ -155,6 +210,11 @@
     ]
   ],
   "DAI": [
+    [
+      "Dai Stablecoin",
+      "DAI",
+      "dai"
+    ],
     [
       1,
       "0x6B175474E89094C44Da98b954EedeAC495271d0F",
@@ -207,6 +267,11 @@
   ],
   "DLLR": [
     [
+      "DLLR",
+      "DLLR",
+      "sovryn-dollar"
+    ],
+    [
       1,
       "0xbdBb63F938c8961AF31eaD3deBa5C96e6A323DD1",
       18,
@@ -222,6 +287,11 @@
     ]
   ],
   "ETH": [
+    [
+      "Ether",
+      "ETH",
+      "ethereum"
+    ],
     [
       1,
       "0x0000000000000000000000000000000000000000",
@@ -295,6 +365,11 @@
   ],
   "EURC": [
     [
+      "Euro Coin",
+      "EURC",
+      "euro-coin"
+    ],
+    [
       1,
       "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
       6,
@@ -317,6 +392,11 @@
     ]
   ],
   "FBTC": [
+    [
+      "Fire Bitcoin",
+      "FBTC",
+      "ignition-fbtc"
+    ],
     [
       1,
       "0xC96dE26018A54D51c097160568752c4E3BD6C364",
@@ -355,6 +435,11 @@
   ],
   "FRAX": [
     [
+      "Frax",
+      "FRAX",
+      "frax"
+    ],
+    [
       1,
       "0x853d955aCEf822Db058eb8505911ED77F175b99e",
       18,
@@ -370,6 +455,11 @@
     ]
   ],
   "FXS": [
+    [
+      "Frax Share",
+      "FXS",
+      "frax-share"
+    ],
     [
       1,
       "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
@@ -387,6 +477,11 @@
   ],
   "HybridBTC.pendle": [
     [
+      "Hybrid Bitcoin",
+      "HybridBTC.pendle",
+      "wrapped-bitcoin"
+    ],
+    [
       1,
       "0x9998e05030Aee3Af9AD3df35A34F5C51e1628779",
       8,
@@ -403,6 +498,11 @@
   ],
   "HYPE": [
     [
+      "HYPE",
+      "HYPE",
+      "hyperliquid"
+    ],
+    [
       999,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -411,6 +511,11 @@
     ]
   ],
   "iontBTC": [
+    [
+      "Ionic tBTC v2",
+      "iontBTC",
+      "wrapped-bitcoin"
+    ],
     [
       60808,
       "0x68e0e4d875FDe34fc4698f40ccca0Db5b67e3693",
@@ -421,6 +526,11 @@
   ],
   "iontWBTC": [
     [
+      "Ionic Wrapped BTC",
+      "ionWBTC",
+      "wrapped-bitcoin"
+    ],
+    [
       60808,
       "0xEBc8a7EE7f1D6534eBF45Bd5311203BF0A17493c",
       8,
@@ -429,6 +539,11 @@
     ]
   ],
   "LBTC": [
+    [
+      "Lombard Staked Bitcoin",
+      "LBTC",
+      "lombard-staked-btc"
+    ],
     [
       1,
       "0x8236a87084f8B84306f72007F36F2618A5634494",
@@ -459,6 +574,11 @@
     ]
   ],
   "LINK": [
+    [
+      "ChainLink Token",
+      "LINK",
+      "chainlink"
+    ],
     [
       1,
       "0x514910771AF9Ca656af840dff83E8264EcF986CA",
@@ -504,6 +624,11 @@
   ],
   "oUSDT": [
     [
+      "OpenUSDT",
+      "oUSDT",
+      "openusdt"
+    ],
+    [
       1,
       "0x1217BfE6c773EEC6cc4A38b5Dc45B92292B6E189",
       6,
@@ -534,6 +659,11 @@
   ],
   "PAXG": [
     [
+      "Paxos Gold",
+      "PAXG",
+      "pax-gold"
+    ],
+    [
       1,
       "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
       18,
@@ -543,6 +673,11 @@
   ],
   "POL": [
     [
+      "Polygon Ecosystem Token",
+      "POL",
+      "polygon-ecosystem-token"
+    ],
+    [
       137,
       "0x0000000000000000000000000000000000001010",
       18,
@@ -551,6 +686,11 @@
     ]
   ],
   "pumpBTC": [
+    [
+      "pumpBTC",
+      "pumpBTC",
+      "pumpbtc"
+    ],
     [
       1,
       "0xF469fBD2abcd6B9de8E169d128226C0Fc90a012e",
@@ -568,6 +708,11 @@
   ],
   "PYUSD": [
     [
+      "PayPal USD",
+      "PYUSD",
+      "paypal-usd"
+    ],
+    [
       1,
       "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
       6,
@@ -576,6 +721,11 @@
     ]
   ],
   "rETH": [
+    [
+      "Rocket Pool ETH",
+      "rETH",
+      "rocket-pool-eth"
+    ],
     [
       1,
       "0xae78736Cd615f374D3085123A210448E74Fc6393",
@@ -593,6 +743,11 @@
   ],
   "S": [
     [
+      "Sonic",
+      "S",
+      "sonic-3"
+    ],
+    [
       146,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -601,6 +756,11 @@
     ]
   ],
   "satUSD": [
+    [
+      "Satoshi Stablecoin",
+      "satUSD",
+      "satoshi-stablecoin"
+    ],
     [
       60808,
       "0x78Fea795cBFcC5fFD6Fb5B845a4f53d25C283bDB",
@@ -611,6 +771,11 @@
   ],
   "satUSDv2": [
     [
+      "Satoshi Stablecoin V2",
+      "satUSD",
+      "satoshi-stablecoin"
+    ],
+    [
       60808,
       "0xecf21b335B41f9d5A89f6186A99c19a3c467871f",
       18,
@@ -619,6 +784,11 @@
     ]
   ],
   "sbtBTC": [
+    [
+      "sb tBTC v2",
+      "sbtBTC",
+      "tbtc"
+    ],
     [
       60808,
       "0x2925dF9Eb2092B53B06A06353A7249aF3a8B139e",
@@ -629,6 +799,11 @@
   ],
   "sbWBTC": [
     [
+      "sb Wrapped BTC",
+      "sbWBTC",
+      "wrapped-bitcoin"
+    ],
+    [
       60808,
       "0x5c46D274ed8AbCAe2964B63c0360ad3Ccc384dAa",
       8,
@@ -637,6 +812,11 @@
     ]
   ],
   "SEI": [
+    [
+      "Sei",
+      "SEI",
+      "sei-network"
+    ],
     [
       1329,
       "0x0000000000000000000000000000000000000000",
@@ -647,6 +827,11 @@
   ],
   "seSOLVBTCBBN": [
     [
+      "Segment SOLVBTCBBN",
+      "seSOLVBTCBBN",
+      "solv-protocol-solvbtc-bbn"
+    ],
+    [
       60808,
       "0x5EF2B8fbCc8aea2A9Dbe2729F0acf33E073Fa43e",
       8,
@@ -655,6 +840,11 @@
     ]
   ],
   "seTBTC": [
+    [
+      "Segment TBTC",
+      "seTBTC",
+      "tbtc"
+    ],
     [
       60808,
       "0xD30288EA9873f376016A0250433b7eA375676077",
@@ -665,6 +855,11 @@
   ],
   "seUNIBTC": [
     [
+      "Segment UNIBTC",
+      "seUNIBTC",
+      "universal-btc"
+    ],
+    [
       60808,
       "0x7848F0775EebaBbF55cB74490ce6D3673E68773A",
       8,
@@ -674,6 +869,11 @@
   ],
   "seWBTC": [
     [
+      "Segment WBTC",
+      "seWBTC",
+      "wrapped-bitcoin"
+    ],
+    [
       60808,
       "0x6265C05158f672016B771D6Fb7422823ed2CbcDd",
       8,
@@ -682,6 +882,11 @@
     ]
   ],
   "sFRAX": [
+    [
+      "Staked FRAX",
+      "sFRAX",
+      "frax"
+    ],
     [
       1,
       "0xA663B02CF0a4b149d2aD41910CB81e23e1c41c32",
@@ -699,6 +904,11 @@
   ],
   "sfrxETH": [
     [
+      "Staked Frax Ether",
+      "sfrxETH",
+      "staked-frax-ether"
+    ],
+    [
       1,
       "0xac3E018457B222d93114458476f3E3416Abbe38F",
       18,
@@ -715,6 +925,11 @@
   ],
   "Solv": [
     [
+      "Solv",
+      "SOLV",
+      "solv-protocol"
+    ],
+    [
       1,
       "0x04830A96a23EA718fAA695a5AAe74695AAE3A23f",
       18,
@@ -723,6 +938,11 @@
     ]
   ],
   "SolvBTC": [
+    [
+      "Solv BTC",
+      "SolvBTC",
+      "solv-btc"
+    ],
     [
       1,
       "0x7A56E1C57C7475CCf742a1832B028F0456652F97",
@@ -775,6 +995,11 @@
   ],
   "SolvBTC.JUP": [
     [
+      "SolvBTC Jupiter",
+      "SolvBTC.JUP",
+      "solv-protocol-solvbtc-jupiter"
+    ],
+    [
       60808,
       "0x6b062AA7F5FC52b530Cb13967aE2E6bc0D8Dd3E4",
       18,
@@ -783,6 +1008,11 @@
     ]
   ],
   "SOV": [
+    [
+      "SOV",
+      "SOV",
+      "sovryn"
+    ],
     [
       1,
       "0xbdab72602e9AD40FC6a6852CAf43258113B8F7a5",
@@ -800,6 +1030,11 @@
   ],
   "STONE": [
     [
+      "StakeStone Ether",
+      "STONE",
+      "stakestone-ether"
+    ],
+    [
       1,
       "0x7122985656e38BDC0302Db86685bb972b145bD3C",
       18,
@@ -816,6 +1051,11 @@
   ],
   "T": [
     [
+      "Threshold Network Token",
+      "T",
+      "threshold-network-token"
+    ],
+    [
       1,
       "0xCdF7028ceAB81fA0C6971208e83fa7872994beE5",
       18,
@@ -831,6 +1071,11 @@
     ]
   ],
   "tBTC": [
+    [
+      "tBTC v2",
+      "tBTC",
+      "tbtc"
+    ],
     [
       1,
       "0x18084fbA666a33d37592fA2633fD49a74DD93a88",
@@ -876,6 +1121,11 @@
   ],
   "thUSD": [
     [
+      "Threshold USD",
+      "thUSD",
+      "threshold-usd"
+    ],
+    [
       1,
       "0xCFC5bD99915aAa815401C5a41A927aB7a38d29cf",
       18,
@@ -892,6 +1142,11 @@
   ],
   "TLOS": [
     [
+      "Telos",
+      "TLOS",
+      "telos"
+    ],
+    [
       40,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -900,6 +1155,11 @@
     ]
   ],
   "TRB": [
+    [
+      "Tellor Tributes",
+      "TRB",
+      "tellor"
+    ],
     [
       1,
       "0x88dF592F8eb5D7Bd38bFeF7dEb0fBc02cf3778a0",
@@ -917,6 +1177,11 @@
   ],
   "TRX": [
     [
+      "TRON",
+      "TRX",
+      "tron"
+    ],
+    [
       728126428,
       "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb",
       6,
@@ -925,6 +1190,11 @@
     ]
   ],
   "UNI": [
+    [
+      "Uniswap",
+      "UNI",
+      "uniswap"
+    ],
     [
       1,
       "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
@@ -941,6 +1211,11 @@
     ]
   ],
   "uniBTC": [
+    [
+      "uniBTC",
+      "uniBTC",
+      "universal-btc"
+    ],
     [
       1,
       "0x004E9C3EF86bc1ca1f0bB5C7662861Ee93350568",
@@ -985,6 +1260,11 @@
     ]
   ],
   "USDC": [
+    [
+      "USD Coin",
+      "USDC",
+      "usd-coin"
+    ],
     [
       1,
       "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -1079,6 +1359,11 @@
   ],
   "USDT": [
     [
+      "Tether USD",
+      "USDT",
+      "tether"
+    ],
+    [
       1,
       "0xdAC17F958D2ee523a2206206994597C13D831ec7",
       6,
@@ -1144,6 +1429,11 @@
   ],
   "USDT0": [
     [
+      "USD₮0",
+      "USD₮0",
+      "usdt0"
+    ],
+    [
       130,
       "0x9151434b16b9763660705744891fA906F660EcC5",
       6,
@@ -1202,6 +1492,11 @@
   ],
   "WAVAX": [
     [
+      "Wrapped AVAX",
+      "WAVAX",
+      "wrapped-avax"
+    ],
+    [
       43114,
       "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
       18,
@@ -1211,6 +1506,11 @@
   ],
   "WBNB": [
     [
+      "Wrapped BNB",
+      "WBNB",
+      "wbnb"
+    ],
+    [
       56,
       "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
       18,
@@ -1219,6 +1519,11 @@
     ]
   ],
   "WBTC": [
+    [
+      "Wrapped BTC",
+      "WBTC",
+      "wrapped-bitcoin"
+    ],
     [
       1,
       "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
@@ -1263,6 +1568,11 @@
     ]
   ],
   "WBTCOFT": [
+    [
+      "Wrapped BTC",
+      "WBTC",
+      "wrapped-bitcoin"
+    ],
     [
       1,
       "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c",
@@ -1349,6 +1659,11 @@
     ]
   ],
   "WETH": [
+    [
+      "Wrapped Ether",
+      "WETH",
+      "weth"
+    ],
     [
       1,
       "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
@@ -1443,6 +1758,11 @@
   ],
   "wstETH": [
     [
+      "Wrapped liquid staked Ether 2.0",
+      "wstETH",
+      "wrapped-steth"
+    ],
+    [
       1,
       "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
       18,
@@ -1466,6 +1786,11 @@
   ],
   "XAUt": [
     [
+      "Tether Gold",
+      "XAUt",
+      "tether-gold"
+    ],
+    [
       1,
       "0x68749665FF8D2d112Fa859AA293F07A622782F38",
       6,
@@ -1481,6 +1806,11 @@
     ]
   ],
   "XAUt0": [
+    [
+      "XAUt0",
+      "XAUt0",
+      "tether-gold-tokens"
+    ],
     [
       42161,
       "0x40461291347e1eCbb09499F3371D3f17f10d7159",
@@ -1519,6 +1849,11 @@
   ],
   "XPL": [
     [
+      "Plasma",
+      "XPL",
+      "plasma"
+    ],
+    [
       9745,
       "0x0000000000000000000000000000000000000000",
       18,
@@ -1527,6 +1862,11 @@
     ]
   ],
   "xSolvBTC": [
+    [
+      "xSolvBTC",
+      "xSolvBTC",
+      "solv-protocol-solvbtc-bbn"
+    ],
     [
       1,
       "0xd9D920AA40f578ab794426F5C90F6C731D159DEf",

@@ -7,11 +7,15 @@ import type { Entries, TokenData } from '../types';
 import { checksumAddress } from '../utils';
 
 // [chainId, address, decimals, logo, native]
-type CompressedEntry = [number, string, number, string, boolean];
+type ChainEntry = [number, string, number, string, boolean];
+// [name, symbol, coingeckoId]
+type SharedEntry = [string, string, string];
+// first element = shared data, rest = per-chain entries
+type CompressedEntry = [SharedEntry, ...ChainEntry[]];
 
-const compressedlist: Record<TokenId, CompressedEntry[]> = {} as Record<
+const compressedlist: Record<TokenId, CompressedEntry> = {} as Record<
   TokenId,
-  CompressedEntry[]
+  CompressedEntry
 >;
 
 const folders = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
@@ -26,9 +30,9 @@ for (const folder of folders) {
   const logofiles = glob.sync(path.join(TOKEN_DIR, folder, 'logo.{webp,svg}'));
   const logo = logofiles[0].endsWith('webp') ? 'webp' : 'svg';
 
-  compressedlist[folder as TokenId] = (
+  const chains = (
     Object.entries(data.tokens) as Entries<typeof data.tokens>
-  ).map(([chain, token]) => {
+  ).map<ChainEntry>(([chain, token]) => {
     return [
       SUPPORTED_CHAIN_MAP[chain].id,
       checksumAddress(token.address),
@@ -37,6 +41,11 @@ for (const folder of folders) {
       token.native ?? data.native ?? false,
     ];
   });
+
+  compressedlist[folder as TokenId] = [
+    [data.name, data.symbol, data.coingeckoId],
+    ...chains,
+  ];
 }
 
 fs.writeFileSync(OUTFILE_COMPRESSED, JSON.stringify(compressedlist, null, 2));
