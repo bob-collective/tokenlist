@@ -3,18 +3,13 @@ import path from 'node:path';
 import { glob } from 'glob';
 import { OUTFILE_COMPRESSED, SUPPORTED_CHAIN_MAP, TOKEN_DIR } from '../config';
 import type { TokenId } from '../token-ids';
-import type { Entries, TokenData } from '../types';
+import type {
+  CompressedChainEntry,
+  CompressedEntry,
+  Entries,
+  TokenData,
+} from '../types';
 import { checksumAddress } from '../utils';
-
-// [chainId, address, decimals, logo, native, nameOverride?, symbolOverride?]
-type ChainEntry =
-  | [number, string, number, string, boolean]
-  | [number, string, number, string, boolean, string]
-  | [number, string, number, string, boolean, string | null, string];
-// [name, symbol, coingeckoId]
-type SharedEntry = [string, string, string];
-// first element = shared data, rest = per-chain entries
-type CompressedEntry = [SharedEntry, ...ChainEntry[]];
 
 const compressedlist: Record<TokenId, CompressedEntry> = {} as Record<
   TokenId,
@@ -35,7 +30,7 @@ for (const folder of folders) {
 
   const chains = (
     Object.entries(data.tokens) as Entries<typeof data.tokens>
-  ).map<ChainEntry>(([chain, token]) => {
+  ).map<CompressedChainEntry>(([chain, token]) => {
     const base: [number, string, number, string, boolean] = [
       SUPPORTED_CHAIN_MAP[chain].id,
       checksumAddress(token.address),
