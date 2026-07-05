@@ -34,18 +34,22 @@ for (const folder of folders) {
     const base: [number, string, number, string, boolean] = [
       SUPPORTED_CHAIN_MAP[chain].id,
       checksumAddress(token.address),
-      token.decimals ?? data.decimals,
+      token.overrides?.decimals ?? token.decimals ?? data.decimals,
       logo,
       token.native ?? data.native ?? false,
     ];
 
-    const nameOverride = token.overrides?.name;
-    const symbolOverride = token.overrides?.symbol;
+    const nameOverride = token.overrides?.name ?? token.name;
+    const symbolOverride = token.overrides?.symbol ?? token.symbol;
+    const hasNameOverride =
+      nameOverride !== undefined && nameOverride !== data.name;
+    const hasSymbolOverride =
+      symbolOverride !== undefined && symbolOverride !== data.symbol;
 
-    if (symbolOverride !== undefined) {
-      return [...base, nameOverride ?? null, symbolOverride];
+    if (hasSymbolOverride) {
+      return [...base, hasNameOverride ? nameOverride : null, symbolOverride];
     }
-    if (nameOverride !== undefined) {
+    if (hasNameOverride) {
       return [...base, nameOverride];
     }
 
