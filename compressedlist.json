@@ -1277,21 +1277,26 @@
       "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
       6,
       "svg",
-      false
+      false,
+      "USDC"
     ],
     [
       60808,
       "0xe75D0fB2C24A55cA1e3F96781a2bCC7bdba058F0",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDC",
+      "USDC.e"
     ],
     [
       808813,
       "0x2c1f73d37E7cdbA2792156139b0d35A765d595C5",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDC",
+      "USDC.e"
     ],
     [
       10,
@@ -1375,7 +1380,8 @@
       "0x05D032ac25d322df992303dCa074EE7392C117b9",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDT"
     ],
     [
       43114,
@@ -1389,7 +1395,8 @@
       "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDT"
     ],
     [
       56,
@@ -1410,14 +1417,16 @@
       "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDT"
     ],
     [
       146,
       "0x6047828dc181963ba44974801FF68e538dA5eaF9",
       6,
       "svg",
-      false
+      false,
+      "Bridged USDT"
     ],
     [
       728126428,
@@ -1438,56 +1447,72 @@
       "0x9151434b16b9763660705744891fA906F660EcC5",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       42161,
       "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       80094,
       "0x779Ded0c9e1022225f8E0630b35a9b54bE713736",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       999,
       "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       137,
       "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       9745,
       "0xB8CE59FC3717ada4C02eaDF9682A9e934F625ebb",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       1329,
       "0x9151434b16b9763660705744891fA906F660EcC5",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ],
     [
       10,
       "0x01bFF41798a0BcF287b996046Ca68b395DbC1071",
       6,
       "svg",
-      false
+      false,
+      null,
+      "USDT0"
     ]
   ],
   "WAVAX": [
@@ -1536,7 +1561,8 @@
       "0x03C7054BCB39f7b2e5B2c7AcB37583e32D70Cfa3",
       8,
       "svg",
-      false
+      false,
+      "Bridged WBTC"
     ],
     [
       42161,

@@ -6,8 +6,11 @@ import type { TokenId } from '../token-ids';
 import type { Entries, TokenData } from '../types';
 import { checksumAddress } from '../utils';
 
-// [chainId, address, decimals, logo, native]
-type ChainEntry = [number, string, number, string, boolean];
+// [chainId, address, decimals, logo, native, nameOverride?, symbolOverride?]
+type ChainEntry =
+  | [number, string, number, string, boolean]
+  | [number, string, number, string, boolean, string]
+  | [number, string, number, string, boolean, string | null, string];
 // [name, symbol, coingeckoId]
 type SharedEntry = [string, string, string];
 // first element = shared data, rest = per-chain entries
@@ -33,13 +36,25 @@ for (const folder of folders) {
   const chains = (
     Object.entries(data.tokens) as Entries<typeof data.tokens>
   ).map<ChainEntry>(([chain, token]) => {
-    return [
+    const base: [number, string, number, string, boolean] = [
       SUPPORTED_CHAIN_MAP[chain].id,
       checksumAddress(token.address),
       token.decimals ?? data.decimals,
       logo,
       token.native ?? data.native ?? false,
     ];
+
+    const nameOverride = token.overrides?.name;
+    const symbolOverride = token.overrides?.symbol;
+
+    if (symbolOverride !== undefined) {
+      return [...base, nameOverride ?? null, symbolOverride];
+    }
+    if (nameOverride !== undefined) {
+      return [...base, nameOverride];
+    }
+
+    return base;
   });
 
   compressedlist[folder as TokenId] = [
