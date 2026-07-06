@@ -36,6 +36,8 @@ export const OUTFILE_TYPES = 'token-ids.ts';
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
 
+export const OUTFILE_COMPRESSED = 'compressedlist.json';
+
 const supportedMainnetChains = [
   defineChain({
     ...mainnet,
