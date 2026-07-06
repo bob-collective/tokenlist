@@ -31,11 +31,10 @@ for (const folder of folders) {
   const chains = (
     Object.entries(data.tokens) as Entries<typeof data.tokens>
   ).map<CompressedChainEntry>(([chain, token]) => {
-    const base: [number, string, number, string, boolean] = [
+    const base: [number, string, number, boolean] = [
       SUPPORTED_CHAIN_MAP[chain].id,
       checksumAddress(token.address),
       token.overrides?.decimals ?? token.decimals ?? data.decimals,
-      logo,
       token.native ?? data.native ?? false,
     ];
 
@@ -57,7 +56,7 @@ for (const folder of folders) {
   });
 
   compressedlist[folder as TokenId] = [
-    [data.name, data.symbol, data.coingeckoId],
+    [data.name, data.symbol, data.coingeckoId, logo],
     ...chains,
   ];
 }
