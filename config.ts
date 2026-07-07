@@ -107,11 +107,11 @@ export const SIGNET_CHAIN_ID = 1598918400;
 
 // chain name (as used in data.json keys) → chain ID, for chains absent from
 // SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
-export const NON_EVM_CHAIN_ID_BY_NAME = {
+export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
   solana: SOLANA_CHAIN_ID,
   bitcoin: BITCOIN_CHAIN_ID,
   signet: SIGNET_CHAIN_ID,
-} as const satisfies Record<string, number>;
+};
 
 // Chain IDs that belong in tokenlist-non-evm.json. Tron has a viem definition
 // and is verified on-chain, but its TVM addresses make it non-EVM for output
