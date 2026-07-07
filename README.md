@@ -70,29 +70,29 @@ import type { Token, TokenData, SupportedChain } from '@gobob/tokenlist/types';
 
 > **Use only when bundle size is critical.** `tokenlist.json` is the canonical, complete list — prefer it unless you must minimize shipped bytes.
 
-`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId]`, followed by one per-chain tuple `[chainId, address, decimals, logo, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
+`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId, logo]`, followed by one per-chain tuple `[chainId, address, decimals, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
 
 The trailing `nameOverride`/`symbolOverride` slots carry the per-chain UI overrides from `tokenlist-overrides.json` and are appended only when present:
 
 - Both overrides set → `[..., native, nameOverride, symbolOverride]`
 - Only `symbolOverride` set → `[..., native, null, symbolOverride]` (name slot held by `null`)
 - Only `nameOverride` set → `[..., native, nameOverride]`
-- Neither → tuple ends at `native` (length 5)
+- Neither → tuple ends at `native` (length 4)
 
 Shape:
 
 ```jsonc
 {
   "USDC": [
-    // [0] shared — [name, symbol, coingeckoId]
-    ["USD Coin", "USDC", "usd-coin"],
-    // [1..] per-chain — [chainId, address, decimals, logo, native, nameOverride?, symbolOverride?]
+    // [0] shared — [name, symbol, coingeckoId, logo]
     // logo = "svg" | "webp"
-    [1, "0xA0b8...", 6, "svg", false],
+    ["USD Coin", "USDC", "usd-coin", "svg"],
+    // [1..] per-chain — [chainId, address, decimals, native, nameOverride?, symbolOverride?]
+    [1, "0xA0b8...", 6, false],
     // with both overrides
-    [60808, "0xe75D...", 6, "svg", false, "Bridged USDC", "USDC.e"],
+    [60808, "0xe75D...", 6, false, "Bridged USDC", "USDC.e"],
     // symbol-only override — name slot is null
-    [130, "0x9151...", 6, "svg", false, null, "USDT0"]
+    [130, "0x9151...", 6, false, null, "USDT0"]
   ]
 }
 ```
@@ -105,10 +105,10 @@ import { getLogoURI } from '@gobob/tokenlist';
 import type { TokenId } from '@gobob/tokenlist/token-ids';
 
 const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
-  const [[name, symbol, coingeckoId], ...chains] = entry;
+  const [[name, symbol, coingeckoId, logo], ...chains] = entry;
 
   return chains.map(
-    ([chainId, address, decimals, logo, native, nameOverride, symbolOverride]) => ({
+    ([chainId, address, decimals, native, nameOverride, symbolOverride]) => ({
       chainId,
       address,
       name: nameOverride ?? name,
