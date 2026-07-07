@@ -74,6 +74,10 @@
     "sonic": {
       "name": "USDC",
       "address": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894"
+    },
+    "hyper-evm": {
+      "name": "USDC",
+      "address": "0xb88339CB7199b77E23DB6E890353E22632Ba630f"
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-06-30T15:33:51.789Z",
+  "timestamp": "2026-07-07T16:56:01.432Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -1989,6 +1989,20 @@
     {
       "chainId": 146,
       "address": "0x29219dd400f2Bf60E5a23d13Be72B486D4038894",
+      "name": "USDC",
+      "symbol": "USDC",
+      "decimals": 6,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDC/logo.svg",
+      "extensions": {
+        "tokenId": "USDC",
+        "coingeckoId": "usd-coin",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 999,
+      "address": "0xb88339CB7199b77E23DB6E890353E22632Ba630f",
       "name": "USDC",
       "symbol": "USDC",
       "decimals": 6,
