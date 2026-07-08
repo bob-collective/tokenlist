@@ -144,6 +144,12 @@
     ["Ionic Wrapped BTC", "ionWBTC", "wrapped-bitcoin", "svg"],
     [60808, "0xEBc8a7EE7f1D6534eBF45Bd5311203BF0A17493c", 8, false]
   ],
+  "JPYC": [
+    ["JPY Coin", "JPYC", "jpycoin", "webp"],
+    [1, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false],
+    [137, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false],
+    [43114, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false]
+  ],
   "LBTC": [
     ["Lombard Staked Bitcoin", "LBTC", "lombard-staked-btc", "svg"],
     [1, "0x8236a87084f8B84306f72007F36F2618A5634494", 8, false],

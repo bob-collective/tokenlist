@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-07-03T15:56:03.055Z",
+  "timestamp": "2026-07-07T17:13:44.731Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -799,6 +799,48 @@
       "extensions": {
         "tokenId": "iontWBTC",
         "coingeckoId": "wrapped-bitcoin",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29",
+      "name": "JPY Coin",
+      "symbol": "JPYC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/JPYC/logo.webp",
+      "extensions": {
+        "tokenId": "JPYC",
+        "coingeckoId": "jpycoin",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 137,
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29",
+      "name": "JPY Coin",
+      "symbol": "JPYC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/JPYC/logo.webp",
+      "extensions": {
+        "tokenId": "JPYC",
+        "coingeckoId": "jpycoin",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 43114,
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29",
+      "name": "JPY Coin",
+      "symbol": "JPYC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/JPYC/logo.webp",
+      "extensions": {
+        "tokenId": "JPYC",
+        "coingeckoId": "jpycoin",
         "native": false,
         "bridge": {}
       }
