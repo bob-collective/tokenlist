@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "BTCB Token",
+  "symbol": "BTCB",
+  "decimals": 18,
+  "coingeckoId": "binance-bitcoin",
+  "description": "Pegged tokens such as BTCB are 100% backed by the native coin in reserve, which is Bitcoin (BTC) in BTCB's case.",
+  "tokens": {
+    "bnb-smart-chain": {
+      "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+    }
+  }
+}
