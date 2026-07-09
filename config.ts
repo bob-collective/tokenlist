@@ -121,6 +121,13 @@ export const NON_EVM_CHAIN_IDS = new Set<number>([
   tron.id,
 ]);
 
+// data.json chain-name counterpart of NON_EVM_CHAIN_IDS, for places that work
+// with chain names before they are resolved to IDs (e.g. type generation).
+export const NON_EVM_CHAIN_NAMES = new Set<string>([
+  ...Object.keys(NON_EVM_CHAIN_ID_BY_NAME),
+  'tron',
+]);
+
 export const SUPPORTED_CHAIN_IDS = [
   ...SUPPORTED_CHAINS.map((chain) => chain.id),
   SOLANA_CHAIN_ID,

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { OUTFILE_TYPES, TOKEN_DIR } from '../config';
+import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../config';
 import type { TokenData } from '../types';
 
 const tokenlistDirectories = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
@@ -25,6 +25,24 @@ const nativeTokenIds = tokenlistData.reduce<string[]>(
   [],
 );
 
+// Tokens with at least one entry on a non-EVM chain (Solana, Bitcoin
+// networks, Tron), and the native subset of those.
+const nonEvmTokenIds = tokenlistData.reduce<string[]>(
+  (acc, [tokenId, data]) => {
+    if (
+      Object.keys(data.tokens).some((chain) => NON_EVM_CHAIN_NAMES.has(chain))
+    ) {
+      acc.push(tokenId);
+    }
+    return acc;
+  },
+  [],
+);
+
+const nonEvmNativeTokenIds = nonEvmTokenIds.filter((tokenId) =>
+  nativeTokenIds.includes(tokenId),
+);
+
 function toUnionType(tokenIds: string[]) {
   return tokenIds.map((tokenId) => `'${tokenId}'`).join(' | ') || 'never';
 }
@@ -35,6 +53,8 @@ const fileDisclaimer = `/**
  */\n\n`;
 
 const content = `export type TokenId = ${toUnionType(tokenlistDirectories)};
-export type NativeTokenId = ${toUnionType(nativeTokenIds)};\n\n`;
+export type NativeTokenId = ${toUnionType(nativeTokenIds)};
+export type NonEvmTokenId = ${toUnionType(nonEvmTokenIds)};
+export type NonEvmNativeTokenId = ${toUnionType(nonEvmNativeTokenIds)};\n`;
 
 fs.writeFileSync(OUTFILE_TYPES, fileDisclaimer + content);
