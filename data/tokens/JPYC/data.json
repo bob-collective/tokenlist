@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "JPY Coin",
+  "symbol": "JPYC",
+  "decimals": 18,
+  "coingeckoId": "jpycoin",
+  "description": "JPYC is a Japanese yen-pegged stablecoin issued by JPYC Inc.",
+  "website": "https://jpyc.co.jp/",
+  "twitter": "@jpyc_official",
+  "tokens": {
+    "ethereum": {
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29"
+    },
+    "polygon": {
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29"
+    },
+    "avalanche": {
+      "address": "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29"
+    }
+  }
+}

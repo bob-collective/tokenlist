@@ -54,6 +54,10 @@
     [1, "0xCEa2DAf93617B97504E05AFfc5BCF9b3922D3034", 18, false],
     [60808, "0x4Ca70811E831db42072CBa1f0d03496EF126fAad", 18, false]
   ],
+  "BTCB": [
+    ["BTCB Token", "BTCB", "binance-bitcoin", "svg"],
+    [56, "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", 18, false]
+  ],
   "cbBTC": [
     ["Coinbase Wrapped BTC", "cbBTC", "coinbase-wrapped-btc", "svg"],
     [1, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
@@ -148,6 +152,12 @@
   "iontWBTC": [
     ["Ionic Wrapped BTC", "ionWBTC", "wrapped-bitcoin", "svg"],
     [60808, "0xEBc8a7EE7f1D6534eBF45Bd5311203BF0A17493c", 8, false]
+  ],
+  "JPYC": [
+    ["JPY Coin", "JPYC", "jpycoin", "webp"],
+    [1, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false],
+    [137, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false],
+    [43114, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false]
   ],
   "LBTC": [
     ["Lombard Staked Bitcoin", "LBTC", "lombard-staked-btc", "svg"],
