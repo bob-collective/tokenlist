@@ -3,6 +3,7 @@
   "name": "SOLANA",
   "symbol": "SOL",
   "decimals": 9,
+  "coingeckoId": "solana",
   "native": true,
   "tokens": {
     "solana": {

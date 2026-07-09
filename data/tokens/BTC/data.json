@@ -3,6 +3,7 @@
   "name": "Bitcoin",
   "symbol": "BTC",
   "decimals": 8,
+  "coingeckoId": "bitcoin",
   "native": true,
   "tokens": {
     "bitcoin": {

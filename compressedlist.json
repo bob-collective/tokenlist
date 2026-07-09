@@ -46,7 +46,7 @@
     [56, "0x52B5fB4B0F6572B8C44d0251Cc224513ac5eB7E7", 18, false]
   ],
   "BTC": [
-    ["Bitcoin", "BTC", null, "svg"],
+    ["Bitcoin", "BTC", "bitcoin", "svg"],
     [1231006505, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "BTC+": [
@@ -222,7 +222,7 @@
     [60808, "0x2925dF9Eb2092B53B06A06353A7249aF3a8B139e", 8, false]
   ],
   "sBTC": [
-    ["Signet Bitcoin", "sBTC", null, "svg"],
+    ["Signet Bitcoin", "sBTC", "bitcoin", "svg"],
     [1598918400, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "sbWBTC": [
@@ -260,7 +260,7 @@
     [60808, "0x249d2952D1C678843e7cD7bF654EfCeC52f2F9E8", 18, false]
   ],
   "SOL": [
-    ["SOLANA", "SOL", null, "svg"],
+    ["SOLANA", "SOL", "solana", "svg"],
     [1584368940, "So11111111111111111111111111111111111111112", 9, true],
     [56, "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF", 18, false]
   ],

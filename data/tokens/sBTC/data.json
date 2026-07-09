@@ -3,6 +3,7 @@
   "name": "Signet Bitcoin",
   "symbol": "sBTC",
   "decimals": 8,
+  "coingeckoId": "bitcoin",
   "native": true,
   "tokens": {
     "signet": {
