@@ -5,10 +5,7 @@ import { glob } from 'glob';
 import { bob } from 'viem/chains';
 import {
   NON_EVM_CHAIN_ID_BY_NAME,
-  NON_EVM_CHAIN_IDS,
   OUTFILE_BOB,
-  OUTFILE_EVM,
-  OUTFILE_NON_EVM,
   OUTFILE_OVERRIDES,
   OUTFILE_TOKENLIST,
   SUPPORTED_CHAIN_MAP,
@@ -177,24 +174,6 @@ bobTokenlist.tokens = tokenlist.tokens.filter(
 );
 
 fs.writeFileSync(OUTFILE_BOB, JSON.stringify(bobTokenlist, null, 2));
-
-// Build EVM-only tokenlist
-const evmTokenlist = structuredClone(tokenlist);
-
-evmTokenlist.tokens = tokenlist.tokens.filter(
-  (token) => !NON_EVM_CHAIN_IDS.has(token.chainId),
-);
-
-fs.writeFileSync(OUTFILE_EVM, JSON.stringify(evmTokenlist, null, 2));
-
-// Build non-EVM tokenlist (Solana, Tron)
-const nonEvmTokenlist = structuredClone(tokenlist);
-
-nonEvmTokenlist.tokens = tokenlist.tokens.filter((token) =>
-  NON_EVM_CHAIN_IDS.has(token.chainId),
-);
-
-fs.writeFileSync(OUTFILE_NON_EVM, JSON.stringify(nonEvmTokenlist, null, 2));
 
 // Build tokenlist with overrides
 const uiTokenlist = buildTokenlist(mapToOverridesTokenlist(tokenlistData));

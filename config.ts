@@ -31,8 +31,6 @@ export const TOKEN_DIR = './data/tokens';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
-export const OUTFILE_EVM = 'tokenlist-evm.json';
-export const OUTFILE_NON_EVM = 'tokenlist-non-evm.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
 
 export const CHAIN_DIR = './data/chains';
@@ -113,10 +111,9 @@ export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
   signet: SIGNET_CHAIN_ID,
 };
 
-// Chain IDs that belong in tokenlist-non-evm.json. Tron has a viem definition
-// and is verified on-chain, but its TVM addresses make it non-EVM for output
-// splitting; Solana and the Bitcoin networks have no EVM RPC and are verified
-// only by address/logo shape.
+// Chain IDs treated as non-EVM by verification. Tron has a viem definition
+// and is verified on-chain, but its TVM addresses are non-EVM; Solana and the
+// Bitcoin networks have no EVM RPC and are verified only by address/logo shape.
 export const NON_EVM_CHAIN_IDS = new Set<number>([
   SOLANA_CHAIN_ID,
   BITCOIN_CHAIN_ID,

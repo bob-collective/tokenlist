@@ -29,8 +29,6 @@ This package is the authoritative token registry for the BOB ecosystem. The sour
 ```
 data/tokens/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.json
                                                                →  tokenlist-bob.json
-                                                               →  tokenlist-evm.json
-                                                               →  tokenlist-non-evm.json
                                                                →  tokenlist-overrides.json
 data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
 data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.json
@@ -60,14 +58,11 @@ Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the s
 
 Non-EVM handling:
 - Solana has no viem chain definition; `config.ts` maps `solana` to chain ID `1399811149`, and Solana mint addresses are passed through without EVM checksum formatting.
-- Tron has a viem chain definition and on-chain verification, but `tokenlist-non-evm.json` includes Tron because TVM addresses are non-EVM for downstream consumers.
 
 **Output JSONs:**
 
 - `tokenlist.json` — All tokens across all chains, flat format
 - `tokenlist-bob.json` — BOB-chain entries only
-- `tokenlist-evm.json` — EVM-compatible chain entries only
-- `tokenlist-non-evm.json` — Solana and Tron entries only
 - `tokenlist-overrides.json` — Full list with per-chain overrides applied
 - `chainlist.json` — Chain ID to logo URI map
 
