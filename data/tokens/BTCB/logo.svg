@@ -13,7 +13,7 @@
     clip-path="url(#binance-circle)"
     preserveAspectRatio="xMidYMid slice"
   />
-  <g transform="translate(24 24)">
+  <g transform="translate(8 24)">
     <circle r="5.75" fill="#FFFFFF" />
     <circle r="5" fill="#F7931A" />
     <g transform="scale(0.15) translate(-32.5 -32.5)">
