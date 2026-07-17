@@ -7,6 +7,9 @@
   "tokens": {
     "ethereum": {
       "address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8"
+    },
+    "solana": {
+      "address": "2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo"
     }
   }
 }

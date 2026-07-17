@@ -19,6 +19,9 @@
     },
     "plasma": {
       "address": "0x1b64b9025eebb9a6239575df9ea4b9ac46d4d193"
+    },
+    "solana": {
+      "address": "AymATz4TCL9sWNEEV9Kvyz45CHVhDZ6kUgjTJPzLpU9P"
     }
   }
 }

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "decimals": 8,
+  "coingeckoId": "bitcoin",
+  "native": true,
+  "tokens": {
+    "bitcoin": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

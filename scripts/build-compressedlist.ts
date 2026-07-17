@@ -1,7 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { glob } from 'glob';
-import { OUTFILE_COMPRESSED, SUPPORTED_CHAIN_MAP, TOKEN_DIR } from '../config';
+import {
+  NON_EVM_CHAIN_ID_BY_NAME,
+  OUTFILE_COMPRESSED,
+  SUPPORTED_CHAIN_MAP,
+  TOKEN_DIR,
+} from '../config';
 import type { TokenId } from '../token-ids';
 import type {
   CompressedChainEntry,
@@ -15,6 +20,25 @@ const compressedlist: Record<TokenId, CompressedEntry> = {} as Record<
   TokenId,
   CompressedEntry
 >;
+
+function isSolanaChain(chain: string): boolean {
+  return chain === 'solana';
+}
+
+function resolveChainId(chain: string): number {
+  const evmChain =
+    SUPPORTED_CHAIN_MAP[chain as keyof typeof SUPPORTED_CHAIN_MAP];
+  if (evmChain) return evmChain.id;
+
+  const nonEvmId = NON_EVM_CHAIN_ID_BY_NAME[chain];
+  if (nonEvmId !== undefined) return nonEvmId;
+
+  throw new Error(`Unknown chain in token data: ${chain}`);
+}
+
+function formatAddress(address: string, chain: string): string {
+  return isSolanaChain(chain) ? address : checksumAddress(address);
+}
 
 const folders = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
   return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -32,8 +56,8 @@ for (const folder of folders) {
     Object.entries(data.tokens) as Entries<typeof data.tokens>
   ).map<CompressedChainEntry>(([chain, token]) => {
     const base: [number, string, number, boolean] = [
-      SUPPORTED_CHAIN_MAP[chain].id,
-      checksumAddress(token.address),
+      resolveChainId(chain),
+      formatAddress(token.address, chain),
       token.overrides?.decimals ?? token.decimals ?? data.decimals,
       token.native ?? data.native ?? false,
     ];
@@ -56,7 +80,7 @@ for (const folder of folders) {
   });
 
   compressedlist[folder as TokenId] = [
-    [data.name, data.symbol, data.coingeckoId, logo],
+    [data.name, data.symbol, data.coingeckoId ?? null, logo],
     ...chains,
   ];
 }

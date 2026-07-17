@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "SOLANA",
+  "symbol": "SOL",
+  "decimals": 9,
+  "coingeckoId": "solana",
+  "native": true,
+  "tokens": {
+    "solana": {
+      "address": "So11111111111111111111111111111111111111112"
+    },
+    "bnb-smart-chain": {
+      "address": "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF",
+      "native": false,
+      "decimals": 18
+    }
+  }
+}

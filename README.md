@@ -44,6 +44,7 @@ const tokenList = require('@gobob/tokenlist/tokenlist.json');
 | `tokenlist.json` | Complete token list across all chains |
 | `tokenlist-bob.json` | Tokens on BOB chain only |
 | `tokenlist-overrides.json` | Token list with UI overrides applied |
+| `chainlist.json` | Chain ID to logo URI map |
 | `compressedlist.json` | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts` | Generated token identifier types |
 
@@ -131,9 +132,10 @@ Each token lives in its own directory under [`data/`](./data). The directory nam
 
 ```text
 data/
-└── USDC/
-    ├── data.json
-    └── logo.svg
+└── tokens/
+    └── USDC/
+        ├── data.json
+        └── logo.svg
 ```
 
 ### `data.json`
@@ -168,6 +170,9 @@ The source file contains shared token metadata plus per-chain entries under `tok
         "name": "Bridged USDC",
         "symbol": "USDC.e"
       }
+    },
+    "solana": {
+      "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
     }
   }
 }
@@ -200,6 +205,8 @@ Per-chain `tokens` entries:
 
 Chain keys must match the supported chain names in [`config.ts`](./config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
 
+Solana uses base58 token mint addresses and is emitted with chain ID `1399811149`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
+
 ---
 
 ## Adding New Tokens
@@ -208,9 +215,10 @@ Chain keys must match the supported chain names in [`config.ts`](./config.ts). U
 
 ```text
 data/
-└── MYTOKEN/
-    ├── data.json
-    └── logo.{svg|webp}
+└── tokens/
+    └── MYTOKEN/
+        ├── data.json
+        └── logo.{svg|webp}
 ```
 
 ### 2. Add Token Metadata
@@ -240,6 +248,9 @@ Create `data.json`:
         "name": "My Token",
         "symbol": "MYTOKEN"
       }
+    },
+    "solana": {
+      "address": "..."
     }
   }
 }
@@ -266,6 +277,8 @@ This updates:
 - `tokenlist.json` — all tokens using base names, symbols, and decimals
 - `tokenlist-bob.json` — BOB chain tokens
 - `tokenlist-overrides.json` — tokens with overrides applied
+- `chainlist.json` — supported chain logo map
+- `compressedlist.json` — compact shared + per-chain tuple output
 
 ### 5. Verify
 
@@ -280,8 +293,9 @@ pnpm verify
 | Command | Description |
 |---------|-------------|
 | `pnpm build` | Generate types, build token lists, then run verification |
-| `pnpm build:tokenlist` | Generate the 3 tokenlist JSON files |
+| `pnpm build:tokenlist` | Generate tokenlist JSON files |
 | `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples) |
+| `pnpm build:chainlist` | Generate `chainlist.json` |
 | `pnpm build:types` | Generate `TokenId` and `NativeTokenId` TypeScript unions |
 | `pnpm check` | Run Biome formatting, import organization, and lint checks |
 | `pnpm check:write` | Apply safe Biome formatting/import/lint fixes |
@@ -298,7 +312,7 @@ pnpm verify
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
 
-**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, or `tokenlist-overrides.json` by hand. Update `data/[TOKEN]/data.json` and run `pnpm build`.
+**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, or `chainlist.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
 ---
 

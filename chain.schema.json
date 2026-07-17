@@ -69,6 +69,15 @@
     },
     "tron": {
       "$ref": "#/definitions/LogoURI"
+    },
+    "solana": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "bitcoin": {
+      "$ref": "#/definitions/LogoURI"
+    },
+    "signet": {
+      "$ref": "#/definitions/LogoURI"
     }
   },
   "additionalProperties": false

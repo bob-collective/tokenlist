@@ -94,3 +94,43 @@ export const SUPPORTED_CHAINS = [
 export const SUPPORTED_MAINNET_CHAINS = mapByName(supportedMainnetChains);
 export const SUPPORTED_TESTNET_CHAINS = mapByName(supportedTestnetChains);
 export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
+
+// Non-EVM chains have no viem definition, so their chain IDs and name→id
+// mapping live here. Solana uses its genesis-derived numeric chain ID; the
+// Bitcoin networks use their genesis block timestamps (mainnet 2009-01-03,
+// signet 2020-09-01) since Bitcoin has no native chain-ID concept.
+export const SOLANA_CHAIN_ID = 1584368940;
+export const BITCOIN_CHAIN_ID = 1231006505;
+export const SIGNET_CHAIN_ID = 1598918400;
+
+// chain name (as used in data.json keys) → chain ID, for chains absent from
+// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
+export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
+  solana: SOLANA_CHAIN_ID,
+  bitcoin: BITCOIN_CHAIN_ID,
+  signet: SIGNET_CHAIN_ID,
+};
+
+// Chain IDs treated as non-EVM by verification. Tron has a viem definition
+// and is verified on-chain, but its TVM addresses are non-EVM; Solana and the
+// Bitcoin networks have no EVM RPC and are verified only by address/logo shape.
+export const NON_EVM_CHAIN_IDS = new Set<number>([
+  SOLANA_CHAIN_ID,
+  BITCOIN_CHAIN_ID,
+  SIGNET_CHAIN_ID,
+  tron.id,
+]);
+
+// data.json chain-name counterpart of NON_EVM_CHAIN_IDS, for places that work
+// with chain names before they are resolved to IDs (e.g. type generation).
+export const NON_EVM_CHAIN_NAMES = new Set<string>([
+  ...Object.keys(NON_EVM_CHAIN_ID_BY_NAME),
+  'tron',
+]);
+
+export const SUPPORTED_CHAIN_IDS = [
+  ...SUPPORTED_CHAINS.map((chain) => chain.id),
+  SOLANA_CHAIN_ID,
+  BITCOIN_CHAIN_ID,
+  SIGNET_CHAIN_ID,
+];

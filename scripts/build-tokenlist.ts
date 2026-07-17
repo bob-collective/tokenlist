@@ -4,6 +4,7 @@ import url from 'node:url';
 import { glob } from 'glob';
 import { bob } from 'viem/chains';
 import {
+  NON_EVM_CHAIN_ID_BY_NAME,
   OUTFILE_BOB,
   OUTFILE_OVERRIDES,
   OUTFILE_TOKENLIST,
@@ -18,6 +19,29 @@ import type { Entries, Token, TokenData } from '../types';
 import { checksumAddress } from '../utils';
 
 const [major, minor, patch] = version.split('.');
+
+// Solana addresses are base58 with no checksum concept — pass them through
+// untouched; everything else is normalised to an EVM/Tron checksummed address.
+function isSolanaChain(chain: string): boolean {
+  return chain === 'solana';
+}
+
+// Resolve a data.json chain-name key to its numeric chain ID, covering both
+// viem-described EVM chains and non-EVM chains registered in config.
+function resolveChainId(chain: string): number {
+  const evmChain =
+    SUPPORTED_CHAIN_MAP[chain as keyof typeof SUPPORTED_CHAIN_MAP];
+  if (evmChain) return evmChain.id;
+
+  const nonEvmId = NON_EVM_CHAIN_ID_BY_NAME[chain];
+  if (nonEvmId !== undefined) return nonEvmId;
+
+  throw new Error(`Unknown chain in token data: ${chain}`);
+}
+
+function formatAddress(address: string, chain: string): string {
+  return isSolanaChain(chain) ? address : checksumAddress(address);
+}
 
 function buildTokenlist(tokens: Token[][]) {
   return tokens.reduce(
@@ -51,7 +75,7 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
         >
       ).reduce(
         (acc, [chain, bridgeAddress]) => {
-          acc[SUPPORTED_CHAIN_MAP[chain].id] = bridgeAddress;
+          acc[resolveChainId(chain)] = bridgeAddress;
 
           return acc;
         },
@@ -59,8 +83,8 @@ function mapToTokenlist(data: [TokenId, TokenData, string][]) {
       );
 
       return {
-        chainId: SUPPORTED_CHAIN_MAP[chain].id,
-        address: checksumAddress(token.address),
+        chainId: resolveChainId(chain),
+        address: formatAddress(token.address, chain),
         name: token.name ?? tokenData.name,
         symbol: token.symbol ?? tokenData.symbol,
         decimals: token.decimals ?? tokenData.decimals,
@@ -87,7 +111,7 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
         >
       ).reduce(
         (acc, [chain, bridgeAddress]) => {
-          acc[SUPPORTED_CHAIN_MAP[chain].id] = bridgeAddress;
+          acc[resolveChainId(chain)] = bridgeAddress;
 
           return acc;
         },
@@ -95,8 +119,8 @@ function mapToOverridesTokenlist(data: [TokenId, TokenData, string][]) {
       );
 
       return {
-        chainId: SUPPORTED_CHAIN_MAP[chain].id,
-        address: checksumAddress(token.address),
+        chainId: resolveChainId(chain),
+        address: formatAddress(token.address, chain),
         name: token.overrides?.name ?? token.name ?? tokenData.name,
         symbol: token.overrides?.symbol ?? token.symbol ?? tokenData.symbol,
         decimals:

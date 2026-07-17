@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 pnpm build              # Full build: generates types, tokenlist JSONs, then verifies
 pnpm build:tokenlist    # Generate tokenlist JSON files from /data
+pnpm build:chainlist    # Generate chainlist.json from /data/chains
 pnpm build:types        # Regenerate token-ids.ts from current /data entries
 pnpm check              # Run Biome formatting, import organization, and lint checks
 pnpm check:write        # Apply safe Biome formatting/import/lint fixes
@@ -30,6 +31,7 @@ data/tokens/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.j
                                                                →  tokenlist-bob.json
                                                                →  tokenlist-overrides.json
 data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
+data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.json
 ```
 
 **Key files:**
@@ -44,20 +46,25 @@ data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.t
 **data.json structure:**
 
 Each token directory's `data.json` specifies:
-- `name`, `symbol`, `decimals`, `logoURI`
+- `name`, `symbol`, `decimals`
 - `coingeckoId` — required CoinGecko API ID for price feeds, emitted as `extensions.coingeckoId` in output JSONs; receipt/wrapped tokens without their own listing use the underlying asset's ID
-- `addresses` — map of chain name (e.g. `"bob"`, `"ethereum"`, `"op-mainnet"`) → contract address
-- `bridgeInfo` — maps source chain name → `{ tokenAddress }` for cross-chain bridge relationships
-- `overrides` — per-chain UI overrides (e.g. rename symbol to `"USDC.e"` on BOB)
+- `tokens` — map of chain name (e.g. `"bob"`, `"ethereum"`, `"op-mainnet"`, `"solana"`) → per-chain token record
+- `tokens[chain].address` — token contract address or Solana mint; native EVM assets use `0x0000000000000000000000000000000000000000`
+- `tokens[chain].bridge` — map of related chain name → bridge token address
+- `tokens[chain].overrides` — per-chain UI overrides (e.g. rename symbol to `"USDC.e"` on BOB)
 - Optional metadata: `website`, `twitter`, `description`
 
-Chain names used as keys in `addresses`/`bridgeInfo`/`overrides` must match the `SupportedChain` type defined in `config.ts`. Chain IDs are only used in the output JSONs.
+Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the supported chain keys in `config.ts`/`token.schema.json`. Chain IDs are only used in the output JSONs.
+
+Non-EVM handling:
+- Solana has no viem chain definition; `config.ts` maps `solana` to chain ID `1399811149`, and Solana mint addresses are passed through without EVM checksum formatting.
 
 **Output JSONs:**
 
 - `tokenlist.json` — All tokens across all chains, flat format
 - `tokenlist-bob.json` — BOB-chain entries only
 - `tokenlist-overrides.json` — Full list with per-chain overrides applied
+- `chainlist.json` — Chain ID to logo URI map
 
 These are committed to the repo and consumed downstream via the npm package.
 

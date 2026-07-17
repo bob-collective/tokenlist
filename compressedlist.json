@@ -45,6 +45,10 @@
     [808813, "0x49D6FBFa3Ee5462626D65Cd22FC0CFb03ed907DB", 18, false],
     [56, "0x52B5fB4B0F6572B8C44d0251Cc224513ac5eB7E7", 18, false]
   ],
+  "BTC": [
+    ["Bitcoin", "BTC", "bitcoin", "svg"],
+    [1231006505, "0x0000000000000000000000000000000000000000", 8, true]
+  ],
   "BTC+": [
     ["BTC+", "BTC+", "solv-btc", "svg"],
     [1, "0xCEa2DAf93617B97504E05AFfc5BCF9b3922D3034", 18, false],
@@ -58,7 +62,8 @@
     ["Coinbase Wrapped BTC", "cbBTC", "coinbase-wrapped-btc", "svg"],
     [1, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [42161, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
-    [8453, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false]
+    [8453, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
+    [1584368940, "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij", 8, false]
   ],
   "DAI": [
     ["Dai Stablecoin", "DAI", "dai", "svg"],
@@ -192,7 +197,8 @@
   ],
   "PYUSD": [
     ["PayPal USD", "PYUSD", "paypal-usd", "svg"],
-    [1, "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8", 6, false]
+    [1, "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8", 6, false],
+    [1584368940, "2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo", 6, false]
   ],
   "rETH": [
     ["Rocket Pool ETH", "rETH", "rocket-pool-eth", "svg"],
@@ -214,6 +220,10 @@
   "sbtBTC": [
     ["sb tBTC v2", "sbtBTC", "tbtc", "svg"],
     [60808, "0x2925dF9Eb2092B53B06A06353A7249aF3a8B139e", 8, false]
+  ],
+  "sBTC": [
+    ["Signet Bitcoin", "sBTC", "bitcoin", "svg"],
+    [1598918400, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "sbWBTC": [
     ["sb Wrapped BTC", "sbWBTC", "wrapped-bitcoin", "svg"],
@@ -248,6 +258,11 @@
     ["Staked Frax Ether", "sfrxETH", "staked-frax-ether", "svg"],
     [1, "0xac3E018457B222d93114458476f3E3416Abbe38F", 18, false],
     [60808, "0x249d2952D1C678843e7cD7bF654EfCeC52f2F9E8", 18, false]
+  ],
+  "SOL": [
+    ["SOLANA", "SOL", "solana", "svg"],
+    [1584368940, "So11111111111111111111111111111111111111112", 9, true],
+    [56, "0x570A5D26f7765Ecb712C0924E4De545B89fD43dF", 18, false]
   ],
   "Solv": [
     ["Solv", "SOLV", "solv-protocol", "svg"],
@@ -375,6 +390,7 @@
     [8453, "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 6, false],
     [130, "0x078D782b760474a361dDA0AF3839290b0EF57AD6", 6, false, "USDC"],
     [56, "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d", 18, false],
+    [1584368940, "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", 6, false],
     [146, "0x29219dd400f2Bf60E5a23d13Be72B486D4038894", 6, false, "USDC"],
     [999, "0xb88339CB7199b77E23DB6E890353E22632Ba630f", 6, false, "USDC"]
   ],
@@ -419,6 +435,7 @@
       false,
       "Bridged USDT"
     ],
+    [1584368940, "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB", 6, false],
     [728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", 6, false]
   ],
   "USDT0": [
@@ -502,6 +519,7 @@
     [42161, "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f", 8, false],
     [10, "0x68f180fcCe6836688e9084f035309E29Bf0A2095", 8, false],
     [728126428, "TYhWwKpw43ENFWBTGpzLHn3882f2au7SMi", 8, false],
+    [1584368940, "5XZw2LKTyrfvfiskJ78AMpackRjPcyCif1WhUsPDuVqQ", 8, false],
     [
       137,
       "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
@@ -564,7 +582,8 @@
     [43114, "0x2775d5105276781B4b85bA6eA6a6653bEeD1dd32", 6, false],
     [137, "0xF1815bd50389c46847f0Bda824eC8da914045D14", 6, false],
     [999, "0xf4D9235269a96aaDaFc9aDAe454a0618eBE37949", 6, false],
-    [9745, "0x1B64B9025EEbb9A6239575dF9Ea4b9Ac46D4d193", 6, false]
+    [9745, "0x1B64B9025EEbb9A6239575dF9Ea4b9Ac46D4d193", 6, false],
+    [1584368940, "AymATz4TCL9sWNEEV9Kvyz45CHVhDZ6kUgjTJPzLpU9P", 6, false]
   ],
   "XPL": [
     ["Plasma", "XPL", "plasma", "svg"],

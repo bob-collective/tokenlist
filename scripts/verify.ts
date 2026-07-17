@@ -12,7 +12,11 @@ import {
   type MulticallReturnType,
   type PublicClient,
 } from 'viem';
-import { SUPPORTED_CHAINS, TOKENLIST_SCHEMA_URL } from '../config';
+import {
+  NON_EVM_CHAIN_IDS,
+  SUPPORTED_CHAINS,
+  TOKENLIST_SCHEMA_URL,
+} from '../config';
 import type { Token } from '../types';
 import { checksumAddress, toEvmAddress } from '../utils';
 
@@ -268,25 +272,58 @@ async function main() {
   const allResults: ValidationResult[] = [];
   let totalIssues = 0;
 
-  // Treat unknown chains as errors — tokens cannot be verified without a configured client
+  // Chains without a configured EVM client: light-validate the ones we know are
+  // non-EVM (no multicall possible), treat everything else as an error.
   for (const chainId of byChain.keys()) {
-    if (!chainById.has(chainId)) {
-      const unknownTokens = byChain.get(chainId);
-      if (!unknownTokens) {
-        continue;
-      }
-      console.error(
-        `\n❌ Unknown chainId ${chainId} — ${unknownTokens.length} token(s) cannot be verified`,
+    if (chainById.has(chainId)) continue;
+
+    const chainTokens = byChain.get(chainId);
+    if (!chainTokens) {
+      continue;
+    }
+
+    if (NON_EVM_CHAIN_IDS.has(chainId)) {
+      console.log(
+        `\n🔗 Non-EVM chain ${chainId} — ${chainTokens.length} tokens (on-chain checks skipped)`,
       );
-      for (const token of unknownTokens) {
+      for (const token of chainTokens) {
+        const issues: string[] = [];
+        if (
+          !token.logoURI.startsWith('http') &&
+          !token.logoURI.startsWith('ipfs://')
+        ) {
+          issues.push('Invalid logoURI: must start with http or ipfs://');
+        }
+        if (issues.length > 0) {
+          console.log(`  ❌ ${token.symbol} (${token.address})`);
+          for (const issue of issues) {
+            console.log(`     • ${issue}`);
+          }
+          totalIssues += issues.length;
+        } else {
+          console.log(`  ✅ ${token.symbol} (${token.address})`);
+        }
         allResults.push({
           address: token.address,
           symbol: token.symbol,
           chainId,
-          issues: [`Unknown chainId ${chainId} — not in SUPPORTED_CHAINS`],
+          issues,
         });
-        totalIssues++;
       }
+      continue;
+    }
+
+    console.error(
+      `\n❌ Unknown chainId ${chainId} — ${chainTokens.length} token(s) cannot be verified`,
+    );
+    for (const token of chainTokens) {
+      allResults.push({
+        address: token.address,
+        symbol: token.symbol,
+        chainId,
+        issues: [`Unknown chainId ${chainId} — not in SUPPORTED_CHAINS`],
+      });
+      totalIssues++;
     }
   }
 

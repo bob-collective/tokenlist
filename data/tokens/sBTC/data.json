@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Signet Bitcoin",
+  "symbol": "sBTC",
+  "decimals": 8,
+  "coingeckoId": "bitcoin",
+  "native": true,
+  "tokens": {
+    "signet": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}
