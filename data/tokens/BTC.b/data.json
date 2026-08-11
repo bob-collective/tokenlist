@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Bitcoin",
+  "symbol": "BTC.b",
+  "decimals": 8,
+  "coingeckoId": "bitcoin-avalanche-bridged-btc-b",
+  "description": "BTC.b is Bitcoin bridged to Avalanche through the Avalanche Bridge, backed 1:1 by BTC held in reserve. Distinct from BTCB, Binance's pegged BTC on BNB Smart Chain.",
+  "tokens": {
+    "avalanche": {
+      "address": "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+      "overrides": {
+        "name": "Bitcoin Avalanche Bridged"
+      }
+    }
+  }
+}

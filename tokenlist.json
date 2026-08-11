@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-07-09T13:02:43.280Z",
+  "timestamp": "2026-08-11T16:58:45.643Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -224,6 +224,20 @@
         "tokenId": "BTC",
         "coingeckoId": "bitcoin",
         "native": true,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 43114,
+      "address": "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+      "name": "Bitcoin",
+      "symbol": "BTC.b",
+      "decimals": 8,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/BTC.b/logo.svg",
+      "extensions": {
+        "tokenId": "BTC.b",
+        "coingeckoId": "bitcoin-avalanche-bridged-btc-b",
+        "native": false,
         "bridge": {}
       }
     },
@@ -711,6 +725,20 @@
       "extensions": {
         "tokenId": "FBTC",
         "coingeckoId": "ignition-fbtc",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x7C135549504245B5eAe64fc0E99Fa5ebabb8e35D",
+      "name": "Fidelity Digital Dollar",
+      "symbol": "FIDD",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/FIDD/logo.webp",
+      "extensions": {
+        "tokenId": "FIDD",
+        "coingeckoId": "fidelity-digital-dollar",
         "native": false,
         "bridge": {}
       }
@@ -1205,6 +1233,20 @@
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+      "name": "RLUSD",
+      "symbol": "RLUSD",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/RLUSD/logo.svg",
+      "extensions": {
+        "tokenId": "RLUSD",
+        "coingeckoId": "ripple-usd",
+        "native": false,
+        "bridge": {}
       }
     },
     {
@@ -1764,6 +1806,20 @@
       }
     },
     {
+      "chainId": 8453,
+      "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      "name": "Base tBTC v2",
+      "symbol": "tBTC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/tBTC/logo.svg",
+      "extensions": {
+        "tokenId": "tBTC",
+        "coingeckoId": "tbtc",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0xCFC5bD99915aAa815401C5a41A927aB7a38d29cf",
       "name": "Threshold USD",
@@ -1963,6 +2019,34 @@
       "extensions": {
         "tokenId": "uniBTC",
         "coingeckoId": "universal-btc",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 1,
+      "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d",
+      "name": "World Liberty Financial USD",
+      "symbol": "USD1",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USD1/logo.svg",
+      "extensions": {
+        "tokenId": "USD1",
+        "coingeckoId": "usd1-wlfi",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 56,
+      "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d",
+      "name": "World Liberty Financial USD",
+      "symbol": "USD1",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USD1/logo.svg",
+      "extensions": {
+        "tokenId": "USD1",
+        "coingeckoId": "usd1-wlfi",
         "native": false,
         "bridge": {}
       }

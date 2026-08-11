@@ -49,6 +49,16 @@
     ["Bitcoin", "BTC", "bitcoin", "svg"],
     [1231006505, "0x0000000000000000000000000000000000000000", 8, true]
   ],
+  "BTC.b": [
+    ["Bitcoin", "BTC.b", "bitcoin-avalanche-bridged-btc-b", "svg"],
+    [
+      43114,
+      "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+      8,
+      false,
+      "Bitcoin Avalanche Bridged"
+    ]
+  ],
   "BTC+": [
     ["BTC+", "BTC+", "solv-btc", "svg"],
     [1, "0xCEa2DAf93617B97504E05AFfc5BCF9b3922D3034", 18, false],
@@ -125,6 +135,10 @@
     [8453, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false],
     [56, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false],
     [42161, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false]
+  ],
+  "FIDD": [
+    ["Fidelity Digital Dollar", "FIDD", "fidelity-digital-dollar", "webp"],
+    [1, "0x7C135549504245B5eAe64fc0E99Fa5ebabb8e35D", 18, false]
   ],
   "FRAX": [
     ["Frax", "FRAX", "frax", "svg"],
@@ -204,6 +218,10 @@
     ["Rocket Pool ETH", "rETH", "rocket-pool-eth", "svg"],
     [1, "0xae78736Cd615f374D3085123A210448E74Fc6393", 18, false],
     [60808, "0xB5686c4f60904Ec2BDA6277d6FE1F7cAa8D1b41a", 18, false]
+  ],
+  "RLUSD": [
+    ["RLUSD", "RLUSD", "ripple-usd", "svg"],
+    [1, "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD", 18, false, "Ripple USD"]
   ],
   "S": [
     ["Sonic", "S", "sonic-3", "svg"],
@@ -329,6 +347,13 @@
       18,
       false,
       "Arbitrum tBTC v2"
+    ],
+    [
+      8453,
+      "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+      18,
+      false,
+      "Base tBTC v2"
     ]
   ],
   "thUSD": [
@@ -362,6 +387,11 @@
     [42161, "0x6B2a01A5f79dEb4c2f3c0eDa7b01DF456FbD726a", 8, false],
     [8453, "0x93919784C523f39CACaa98Ee0a9d96c3F32b593e", 8, false],
     [56, "0x6B2a01A5f79dEb4c2f3c0eDa7b01DF456FbD726a", 8, false]
+  ],
+  "USD1": [
+    ["World Liberty Financial USD", "USD1", "usd1-wlfi", "svg"],
+    [1, "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d", 18, false],
+    [56, "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d", 18, false]
   ],
   "USDC": [
     ["USD Coin", "USDC", "usd-coin", "svg"],
