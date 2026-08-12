@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "RLUSD",
+  "symbol": "RLUSD",
+  "decimals": 18,
+  "coingeckoId": "ripple-usd",
+  "description": "Ripple USD (RLUSD) is a US dollar stablecoin issued by Ripple, backed 1:1 by dollar deposits, US government bonds and cash equivalents.",
+  "website": "https://ripple.com/solutions/stablecoin/",
+  "twitter": "@Ripple",
+  "tokens": {
+    "ethereum": {
+      "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+      "overrides": {
+        "name": "Ripple USD"
+      }
+    }
+  }
+}

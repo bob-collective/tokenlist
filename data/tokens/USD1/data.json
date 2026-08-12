@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "World Liberty Financial USD",
+  "symbol": "USD1",
+  "decimals": 18,
+  "coingeckoId": "usd1-wlfi",
+  "description": "USD1 is a US dollar stablecoin issued by World Liberty Financial, backed by short-term US treasuries, dollar deposits and cash equivalents.",
+  "website": "https://www.worldlibertyfinancial.com/",
+  "twitter": "@worldlibertyfi",
+  "tokens": {
+    "ethereum": {
+      "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d"
+    },
+    "bnb-smart-chain": {
+      "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d"
+    }
+  }
+}

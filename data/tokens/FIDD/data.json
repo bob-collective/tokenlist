@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Fidelity Digital Dollar",
+  "symbol": "FIDD",
+  "decimals": 18,
+  "coingeckoId": "fidelity-digital-dollar",
+  "description": "Fidelity Digital Dollar (FIDD) is a US dollar stablecoin issued by Fidelity Digital Assets, backed by cash and short-duration US treasuries.",
+  "website": "https://www.fidelitydigitalassets.com/stablecoin",
+  "twitter": "@digitalassets",
+  "tokens": {
+    "ethereum": {
+      "address": "0x7C135549504245B5eAe64fc0E99Fa5ebabb8e35D"
+    }
+  }
+}
