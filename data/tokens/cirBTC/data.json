@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Circle Wrapped BTC",
+  "symbol": "cirBTC",
+  "decimals": 8,
+  "coingeckoId": "circle-wrapped-btc",
+  "tokens": {
+    "ethereum": {
+      "address": "0x0000000000000000000000000000000000000000"
+    }
+  }
+}

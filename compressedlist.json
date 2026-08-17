@@ -75,6 +75,10 @@
     [8453, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [1584368940, "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij", 8, false]
   ],
+  "cirBTC": [
+    ["Circle Wrapped BTC", "cirBTC", "circle-wrapped-btc", "svg"],
+    [1, "0x0000000000000000000000000000000000000000", 8, false]
+  ],
   "DAI": [
     ["Dai Stablecoin", "DAI", "dai", "svg"],
     [1, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18, false],
