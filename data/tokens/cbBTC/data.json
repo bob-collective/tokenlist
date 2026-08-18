@@ -4,6 +4,7 @@
   "symbol": "cbBTC",
   "decimals": 8,
   "coingeckoId": "coinbase-wrapped-btc",
+  "underlying": "BTC",
   "tokens": {
     "ethereum": {
       "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf"

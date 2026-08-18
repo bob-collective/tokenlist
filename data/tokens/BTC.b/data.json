@@ -4,6 +4,7 @@
   "symbol": "BTC.b",
   "decimals": 8,
   "coingeckoId": "bitcoin-avalanche-bridged-btc-b",
+  "underlying": "BTC",
   "description": "BTC.b is Bitcoin bridged to Avalanche through the Avalanche Bridge, backed 1:1 by BTC held in reserve. Distinct from BTCB, Binance's pegged BTC on BNB Smart Chain.",
   "tokens": {
     "avalanche": {

@@ -4,6 +4,7 @@
   "symbol": "BTCB",
   "decimals": 18,
   "coingeckoId": "binance-bitcoin",
+  "underlying": "BTC",
   "description": "Pegged tokens such as BTCB are 100% backed by the native coin in reserve, which is Bitcoin (BTC) in BTCB's case.",
   "tokens": {
     "bnb-smart-chain": {

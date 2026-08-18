@@ -4,6 +4,7 @@
   "symbol": "uniBTC",
   "decimals": 8,
   "coingeckoId": "universal-btc",
+  "underlying": "BTC",
   "description": "",
   "website": "https://www.bedrock.technology/",
   "twitter": "@Bedrock_DeFi",

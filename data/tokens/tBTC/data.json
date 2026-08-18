@@ -4,6 +4,7 @@
   "symbol": "tBTC",
   "decimals": 18,
   "coingeckoId": "tbtc",
+  "underlying": "BTC",
   "description": "Decentralized, Permissionless Bitcoin Bridge",
   "website": "https://threshold.network",
   "twitter": "@TheTNetwork",

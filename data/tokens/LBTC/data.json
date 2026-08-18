@@ -4,6 +4,7 @@
   "symbol": "LBTC",
   "decimals": 8,
   "coingeckoId": "lombard-staked-btc",
+  "underlying": "BTC",
   "description": "",
   "website": "https://lombard.finance",
   "twitter": "@lombard_finance",

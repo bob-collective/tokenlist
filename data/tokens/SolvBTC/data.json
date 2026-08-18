@@ -4,6 +4,7 @@
   "symbol": "SolvBTC",
   "decimals": 18,
   "coingeckoId": "solv-btc",
+  "underlying": "BTC",
   "description": "",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

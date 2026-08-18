@@ -4,16 +4,17 @@
       "Avalon Avalon SOLVBTCBBN",
       "aBOBSOLVBTCBBN",
       "solv-protocol-solvbtc-bbn",
-      "svg"
+      "svg",
+      "BTC"
     ],
     [60808, "0x2E6500A7Add9a788753a897e4e3477f651c612eb", 18, false]
   ],
   "aBOBTBTC": [
-    ["Avalon Avalon TBTC", "aBOBTBTC", "tbtc", "svg"],
+    ["Avalon Avalon TBTC", "aBOBTBTC", "tbtc", "svg", "BTC"],
     [60808, "0x5E007Ed35c7d89f5889eb6FD0cdCAa38059560ef", 18, false]
   ],
   "aBOBWBTC": [
-    ["Avalon Avalon WBTC", "aBOBWBTC", "wrapped-bitcoin", "svg"],
+    ["Avalon Avalon WBTC", "aBOBWBTC", "wrapped-bitcoin", "svg", "BTC"],
     [60808, "0xd6890176e8d912142AC489e8B5D8D93F8dE74D60", 8, false]
   ],
   "ALEX": [
@@ -50,7 +51,7 @@
     [1231006505, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "BTC.b": [
-    ["Bitcoin", "BTC.b", "bitcoin-avalanche-bridged-btc-b", "svg"],
+    ["Bitcoin", "BTC.b", "bitcoin-avalanche-bridged-btc-b", "svg", "BTC"],
     [
       43114,
       "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
@@ -60,16 +61,16 @@
     ]
   ],
   "BTC+": [
-    ["BTC+", "BTC+", "solv-btc", "svg"],
+    ["BTC+", "BTC+", "solv-btc", "svg", "BTC"],
     [1, "0xCEa2DAf93617B97504E05AFfc5BCF9b3922D3034", 18, false],
     [60808, "0x4Ca70811E831db42072CBa1f0d03496EF126fAad", 18, false]
   ],
   "BTCB": [
-    ["BTCB Token", "BTCB", "binance-bitcoin", "svg"],
+    ["BTCB Token", "BTCB", "binance-bitcoin", "svg", "BTC"],
     [56, "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", 18, false]
   ],
   "cbBTC": [
-    ["Coinbase Wrapped BTC", "cbBTC", "coinbase-wrapped-btc", "svg"],
+    ["Coinbase Wrapped BTC", "cbBTC", "coinbase-wrapped-btc", "svg", "BTC"],
     [1, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [42161, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [8453, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
@@ -129,7 +130,7 @@
     [43114, "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD", 6, false]
   ],
   "FBTC": [
-    ["Fire Bitcoin", "FBTC", "ignition-fbtc", "webp"],
+    ["Fire Bitcoin", "FBTC", "ignition-fbtc", "webp", "BTC"],
     [1, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false],
     [60808, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false],
     [8453, "0xC96dE26018A54D51c097160568752c4E3BD6C364", 8, false],
@@ -151,7 +152,7 @@
     [60808, "0x15e35B19AD29C512103EaABb55154Ef0Ee6ca661", 18, false]
   ],
   "HybridBTC.pendle": [
-    ["Hybrid Bitcoin", "HybridBTC.pendle", "wrapped-bitcoin", "svg"],
+    ["Hybrid Bitcoin", "HybridBTC.pendle", "wrapped-bitcoin", "svg", "BTC"],
     [1, "0x9998e05030Aee3Af9AD3df35A34F5C51e1628779", 8, false],
     [60808, "0x9998e05030Aee3Af9AD3df35A34F5C51e1628779", 8, false]
   ],
@@ -160,11 +161,11 @@
     [999, "0x0000000000000000000000000000000000000000", 18, true]
   ],
   "iontBTC": [
-    ["Ionic tBTC v2", "iontBTC", "wrapped-bitcoin", "svg"],
+    ["Ionic tBTC v2", "iontBTC", "wrapped-bitcoin", "svg", "BTC"],
     [60808, "0x68e0e4d875FDe34fc4698f40ccca0Db5b67e3693", 18, false]
   ],
   "iontWBTC": [
-    ["Ionic Wrapped BTC", "ionWBTC", "wrapped-bitcoin", "svg"],
+    ["Ionic Wrapped BTC", "ionWBTC", "wrapped-bitcoin", "svg", "BTC"],
     [60808, "0xEBc8a7EE7f1D6534eBF45Bd5311203BF0A17493c", 8, false]
   ],
   "JPYC": [
@@ -174,7 +175,7 @@
     [43114, "0xE7C3D8C9a439feDe00D2600032D5dB0Be71C3c29", 18, false]
   ],
   "LBTC": [
-    ["Lombard Staked Bitcoin", "LBTC", "lombard-staked-btc", "svg"],
+    ["Lombard Staked Bitcoin", "LBTC", "lombard-staked-btc", "svg", "BTC"],
     [1, "0x8236a87084f8B84306f72007F36F2618A5634494", 8, false],
     [60808, "0xA45d4121b3D47719FF57a947A9d961539Ba33204", 8, false],
     [56, "0xecAc9C5F704e954931349Da37F60E39f515c11c1", 8, false],
@@ -205,7 +206,7 @@
     [137, "0x0000000000000000000000000000000000001010", 18, true]
   ],
   "pumpBTC": [
-    ["pumpBTC", "pumpBTC", "pumpbtc", "webp"],
+    ["pumpBTC", "pumpBTC", "pumpbtc", "webp", "BTC"],
     [1, "0xF469fBD2abcd6B9de8E169d128226C0Fc90a012e", 8, false],
     [60808, "0x1fCca65fb6Ae3b2758b9b2B394CB227eAE404e1E", 8, false]
   ],
@@ -236,7 +237,7 @@
     [60808, "0xecf21b335B41f9d5A89f6186A99c19a3c467871f", 18, false]
   ],
   "sbtBTC": [
-    ["sb tBTC v2", "sbtBTC", "tbtc", "svg"],
+    ["sb tBTC v2", "sbtBTC", "tbtc", "svg", "BTC"],
     [60808, "0x2925dF9Eb2092B53B06A06353A7249aF3a8B139e", 8, false]
   ],
   "sBTC": [
@@ -244,7 +245,7 @@
     [1598918400, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "sbWBTC": [
-    ["sb Wrapped BTC", "sbWBTC", "wrapped-bitcoin", "svg"],
+    ["sb Wrapped BTC", "sbWBTC", "wrapped-bitcoin", "svg", "BTC"],
     [60808, "0x5c46D274ed8AbCAe2964B63c0360ad3Ccc384dAa", 8, false]
   ],
   "SEI": [
@@ -252,19 +253,25 @@
     [1329, "0x0000000000000000000000000000000000000000", 18, true]
   ],
   "seSOLVBTCBBN": [
-    ["Segment SOLVBTCBBN", "seSOLVBTCBBN", "solv-protocol-solvbtc-bbn", "svg"],
+    [
+      "Segment SOLVBTCBBN",
+      "seSOLVBTCBBN",
+      "solv-protocol-solvbtc-bbn",
+      "svg",
+      "BTC"
+    ],
     [60808, "0x5EF2B8fbCc8aea2A9Dbe2729F0acf33E073Fa43e", 8, false]
   ],
   "seTBTC": [
-    ["Segment TBTC", "seTBTC", "tbtc", "svg"],
+    ["Segment TBTC", "seTBTC", "tbtc", "svg", "BTC"],
     [60808, "0xD30288EA9873f376016A0250433b7eA375676077", 8, false]
   ],
   "seUNIBTC": [
-    ["Segment UNIBTC", "seUNIBTC", "universal-btc", "svg"],
+    ["Segment UNIBTC", "seUNIBTC", "universal-btc", "svg", "BTC"],
     [60808, "0x7848F0775EebaBbF55cB74490ce6D3673E68773A", 8, false]
   ],
   "seWBTC": [
-    ["Segment WBTC", "seWBTC", "wrapped-bitcoin", "svg"],
+    ["Segment WBTC", "seWBTC", "wrapped-bitcoin", "svg", "BTC"],
     [60808, "0x6265C05158f672016B771D6Fb7422823ed2CbcDd", 8, false]
   ],
   "sFRAX": [
@@ -287,7 +294,7 @@
     [1, "0x04830A96a23EA718fAA695a5AAe74695AAE3A23f", 18, false]
   ],
   "SolvBTC": [
-    ["Solv BTC", "SolvBTC", "solv-btc", "svg"],
+    ["Solv BTC", "SolvBTC", "solv-btc", "svg", "BTC"],
     [1, "0x7A56E1C57C7475CCf742a1832B028F0456652F97", 18, false],
     [60808, "0x541FD749419CA806a8bc7da8ac23D346f2dF8B77", 18, false],
     [42161, "0x3647c54c4c2C65bC7a2D63c0Da2809B399DBBDC0", 18, false],
@@ -297,7 +304,13 @@
     [56, "0x4aae823a6a0b376De6A78e74eCC5b079d38cBCf7", 18, false]
   ],
   "SolvBTC.JUP": [
-    ["SolvBTC Jupiter", "SolvBTC.JUP", "solv-protocol-solvbtc-jupiter", "svg"],
+    [
+      "SolvBTC Jupiter",
+      "SolvBTC.JUP",
+      "solv-protocol-solvbtc-jupiter",
+      "svg",
+      "BTC"
+    ],
     [60808, "0x6b062AA7F5FC52b530Cb13967aE2E6bc0D8Dd3E4", 18, false]
   ],
   "SOV": [
@@ -323,7 +336,7 @@
     [60808, "0xF14e82E192a36Df7d09Fe726F6ECF70310f73438", 18, false]
   ],
   "tBTC": [
-    ["tBTC v2", "tBTC", "tbtc", "svg"],
+    ["tBTC v2", "tBTC", "tbtc", "svg", "BTC"],
     [1, "0x18084fbA666a33d37592fA2633fD49a74DD93a88", 18, false],
     [11155111, "0x517f2982701695D4E52f1ECFBEf3ba31Df470161", 18, false],
     [60808, "0xBBa2eF945D523C4e2608C9E1214C2Cc64D4fc2e2", 18, false],
@@ -380,7 +393,7 @@
     [60808, "0x6fD31f56eb971113bEA12C5883deC68337b3B7b5", 18, false]
   ],
   "uniBTC": [
-    ["uniBTC", "uniBTC", "universal-btc", "svg"],
+    ["uniBTC", "uniBTC", "universal-btc", "svg", "BTC"],
     [1, "0x004E9C3EF86bc1ca1f0bB5C7662861Ee93350568", 8, false],
     [60808, "0x236f8c0a61dA474dB21B693fB2ea7AAB0c803894", 8, false],
     [10, "0x93919784C523f39CACaa98Ee0a9d96c3F32b593e", 8, false],
@@ -469,7 +482,7 @@
     [728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", 6, false]
   ],
   "USDT0": [
-    ["USD₮0", "USD₮0", "usdt0", "svg"],
+    ["USD₮0", "USD₮0", "usdt0", "svg", "USDT"],
     [
       130,
       "0x9151434b16b9763660705744891fA906F660EcC5",
@@ -537,7 +550,7 @@
     [56, "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c", 18, false]
   ],
   "WBTC": [
-    ["Wrapped BTC", "WBTC", "wrapped-bitcoin", "svg"],
+    ["Wrapped BTC", "WBTC", "wrapped-bitcoin", "svg", "BTC"],
     [1, "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599", 8, false],
     [
       60808,
@@ -559,7 +572,7 @@
     ]
   ],
   "WBTCOFT": [
-    ["Wrapped BTC", "WBTC", "wrapped-bitcoin", "svg"],
+    ["Wrapped BTC", "WBTC", "wrapped-bitcoin", "svg", "BTC"],
     [1, "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c", 8, false],
     [60808, "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c", 8, false],
     [56, "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c", 8, false],
@@ -607,7 +620,7 @@
     [56, "0x21cAef8A43163Eea865baeE23b9C2E327696A3bf", 6, false]
   ],
   "XAUt0": [
-    ["XAUt0", "XAUt0", "tether-gold-tokens", "svg"],
+    ["XAUt0", "XAUt0", "tether-gold-tokens", "svg", "XAUt"],
     [42161, "0x40461291347e1eCbb09499F3371D3f17f10d7159", 6, false],
     [43114, "0x2775d5105276781B4b85bA6eA6a6653bEeD1dd32", 6, false],
     [137, "0xF1815bd50389c46847f0Bda824eC8da914045D14", 6, false],
@@ -620,7 +633,7 @@
     [9745, "0x0000000000000000000000000000000000000000", 18, true]
   ],
   "xSolvBTC": [
-    ["xSolvBTC", "xSolvBTC", "solv-protocol-solvbtc-bbn", "svg"],
+    ["xSolvBTC", "xSolvBTC", "solv-protocol-solvbtc-bbn", "svg", "BTC"],
     [1, "0xd9D920AA40f578ab794426F5C90F6C731D159DEf", 18, false],
     [60808, "0xCC0966D8418d412c599A6421b760a847eB169A8c", 18, false],
     [56, "0x1346b618dC92810EC74163e4c27004c921D446a5", 18, false],

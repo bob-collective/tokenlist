@@ -4,6 +4,7 @@
   "symbol": "pumpBTC",
   "decimals": 8,
   "coingeckoId": "pumpbtc",
+  "underlying": "BTC",
   "description": "",
   "tokens": {
     "ethereum": {

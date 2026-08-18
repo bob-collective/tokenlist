@@ -71,7 +71,7 @@ import type { Token, TokenData, SupportedChain } from '@gobob/tokenlist/types';
 
 > **Use only when bundle size is critical.** `tokenlist.json` is the canonical, complete list — prefer it unless you must minimize shipped bytes.
 
-`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId, logo]`, followed by one per-chain tuple `[chainId, address, decimals, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
+`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId, logo, underlying?]`, followed by one per-chain tuple `[chainId, address, decimals, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
 
 The trailing `nameOverride`/`symbolOverride` slots carry the per-chain UI overrides from `tokenlist-overrides.json` and are appended only when present:
 
@@ -85,7 +85,7 @@ Shape:
 ```jsonc
 {
   "USDC": [
-    // [0] shared — [name, symbol, coingeckoId, logo]
+    // [0] shared — [name, symbol, coingeckoId, logo, underlying?]
     // logo = "svg" | "webp"
     ["USD Coin", "USDC", "usd-coin", "svg"],
     // [1..] per-chain — [chainId, address, decimals, native, nameOverride?, symbolOverride?]
@@ -106,7 +106,7 @@ import { getLogoURI } from '@gobob/tokenlist';
 import type { TokenId } from '@gobob/tokenlist/token-ids';
 
 const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
-  const [[name, symbol, coingeckoId, logo], ...chains] = entry;
+  const [[name, symbol, coingeckoId, logo, underlying], ...chains] = entry;
 
   return chains.map(
     ([chainId, address, decimals, native, nameOverride, symbolOverride]) => ({
@@ -116,7 +116,7 @@ const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
       symbol: symbolOverride ?? symbol,
       decimals,
       logoURI: getLogoURI(id as TokenId, logo),
-      extensions: { tokenId: id, coingeckoId, native },
+      extensions: { tokenId: id, coingeckoId, native, underlying },
     }),
   );
 });
@@ -187,6 +187,7 @@ Top-level fields:
 | `decimals` | Yes | Default token decimals |
 | `tokens` | Yes | Per-chain token records keyed by supported chain name |
 | `coingeckoId` | Yes | CoinGecko API ID used for price feeds (e.g., `usd-coin`). Emitted as `extensions.coingeckoId` in the generated token lists. For receipt or wrapped tokens without their own listing, use the underlying asset's ID. |
+| `underlying` | No | Canonical underlying token ID for wrapped or derivative assets (e.g., `BTC`). |
 | `native` | No | Marks native chain assets such as ETH, BNB, POL, or TLOS |
 | `description` | No | Project or token description |
 | `website` | No | Project website URL |

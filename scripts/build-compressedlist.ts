@@ -79,10 +79,11 @@ for (const folder of folders) {
     return base;
   });
 
-  compressedlist[folder as TokenId] = [
-    [data.name, data.symbol, data.coingeckoId ?? null, logo],
-    ...chains,
-  ];
+  const shared: CompressedEntry[0] = data.underlying
+    ? [data.name, data.symbol, data.coingeckoId, logo, data.underlying]
+    : [data.name, data.symbol, data.coingeckoId, logo];
+
+  compressedlist[folder as TokenId] = [shared, ...chains];
 }
 
 fs.writeFileSync(OUTFILE_COMPRESSED, JSON.stringify(compressedlist, null, 2));

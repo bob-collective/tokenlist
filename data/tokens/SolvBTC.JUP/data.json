@@ -4,6 +4,7 @@
   "symbol": "SolvBTC.JUP",
   "decimals": 18,
   "coingeckoId": "solv-protocol-solvbtc-jupiter",
+  "underlying": "BTC",
   "description": "SolvBTC is a yield-bearing Bitcoin asset from Solv Protocol. This version is for the Jupiter platform.",
   "website": "https://app.solv.finance/",
   "twitter": "@SolvProtocol",

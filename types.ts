@@ -25,6 +25,7 @@ export type TokenData = {
   decimals: number;
   native?: boolean;
   coingeckoId: string;
+  underlying?: TokenId;
   description?: string;
   website?: string;
   twitter?: string;
@@ -43,8 +44,8 @@ export type TokenData = {
 };
 
 // Compressed tokenlist tuple shapes (see scripts/build-compressedlist.ts)
-// [name, symbol, coingeckoId, logo]
-export type CompressedSharedEntry = [string, string, string, string];
+// [name, symbol, coingeckoId, logo, underlying?]
+export type CompressedSharedEntry = [string, string, string, string, TokenId?];
 // [chainId, address, decimals, native, nameOverride?, symbolOverride?]
 export type CompressedChainEntry =
   | [number, string, number, boolean]

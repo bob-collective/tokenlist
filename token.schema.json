@@ -188,6 +188,10 @@
       "type": "string",
       "description": "Token identifier for the Coingecko price feed"
     },
+    "underlying": {
+      "$ref": "#/definitions/Symbol",
+      "description": "Canonical underlying token symbol"
+    },
     "website": {
       "type": "string",
       "description": "URL of the project's website",

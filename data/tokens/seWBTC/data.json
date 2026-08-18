@@ -4,6 +4,7 @@
   "symbol": "seWBTC",
   "decimals": 8,
   "coingeckoId": "wrapped-bitcoin",
+  "underlying": "BTC",
   "tokens": {
     "bob": {
       "address": "0x6265C05158f672016B771D6Fb7422823ed2CbcDd"
