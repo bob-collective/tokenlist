@@ -25,6 +25,7 @@ export type TokenData = {
   decimals: number;
   native?: boolean;
   coingeckoId: string;
+  /** Terminal/root underlying asset ID. Classification only; never derive price from this field. */
   underlying?: TokenId;
   description?: string;
   website?: string;
@@ -67,6 +68,7 @@ export type Token = {
   extensions: {
     tokenId: TokenId;
     coingeckoId: string;
+    /** Terminal/root underlying asset ID. Classification only; never derive price from this field. */
     underlying?: TokenId;
     native: boolean;
     bridge?: Record<SupportedChainId, Address>;

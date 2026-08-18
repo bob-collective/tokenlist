@@ -190,7 +190,7 @@
     },
     "underlying": {
       "$ref": "#/definitions/Symbol",
-      "description": "Canonical underlying token symbol"
+      "description": "Terminal/root underlying asset symbol, used only for classification. Do not derive asset price from this field; use coingeckoId for price feeds."
     },
     "website": {
       "type": "string",
