@@ -187,7 +187,7 @@ Top-level fields:
 | `decimals` | Yes | Default token decimals |
 | `tokens` | Yes | Per-chain token records keyed by supported chain name |
 | `coingeckoId` | Yes | CoinGecko API ID used for price feeds (e.g., `usd-coin`). Emitted as `extensions.coingeckoId` in the generated token lists. For receipt or wrapped tokens without their own listing, use the underlying asset's ID. |
-| `underlying` | No | Canonical underlying token ID for wrapped or derivative assets (e.g., `BTC`). |
+| `underlying` | No | Canonical underlying token ID for wrapped or derivative assets (e.g., `BTC`). Emitted as `extensions.underlying` in generated token lists. |
 | `native` | No | Marks native chain assets such as ETH, BNB, POL, or TLOS |
 | `description` | No | Project or token description |
 | `website` | No | Project website URL |

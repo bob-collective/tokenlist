@@ -67,6 +67,7 @@ export type Token = {
   extensions: {
     tokenId: TokenId;
     coingeckoId: string;
+    underlying?: TokenId;
     native: boolean;
     bridge?: Record<SupportedChainId, Address>;
   };
