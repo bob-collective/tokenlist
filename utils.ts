@@ -3,7 +3,7 @@ import { base58check } from '@scure/base';
 import camelCase from 'lodash/fp/camelCase';
 import kebabCase from 'lodash/fp/kebabCase';
 import { bytesToHex, getAddress, hexToBytes, isAddress, sha256 } from 'viem';
-import { TOKEN_DIR, TOKENLIST_BASE_URL } from './config';
+import { TOKEN_DIR, TOKENLIST_BASE_URL, TOKENLIST_MIRROR_URL } from './config';
 import type { TokenId } from './token-ids';
 import type { KebabCase } from './types';
 
@@ -36,10 +36,20 @@ export function mapByName<T extends { name: string }>(
   );
 }
 
-export function getLogoURI(tokenId: TokenId, logo: 'svg' | 'webp'): string {
+export function getLogoURI(tokenId: TokenId, logoext: 'svg' | 'webp'): string {
   return new URL(
-    path.posix.join(TOKEN_DIR, tokenId, `logo.${logo}`),
+    path.posix.join(TOKEN_DIR, tokenId, `logo.${logoext}`),
     TOKENLIST_BASE_URL,
+  ).toString();
+}
+
+export function getMirrorLogoURI(
+  tokenId: TokenId,
+  logoext: 'svg' | 'webp',
+): string {
+  return new URL(
+    path.posix.join(tokenId, `logo.${logoext}`),
+    TOKENLIST_MIRROR_URL,
   ).toString();
 }
 

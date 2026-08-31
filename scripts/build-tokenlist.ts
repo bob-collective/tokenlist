@@ -15,7 +15,7 @@ import {
 import { version } from '../package.json';
 import type { TokenId } from '../token-ids';
 import type { Entries, Token, TokenData } from '../types';
-import { checksumAddress } from '../utils';
+import { checksumAddress, getLogoURI } from '../utils';
 
 const [major, minor, patch] = version.split('.');
 
@@ -150,14 +150,7 @@ const tokenlistData = fs
     );
     const logoext = logofiles[0].endsWith('webp') ? 'webp' : 'svg';
 
-    return [
-      folder as TokenId,
-      data,
-      new URL(
-        path.posix.join(TOKEN_DIR, folder, `logo.${logoext}`),
-        TOKENLIST_BASE_URL,
-      ).toString(),
-    ];
+    return [folder as TokenId, data, getLogoURI(folder as TokenId, logoext)];
   });
 
 // Build tokenlist
