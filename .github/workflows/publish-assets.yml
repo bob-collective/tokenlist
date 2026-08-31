@@ -2,9 +2,7 @@ name: Publish tokenlist assets
 
 on:
   push:
-    branches:
-      - main
-      - feat/publish-assets-to-r2
+    branches: [main]
 
 permissions: {}
 
