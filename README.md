@@ -31,39 +31,39 @@ pnpm install
 
 ```typescript
 // ESM
-import tokenList from '@gobob/tokenlist/tokenlist.json';
+import tokenList from "@gobob/tokenlist/tokenlist.json";
 
 // CommonJS
-const tokenList = require('@gobob/tokenlist/tokenlist.json');
+const tokenList = require("@gobob/tokenlist/tokenlist.json");
 ```
 
 ### Exports
 
-| File | Description |
-|------|-------------|
-| `tokenlist.json` | Complete token list across all chains |
-| `tokenlist-bob.json` | Tokens on BOB chain only |
-| `tokenlist-overrides.json` | Token list with UI overrides applied |
-| `chainlist.json` | Chain ID to logo URI map |
-| `compressedlist.json` | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
-| `token-ids.ts` | Generated token identifier types |
+| File                       | Description                                                                                                                       |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tokenlist.json`           | Complete token list across all chains                                                                                             |
+| `tokenlist-bob.json`       | Tokens on BOB chain only                                                                                                          |
+| `tokenlist-overrides.json` | Token list with UI overrides applied                                                                                              |
+| `chainlist.json`           | Chain ID to logo URI map                                                                                                          |
+| `compressedlist.json`      | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
+| `token-ids.ts`             | Generated token identifier types                                                                                                  |
 
 ### TypeScript Types
 
 The package exports TypeScript types for type-safe development:
 
 ```typescript
-import type { NativeTokenId, TokenId } from '@gobob/tokenlist/token-ids';
-import type { Token, TokenData, SupportedChain } from '@gobob/tokenlist/types';
+import type { NativeTokenId, TokenId } from "@gobob/tokenlist/token-ids";
+import type { Token, TokenData, SupportedChain } from "@gobob/tokenlist/types";
 ```
 
-| Type | Description |
-|------|-------------|
-| `TokenId` | Union of all token identifiers (e.g., `'WBTC' \| 'USDT' \| ...`) |
-| `NativeTokenId` | Union of token identifiers marked with `"native": true` |
-| `Token` | Single token object from the tokenlist |
-| `TokenData` | Token metadata structure used in `data.json` files |
-| `SupportedChain` | Union of supported chain names |
+| Type             | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| `TokenId`        | Union of all token identifiers (e.g., `'WBTC' \| 'USDT' \| ...`) |
+| `NativeTokenId`  | Union of token identifiers marked with `"native": true`          |
+| `Token`          | Single token object from the tokenlist                           |
+| `TokenData`      | Token metadata structure used in `data.json` files               |
+| `SupportedChain` | Union of supported chain names                                   |
 
 ---
 
@@ -93,20 +93,20 @@ Shape:
     // with both overrides
     [60808, "0xe75D...", 6, false, "Bridged USDC", "USDC.e"],
     // symbol-only override — name slot is null
-    [130, "0x9151...", 6, false, null, "USDT0"]
-  ]
+    [130, "0x9151...", 6, false, null, "USDT0"],
+  ],
 }
 ```
 
 Reconstruct the flat token list by splitting the shared head from the chain tail and rebuilding each logo URL with `getLogoURI`:
 
 ```typescript
-import compressed from '@gobob/tokenlist/compressedlist.json';
-import { getLogoURI } from '@gobob/tokenlist';
-import type { TokenId } from '@gobob/tokenlist/token-ids';
+import compressed from "@gobob/tokenlist/compressedlist.json";
+import { getLogoURI } from "@gobob/tokenlist";
+import type { TokenId } from "@gobob/tokenlist/token-ids";
 
 const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
-  const [[name, symbol, coingeckoId, logo], ...chains] = entry;
+  const [[name, symbol, coingeckoId, logoext], ...chains] = entry;
 
   return chains.map(
     ([chainId, address, decimals, native, nameOverride, symbolOverride]) => ({
@@ -115,7 +115,7 @@ const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
       name: nameOverride ?? name,
       symbol: symbolOverride ?? symbol,
       decimals,
-      logoURI: getLogoURI(id as TokenId, logo),
+      logoURI: getLogoURI(id as TokenId, logoext),
       extensions: { tokenId: id, coingeckoId, native },
     }),
   );
@@ -180,28 +180,28 @@ The source file contains shared token metadata plus per-chain entries under `tok
 
 Top-level fields:
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Default token name |
-| `symbol` | Yes | Default token symbol |
-| `decimals` | Yes | Default token decimals |
-| `tokens` | Yes | Per-chain token records keyed by supported chain name |
-| `coingeckoId` | Yes | CoinGecko API ID used for price feeds (e.g., `usd-coin`). Emitted as `extensions.coingeckoId` in the generated token lists. For receipt or wrapped tokens without their own listing, use the underlying asset's ID. |
-| `native` | No | Marks native chain assets such as ETH, BNB, POL, or TLOS |
-| `description` | No | Project or token description |
-| `website` | No | Project website URL |
-| `twitter` | No | Project Twitter/X handle |
+| Field         | Required | Description                                                                                                                                                                                                         |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | Yes      | Default token name                                                                                                                                                                                                  |
+| `symbol`      | Yes      | Default token symbol                                                                                                                                                                                                |
+| `decimals`    | Yes      | Default token decimals                                                                                                                                                                                              |
+| `tokens`      | Yes      | Per-chain token records keyed by supported chain name                                                                                                                                                               |
+| `coingeckoId` | Yes      | CoinGecko API ID used for price feeds (e.g., `usd-coin`). Emitted as `extensions.coingeckoId` in the generated token lists. For receipt or wrapped tokens without their own listing, use the underlying asset's ID. |
+| `native`      | No       | Marks native chain assets such as ETH, BNB, POL, or TLOS                                                                                                                                                            |
+| `description` | No       | Project or token description                                                                                                                                                                                        |
+| `website`     | No       | Project website URL                                                                                                                                                                                                 |
+| `twitter`     | No       | Project Twitter/X handle                                                                                                                                                                                            |
 
 Per-chain `tokens` entries:
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `address` | Yes | Token address on that chain. Use `0x0000000000000000000000000000000000000000` for most native assets. |
-| `name` | No | Chain-specific token name used in the base token lists |
-| `symbol` | No | Chain-specific symbol used in the base token lists |
-| `decimals` | No | Chain-specific decimals when they differ from the top-level value |
-| `bridge` | No | Map of related chain name to bridge token address |
-| `overrides` | No | UI-facing `name`, `symbol`, or `decimals` used only in `tokenlist-overrides.json` |
+| Field       | Required | Description                                                                                           |
+| ----------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| `address`   | Yes      | Token address on that chain. Use `0x0000000000000000000000000000000000000000` for most native assets. |
+| `name`      | No       | Chain-specific token name used in the base token lists                                                |
+| `symbol`    | No       | Chain-specific symbol used in the base token lists                                                    |
+| `decimals`  | No       | Chain-specific decimals when they differ from the top-level value                                     |
+| `bridge`    | No       | Map of related chain name to bridge token address                                                     |
+| `overrides` | No       | UI-facing `name`, `symbol`, or `decimals` used only in `tokenlist-overrides.json`                     |
 
 Chain keys must match the supported chain names in [`config.ts`](./config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
 
@@ -273,6 +273,7 @@ pnpm build
 ```
 
 This updates:
+
 - `token-ids.ts` — generated `TokenId` and `NativeTokenId` unions
 - `tokenlist.json` — all tokens using base names, symbols, and decimals
 - `tokenlist-bob.json` — BOB chain tokens
@@ -290,20 +291,20 @@ pnpm verify
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `pnpm build` | Generate types, build token lists, then run verification |
-| `pnpm build:tokenlist` | Generate tokenlist JSON files |
-| `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples) |
-| `pnpm build:chainlist` | Generate `chainlist.json` |
-| `pnpm build:types` | Generate `TokenId` and `NativeTokenId` TypeScript unions |
-| `pnpm check` | Run Biome formatting, import organization, and lint checks |
-| `pnpm check:write` | Apply safe Biome formatting/import/lint fixes |
-| `pnpm format` | Check formatting with Biome |
-| `pnpm format:write` | Apply Biome formatting |
-| `pnpm lint` | Run Biome lint rules |
-| `pnpm publish:assets` | Publish token and chain logos to Cloudflare R2 and verify the public copies |
-| `pnpm verify` | Validate tokenlist schema and on-chain token data |
+| Command                     | Description                                                                 |
+| --------------------------- | --------------------------------------------------------------------------- |
+| `pnpm build`                | Generate types, build token lists, then run verification                    |
+| `pnpm build:tokenlist`      | Generate tokenlist JSON files                                               |
+| `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples)          |
+| `pnpm build:chainlist`      | Generate `chainlist.json`                                                   |
+| `pnpm build:types`          | Generate `TokenId` and `NativeTokenId` TypeScript unions                    |
+| `pnpm check`                | Run Biome formatting, import organization, and lint checks                  |
+| `pnpm check:write`          | Apply safe Biome formatting/import/lint fixes                               |
+| `pnpm format`               | Check formatting with Biome                                                 |
+| `pnpm format:write`         | Apply Biome formatting                                                      |
+| `pnpm lint`                 | Run Biome lint rules                                                        |
+| `pnpm publish:assets`       | Publish token and chain logos to Cloudflare R2 and verify the public copies |
+| `pnpm verify`               | Validate tokenlist schema and on-chain token data                           |
 
 ---
 

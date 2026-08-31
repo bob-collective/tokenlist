@@ -36,19 +36,19 @@ export function mapByName<T extends { name: string }>(
   );
 }
 
-export function getLogoURI(tokenId: TokenId, logo: 'svg' | 'webp'): string {
+export function getLogoURI(tokenId: TokenId, logoext: 'svg' | 'webp'): string {
   return new URL(
-    path.posix.join(TOKEN_DIR, tokenId, `logo.${logo}`),
+    path.posix.join(TOKEN_DIR, tokenId, `logo.${logoext}`),
     TOKENLIST_BASE_URL,
   ).toString();
 }
 
 export function getMirrorLogoURI(
   tokenId: TokenId,
-  logo: 'svg' | 'webp',
+  logoext: 'svg' | 'webp',
 ): string {
   return new URL(
-    path.posix.join(tokenId, `logo.${logo}`),
+    path.posix.join(tokenId, `logo.${logoext}`),
     TOKENLIST_MIRROR_URL,
   ).toString();
 }
