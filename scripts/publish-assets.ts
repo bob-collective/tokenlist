@@ -8,13 +8,9 @@ import {
   S3ServiceException,
 } from '@aws-sdk/client-s3';
 import { glob } from 'glob';
-import {
-  CHAIN_DIR,
-  TOKEN_DIR,
-  TOKENLIST_ASSET_PREFIX,
-  TOKENLIST_BASE_URL,
-} from '../config';
+import { CHAIN_DIR, TOKEN_DIR, TOKENLIST_MIRROR_URL } from '../config';
 
+const ASSET_PREFIX = 'tokenlist';
 const CACHE_CONTROL = 'public, max-age=300';
 const MAX_CONCURRENCY = 8;
 const CONTENT_TYPES = {
@@ -63,7 +59,7 @@ async function loadAssets(): Promise<Asset[]> {
       const normalizedPath = normalizePath(filePath);
       const body = await readFile(filePath);
       const hash = createHash('sha256').update(body).digest('hex');
-      const url = new URL(normalizedPath, TOKENLIST_BASE_URL);
+      const url = new URL(normalizedPath, TOKENLIST_MIRROR_URL);
 
       url.searchParams.set('sha256', hash);
 
@@ -71,7 +67,7 @@ async function loadAssets(): Promise<Asset[]> {
         body,
         contentType: getContentType(filePath),
         hash,
-        key: path.posix.join(TOKENLIST_ASSET_PREFIX, normalizedPath),
+        key: path.posix.join(ASSET_PREFIX, normalizedPath),
         path: normalizedPath,
         url: url.toString(),
       };
@@ -196,7 +192,7 @@ async function main(): Promise<void> {
 
   await verifyAssets(assets);
 
-  console.log(`Verified ${assets.length} assets at ${TOKENLIST_BASE_URL}`);
+  console.log(`Verified ${assets.length} assets at ${TOKENLIST_MIRROR_URL}`);
 }
 
 main().catch((error: unknown) => {

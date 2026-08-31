@@ -309,9 +309,11 @@ pnpm verify
 
 ## Asset publishing
 
-Token and chain logos are served from `https://static.gobob.xyz/tokenlist/` using the same paths as the source
-files in `data/`. The `Publish tokenlist assets` workflow uploads them to Cloudflare R2 after every merge to `main`,
-verifies the public copies, and only then notifies the UI repository to update its tokenlist pin.
+The `Publish tokenlist assets` workflow uploads token and chain logos to
+`https://static.gobob.xyz/tokenlist/` after every merge to `main`, verifies the public copies, and only then notifies
+the UI repository to update its tokenlist pin. Generated token and chain lists retain their GitHub-hosted logo URLs;
+consumers can rewrite the `https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main` prefix when
+loading logos from the R2 mirror.
 
 Configure the workflow's `production` environment with an R2 Object Read & Write token restricted to the bucket
 behind `static.gobob.xyz`:
