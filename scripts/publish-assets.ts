@@ -174,25 +174,32 @@ async function verifyAssets(assets: Asset[]): Promise<void> {
   }
 }
 
-const accountId = requireEnvironmentVariable('R2_ACCOUNT_ID');
-const accessKeyId = requireEnvironmentVariable('R2_ACCESS_KEY_ID');
-const secretAccessKey = requireEnvironmentVariable('R2_SECRET_ACCESS_KEY');
-const bucket = requireEnvironmentVariable('R2_BUCKET_NAME');
-const assets = await loadAssets();
+async function main(): Promise<void> {
+  const accountId = requireEnvironmentVariable('R2_ACCOUNT_ID');
+  const accessKeyId = requireEnvironmentVariable('R2_ACCESS_KEY_ID');
+  const secretAccessKey = requireEnvironmentVariable('R2_SECRET_ACCESS_KEY');
+  const bucket = requireEnvironmentVariable('R2_BUCKET_NAME');
+  const assets = await loadAssets();
 
-if (assets.length === 0) throw new Error('No tokenlist assets found');
+  if (assets.length === 0) throw new Error('No tokenlist assets found');
 
-const client = new S3Client({
-  credentials: { accessKeyId, secretAccessKey },
-  endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
-  region: 'auto',
+  const client = new S3Client({
+    credentials: { accessKeyId, secretAccessKey },
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    region: 'auto',
+  });
+  const result = await publishAssets(client, bucket, assets);
+
+  console.log(
+    `R2 assets: ${result.uploaded} uploaded, ${result.skipped} unchanged`,
+  );
+
+  await verifyAssets(assets);
+
+  console.log(`Verified ${assets.length} assets at ${TOKENLIST_BASE_URL}`);
+}
+
+main().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
 });
-const result = await publishAssets(client, bucket, assets);
-
-console.log(
-  `R2 assets: ${result.uploaded} uploaded, ${result.skipped} unchanged`,
-);
-
-await verifyAssets(assets);
-
-console.log(`Verified ${assets.length} assets at ${TOKENLIST_BASE_URL}`);
