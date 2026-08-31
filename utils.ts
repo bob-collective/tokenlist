@@ -48,7 +48,7 @@ export function getMirrorLogoURI(
   logoext: 'svg' | 'webp',
 ): string {
   return new URL(
-    path.posix.join(tokenId, `logo.${logoext}`),
+    path.posix.join(TOKEN_DIR, tokenId, `logo.${logoext}`),
     TOKENLIST_MIRROR_URL,
   ).toString();
 }
