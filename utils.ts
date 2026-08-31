@@ -9,7 +9,7 @@ import type { KebabCase } from './types';
 
 // A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
 const TRON_ADDRESS_PREFIX = 0x41;
-const tronBase58 = base58check((data) => sha256(data, 'bytes'));
+const tronBase58 = base58check((data: Uint8Array) => sha256(data, 'bytes'));
 
 function decodeTronAddress(address: string): Uint8Array | null {
   try {
