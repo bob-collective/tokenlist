@@ -1,5 +1,4 @@
 import path from 'node:path';
-import url from 'node:url';
 import { base58check } from '@scure/base';
 import camelCase from 'lodash/fp/camelCase';
 import kebabCase from 'lodash/fp/kebabCase';
@@ -10,7 +9,7 @@ import type { KebabCase } from './types';
 
 // A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
 const TRON_ADDRESS_PREFIX = 0x41;
-const tronBase58 = base58check((data) => sha256(data, 'bytes'));
+const tronBase58 = base58check((data: Uint8Array) => sha256(data, 'bytes'));
 
 function decodeTronAddress(address: string): Uint8Array | null {
   try {
@@ -38,10 +37,10 @@ export function mapByName<T extends { name: string }>(
 }
 
 export function getLogoURI(tokenId: TokenId, logo: 'svg' | 'webp'): string {
-  return url.resolve(
+  return new URL(
+    path.posix.join(TOKEN_DIR, tokenId, `logo.${logo}`),
     TOKENLIST_BASE_URL,
-    path.join(TOKEN_DIR, tokenId, `logo.${logo}`),
-  );
+  ).toString();
 }
 
 export function checksumAddress(address: string): string {

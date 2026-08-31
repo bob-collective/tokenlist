@@ -26,6 +26,7 @@ export const TOKENLIST_SCHEMA_URL =
   'https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json';
 export const TOKENLIST_BASE_URL =
   'https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/';
+export const TOKENLIST_MIRROR_URL = 'https://static.gobob.xyz/tokenlist/';
 
 export const TOKEN_DIR = './data/tokens';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
