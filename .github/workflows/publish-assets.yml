@@ -1,0 +1,58 @@
+name: Publish tokenlist assets
+
+on:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: publish-tokenlist-assets
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish assets and notify UI
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 10.10.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build and verify tokenlist
+        run: pnpm build
+
+      - name: Publish and verify assets
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: pnpm publish:assets
+
+      - name: Notify UI
+        env:
+          GH_TOKEN: ${{ secrets.UI_DISPATCH_TOKEN }}
+          TOKENLIST_SHA: ${{ github.sha }}
+        run: |
+          gh api repos/bob-collective/ui/dispatches \
+            -f event_type=tokenlist-merged \
+            -f client_payload[sha]="$TOKENLIST_SHA"

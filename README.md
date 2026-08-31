@@ -302,7 +302,28 @@ pnpm verify
 | `pnpm format` | Check formatting with Biome |
 | `pnpm format:write` | Apply Biome formatting |
 | `pnpm lint` | Run Biome lint rules |
+| `pnpm publish:assets` | Publish token and chain logos to Cloudflare R2 and verify the public copies |
 | `pnpm verify` | Validate tokenlist schema and on-chain token data |
+
+---
+
+## Asset publishing
+
+Token and chain logos are served from `https://static.gobob.xyz/tokenlist/` using the same paths as the source
+files in `data/`. The `Publish tokenlist assets` workflow uploads them to Cloudflare R2 after every merge to `main`,
+verifies the public copies, and only then notifies the UI repository to update its tokenlist pin.
+
+Configure the workflow's `production` environment with an R2 Object Read & Write token restricted to the bucket
+behind `static.gobob.xyz`:
+
+- `R2_ACCOUNT_ID`
+- `R2_ACCESS_KEY_ID`
+- `R2_SECRET_ACCESS_KEY`
+- `R2_BUCKET_NAME`
+- `UI_DISPATCH_TOKEN`, with permission to dispatch events to `bob-collective/ui`
+
+R2 objects are stored below the `tokenlist/` prefix and retain the existing mutable-path behavior with a five-minute
+browser cache lifetime. Publishing is idempotent and does not delete assets that are no longer referenced.
 
 ---
 

@@ -1,5 +1,4 @@
 import path from 'node:path';
-import url from 'node:url';
 import { base58check } from '@scure/base';
 import camelCase from 'lodash/fp/camelCase';
 import kebabCase from 'lodash/fp/kebabCase';
@@ -38,10 +37,10 @@ export function mapByName<T extends { name: string }>(
 }
 
 export function getLogoURI(tokenId: TokenId, logo: 'svg' | 'webp'): string {
-  return url.resolve(
+  return new URL(
+    path.posix.join(TOKEN_DIR, tokenId, `logo.${logo}`),
     TOKENLIST_BASE_URL,
-    path.join(TOKEN_DIR, tokenId, `logo.${logo}`),
-  );
+  ).toString();
 }
 
 export function checksumAddress(address: string): string {

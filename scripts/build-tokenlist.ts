@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import url from 'node:url';
 import { glob } from 'glob';
 import { bob } from 'viem/chains';
 import {
@@ -154,10 +153,10 @@ const tokenlistData = fs
     return [
       folder as TokenId,
       data,
-      url.resolve(
+      new URL(
+        path.posix.join(TOKEN_DIR, folder, `logo.${logoext}`),
         TOKENLIST_BASE_URL,
-        path.join(TOKEN_DIR, folder, `logo.${logoext}`),
-      ),
+      ).toString(),
     ];
   });
 

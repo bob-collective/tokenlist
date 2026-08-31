@@ -1,6 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import url from 'node:url';
 import {
   CHAIN_DIR,
   NON_EVM_CHAIN_ID_BY_NAME,
@@ -29,10 +28,10 @@ for (const [chainName, logoFilename] of Object.entries(chainsData)) {
     continue;
   }
 
-  chainlist[chainId] = url.resolve(
+  chainlist[chainId] = new URL(
+    path.posix.join(CHAIN_DIR, logoFilename),
     TOKENLIST_BASE_URL,
-    path.join(CHAIN_DIR, logoFilename),
-  );
+  ).toString();
 }
 
 fs.writeFileSync(OUTFILE_CHAIN, JSON.stringify(chainlist, null, 2));
