@@ -11,8 +11,9 @@
       "**",
       "!token-ids.ts",
       "!tokenlist.json",
-      "!tokenlist-bob.json",
-      "!tokenlist-overrides.json",
+      "!tokenlist*.json",
+      "!chainlist.json",
+      "!chainlist*.json",
       "!**/*.svg"
     ]
   },

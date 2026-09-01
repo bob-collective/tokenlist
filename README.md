@@ -6,6 +6,7 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Logo URLs](#logo-urls)
 - [Compact Token List](#compact-token-list)
 - [Data Model](#data-model)
 - [Adding New Tokens](#adding-new-tokens)
@@ -39,14 +40,18 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 
 ### Exports
 
-| File                       | Description                                                                                                                       |
-| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `tokenlist.json`           | Complete token list across all chains                                                                                             |
-| `tokenlist-bob.json`       | Tokens on BOB chain only                                                                                                          |
-| `tokenlist-overrides.json` | Token list with UI overrides applied                                                                                              |
-| `chainlist.json`           | Chain ID to logo URI map                                                                                                          |
-| `compressedlist.json`      | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
-| `token-ids.ts`             | Generated token identifier types                                                                                                  |
+| File                              | Description                                                                                                                       |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `tokenlist.json`                  | Complete token list across all chains                                                                                             |
+| `tokenlist-bob.json`              | Tokens on BOB chain only                                                                                                          |
+| `tokenlist-overrides.json`        | Token list with UI overrides applied                                                                                              |
+| `tokenlist-mirror.json`           | `tokenlist.json` with R2 mirror logo URIs                                                                                         |
+| `tokenlist-bob-mirror.json`       | `tokenlist-bob.json` with R2 mirror logo URIs                                                                                     |
+| `tokenlist-overrides-mirror.json` | `tokenlist-overrides.json` with R2 mirror logo URIs                                                                               |
+| `chainlist.json`                  | Chain ID to logo URI map (GitHub-hosted logos)                                                                                    |
+| `chainlist-mirror.json`           | Chain ID to logo URI map (R2 mirror logos)                                                                                        |
+| `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
+| `token-ids.ts`                    | Generated token identifier types                                                                                                  |
 
 ### TypeScript Types
 
@@ -67,11 +72,36 @@ import type { Token, TokenData, SupportedChain } from "@gobob/tokenlist/types";
 
 ---
 
+## Logo URLs
+
+Token logos are served from two hosts. Both helpers are exported from the package root, take the same arguments, and return the same path — only the host differs:
+
+| Helper              | Host                                                                | Use when                                       |
+| ------------------- | ------------------------------------------------------------------- | ---------------------------------------------- |
+| `getLogoURI`        | `https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/` | Default; logos read straight from GitHub       |
+| `getMirrorLogoURI`  | `https://static.gobob.xyz/tokenlist/`                               | Prefer the BOB R2 mirror (CDN-backed, cached)  |
+
+```typescript
+import { getLogoURI, getMirrorLogoURI } from "@gobob/tokenlist";
+
+getLogoURI("USDC", "svg");
+// "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USDC/logo.svg"
+
+getMirrorLogoURI("USDC", "svg");
+// "https://static.gobob.xyz/tokenlist/data/tokens/USDC/logo.svg"
+```
+
+The same split exists in the generated files: every `-mirror` list (`tokenlist-mirror.json`, `tokenlist-bob-mirror.json`, `tokenlist-overrides-mirror.json`, `chainlist-mirror.json`) is byte-identical to its counterpart apart from the logo host. Use `getMirrorLogoURI` when reconstructing logo URLs yourself (e.g. from `compressedlist.json`); use the `-mirror` lists when consuming prebuilt JSON.
+
+Mirror assets are published by the `Publish tokenlist assets` workflow after every merge to `main` — see [Asset publishing](#asset-publishing).
+
+---
+
 ## Compact Token List
 
 > **Use only when bundle size is critical.** `tokenlist.json` is the canonical, complete list — prefer it unless you must minimize shipped bytes.
 
-`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId, logo]`, followed by one per-chain tuple `[chainId, address, decimals, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
+`compressedlist.json` is a size-optimized form of the token list. Each `TokenId` maps to an array whose **first element** is the shared per-token metadata tuple `[name, symbol, coingeckoId, logo]`, followed by one per-chain tuple `[chainId, address, decimals, native, nameOverride?, symbolOverride?]` for each chain the token is on. Storing shared metadata once (instead of repeating it per chain) and dropping logo URLs — reconstructed at runtime via `getLogoURI` (or `getMirrorLogoURI`) — compresses to a fraction of `tokenlist.json`, at the cost of reassembly work at runtime.
 
 The trailing `nameOverride`/`symbolOverride` slots carry the per-chain UI overrides from `tokenlist-overrides.json` and are appended only when present:
 
@@ -120,6 +150,14 @@ const tokens = Object.entries(compressed).flatMap(([id, entry]) => {
     }),
   );
 });
+```
+
+To read logos from the BOB R2 mirror instead of GitHub, swap in `getMirrorLogoURI` — same signature, same return shape, only the host changes:
+
+```typescript
+import { getMirrorLogoURI } from "@gobob/tokenlist";
+
+logoURI: getMirrorLogoURI(id as TokenId, logoext),
 ```
 
 **Limitations:** this compact form omits `extensions.bridge`. Per-chain `name`/`symbol` overrides are carried via the trailing tuple slots, but `decimals` overrides are not — the `decimals` slot always holds the effective value. If you need bridge data, use `tokenlist.json` or `tokenlist-overrides.json` instead.
@@ -278,7 +316,9 @@ This updates:
 - `tokenlist.json` — all tokens using base names, symbols, and decimals
 - `tokenlist-bob.json` — BOB chain tokens
 - `tokenlist-overrides.json` — tokens with overrides applied
-- `chainlist.json` — supported chain logo map
+- `tokenlist-mirror.json`, `tokenlist-bob-mirror.json`, `tokenlist-overrides-mirror.json` — same lists with R2 mirror logo URIs
+- `chainlist.json` — supported chain logo map (GitHub-hosted logos)
+- `chainlist-mirror.json` — supported chain logo map (R2 mirror logos)
 - `compressedlist.json` — compact shared + per-chain tuple output
 
 ### 5. Verify
@@ -294,9 +334,9 @@ pnpm verify
 | Command                     | Description                                                                 |
 | --------------------------- | --------------------------------------------------------------------------- |
 | `pnpm build`                | Generate types, build token lists, then run verification                    |
-| `pnpm build:tokenlist`      | Generate tokenlist JSON files                                               |
+| `pnpm build:tokenlist`      | Generate tokenlist JSON files (GitHub-hosted and `-mirror` variants)        |
 | `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples)          |
-| `pnpm build:chainlist`      | Generate `chainlist.json`                                                   |
+| `pnpm build:chainlist`      | Generate `chainlist.json` and `chainlist-mirror.json`                       |
 | `pnpm build:types`          | Generate `TokenId` and `NativeTokenId` TypeScript unions                    |
 | `pnpm check`                | Run Biome formatting, import organization, and lint checks                  |
 | `pnpm check:write`          | Apply safe Biome formatting/import/lint fixes                               |
@@ -313,8 +353,11 @@ pnpm verify
 The `Publish tokenlist assets` workflow uploads token and chain logos to
 `https://static.gobob.xyz/tokenlist/` after every merge to `main`, verifies the public copies, and only then notifies
 the UI repository to update its tokenlist pin. Generated token and chain lists retain their GitHub-hosted logo URLs;
-consumers can rewrite the `https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main` prefix when
-loading logos from the R2 mirror.
+consumers can call `getMirrorLogoURI` instead of `getLogoURI` (or rewrite the
+`https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main` prefix themselves) when
+loading logos from the R2 mirror, or consume the `-mirror` lists (`tokenlist-mirror.json`,
+`tokenlist-bob-mirror.json`, `tokenlist-overrides-mirror.json`, `chainlist-mirror.json`), which are generated with
+mirror URLs already applied. Each `-mirror` file is byte-identical to its counterpart apart from the logo host.
 
 Configure the workflow's `production` environment with an R2 Object Read & Write token restricted to the bucket
 behind `static.gobob.xyz`:
@@ -336,7 +379,7 @@ browser cache lifetime. Publishing is idempotent and does not delete assets that
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
 
-**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, or `chainlist.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
+**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, or `chainlist-mirror.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
 ---
 
