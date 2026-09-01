@@ -48,12 +48,12 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: pnpm publish:assets
 
-      - name: Notify UI
-        if: github.ref == 'refs/heads/main'
-        env:
-          GH_TOKEN: ${{ secrets.UI_DISPATCH_TOKEN }}
-          TOKENLIST_SHA: ${{ github.sha }}
-        run: |
-          gh api repos/bob-collective/ui/dispatches \
-            -f event_type=tokenlist-merged \
-            -f client_payload[sha]="$TOKENLIST_SHA"
+      # - name: Notify UI
+      #   if: github.ref == 'refs/heads/main'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.UI_DISPATCH_TOKEN }}
+      #     TOKENLIST_SHA: ${{ github.sha }}
+      #   run: |
+      #     gh api repos/bob-collective/ui/dispatches \
+      #       -f event_type=tokenlist-merged \
+      #       -f client_payload[sha]="$TOKENLIST_SHA"

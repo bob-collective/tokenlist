@@ -32,10 +32,14 @@ export const TOKEN_DIR = './data/tokens';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
+export const OUTFILE_TOKENLIST_MIRROR = 'tokenlist-mirror.json';
+export const OUTFILE_BOB_MIRROR = 'tokenlist-bob-mirror.json';
+export const OUTFILE_OVERRIDES_MIRROR = 'tokenlist-overrides-mirror.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
 
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
+export const OUTFILE_CHAIN_MIRROR = 'chainlist-mirror.json';
 
 export const OUTFILE_COMPRESSED = 'compressedlist.json';
 

@@ -4,17 +4,22 @@ import {
   CHAIN_DIR,
   NON_EVM_CHAIN_ID_BY_NAME,
   OUTFILE_CHAIN,
+  OUTFILE_CHAIN_MIRROR,
   SUPPORTED_CHAIN_MAP,
   TOKENLIST_BASE_URL,
+  TOKENLIST_MIRROR_URL,
 } from '../config';
 
 const chainsData: Record<string, string> = JSON.parse(
   fs.readFileSync(path.join(CHAIN_DIR, 'chains.json'), 'utf8'),
 );
 
-// Keyed by numeric chain ID so downstream consumers can map a token's chainId
-// (incl. non-EVM chains like Solana) directly to its logo.
+// Both maps are keyed by numeric chain ID so downstream consumers can map a
+// token's chainId (incl. non-EVM chains like Solana) directly to its logo.
+// They differ only in host: GitHub raw for the default list, the R2 mirror for
+// consumers that cannot depend on raw.githubusercontent.com.
 const chainlist: Record<number, string> = {};
+const mirrorChainlist: Record<number, string> = {};
 
 for (const [chainName, logoFilename] of Object.entries(chainsData)) {
   if (chainName === '$schema' || !logoFilename) continue;
@@ -28,10 +33,14 @@ for (const [chainName, logoFilename] of Object.entries(chainsData)) {
     continue;
   }
 
-  chainlist[chainId] = new URL(
-    path.posix.join(CHAIN_DIR, logoFilename),
-    TOKENLIST_BASE_URL,
-  ).toString();
+  const logoPath = path.posix.join(CHAIN_DIR, logoFilename);
+
+  chainlist[chainId] = new URL(logoPath, TOKENLIST_BASE_URL).toString();
+  mirrorChainlist[chainId] = new URL(logoPath, TOKENLIST_MIRROR_URL).toString();
 }
 
 fs.writeFileSync(OUTFILE_CHAIN, JSON.stringify(chainlist, null, 2));
+fs.writeFileSync(
+  OUTFILE_CHAIN_MIRROR,
+  JSON.stringify(mirrorChainlist, null, 2),
+);

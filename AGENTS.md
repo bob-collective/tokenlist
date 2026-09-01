@@ -6,8 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 pnpm build              # Full build: generates types, tokenlist JSONs, then verifies
-pnpm build:tokenlist    # Generate tokenlist JSON files from /data
-pnpm build:chainlist    # Generate chainlist.json from /data/chains
+pnpm build:tokenlist    # Generate tokenlist JSON files (+ -mirror variants) from /data
+pnpm build:chainlist    # Generate chainlist.json + chainlist-mirror.json from /data/chains
 pnpm build:types        # Regenerate token-ids.ts from current /data entries
 pnpm check              # Run Biome formatting, import organization, and lint checks
 pnpm check:write        # Apply safe Biome formatting/import/lint fixes
@@ -30,8 +30,12 @@ This package is the authoritative token registry for the BOB ecosystem. The sour
 data/tokens/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.json
                                                                →  tokenlist-bob.json
                                                                →  tokenlist-overrides.json
+                                                               →  tokenlist-mirror.json
+                                                               →  tokenlist-bob-mirror.json
+                                                               →  tokenlist-overrides-mirror.json
 data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
 data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.json
+                                                               →  chainlist-mirror.json
 ```
 
 **Key files:**
@@ -46,6 +50,7 @@ data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.
 **data.json structure:**
 
 Each token directory's `data.json` specifies:
+
 - `name`, `symbol`, `decimals`
 - `coingeckoId` — required CoinGecko API ID for price feeds, emitted as `extensions.coingeckoId` in output JSONs; receipt/wrapped tokens without their own listing use the underlying asset's ID
 - `tokens` — map of chain name (e.g. `"bob"`, `"ethereum"`, `"op-mainnet"`, `"solana"`) → per-chain token record
@@ -57,6 +62,7 @@ Each token directory's `data.json` specifies:
 Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the supported chain keys in `config.ts`/`token.schema.json`. Chain IDs are only used in the output JSONs.
 
 Non-EVM handling:
+
 - Solana has no viem chain definition; `config.ts` maps `solana` to chain ID `1399811149`, and Solana mint addresses are passed through without EVM checksum formatting.
 
 **Output JSONs:**
@@ -64,7 +70,9 @@ Non-EVM handling:
 - `tokenlist.json` — All tokens across all chains, flat format
 - `tokenlist-bob.json` — BOB-chain entries only
 - `tokenlist-overrides.json` — Full list with per-chain overrides applied
-- `chainlist.json` — Chain ID to logo URI map
+- `tokenlist*-mirror.json` — Same three lists with `logoURI` pointing at the R2 mirror (`static.gobob.xyz`) instead of GitHub raw
+- `chainlist.json` — Chain ID to logo URI map (GitHub-hosted logos)
+- `chainlist-mirror.json` — Chain ID to logo URI map (R2 mirror logos, `static.gobob.xyz`)
 
 These are committed to the repo and consumed downstream via the npm package.
 
