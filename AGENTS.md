@@ -15,6 +15,7 @@ pnpm format             # Check formatting with Biome
 pnpm format:write       # Apply Biome formatting
 pnpm lint               # Run Biome lint rules
 pnpm verify             # Validate schema + on-chain data (runs automatically after build)
+pnpm prepare            # tsc: type-check root modules + emit dist/ (auto-runs on install/publish)
 ```
 
 ## Architecture
@@ -46,6 +47,7 @@ data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.
 - `token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
 - `token.schema.json` — JSON Schema attached to `data/tokens/[TOKEN]/data.json` files for IDE autocompletion.
 - `chain.schema.json` — JSON Schema attached to `data/chains/chains.json` for IDE autocompletion.
+- `tsconfig.json` — Composite project covering only the root `*.ts` modules; emits declarations/JS to `dist/` (gitignored, not published — `main` stays `index.ts`). `scripts/` is excluded and runs via `tsx`, so build scripts are not type-checked.
 
 **data.json structure:**
 
