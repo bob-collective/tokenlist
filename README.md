@@ -343,6 +343,7 @@ pnpm verify
 | `pnpm format`               | Check formatting with Biome                                                 |
 | `pnpm format:write`         | Apply Biome formatting                                                      |
 | `pnpm lint`                 | Run Biome lint rules                                                        |
+| `pnpm prepare`              | Type-check and emit `dist/` declarations (auto-runs on install and publish) |
 | `pnpm publish:assets`       | Publish token and chain logos to Cloudflare R2 and verify the public copies |
 | `pnpm verify`               | Validate tokenlist schema and on-chain token data                           |
 
@@ -378,6 +379,8 @@ browser cache lifetime. Publishing is idempotent and does not delete assets that
 **Native tokens:** Native chain assets should set `"native": true` and use the zero address where the asset is native. They are exported through `NativeTokenId` and marked as `extensions.native` in the generated token lists.
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
+
+**TypeScript build:** `pnpm prepare` runs `tsc`, which type-checks the root modules (`index.ts`, `config.ts`, `types.ts`, `utils.ts`, `token-ids.ts`) and emits declarations, source maps, and JS into `dist/`. npm and pnpm run it automatically on install and before publish. `tsconfig.json` is a composite project, so builds are incremental via `tsconfig.tsbuildinfo`. Build scripts under `scripts/` are excluded from the project and are executed with `tsx` instead, so they are not type-checked by `pnpm prepare`. `dist/` is gitignored but included in published files; the package still resolves `main` to the raw `index.ts`.
 
 **Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, or `chainlist-mirror.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
