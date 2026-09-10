@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "BOB token list data and utilities",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "packageManager": "pnpm@11.24.0",
   "files": [
+    "dist",
     "index.ts",
     "config.ts",
     "types.ts",
@@ -30,7 +32,8 @@
     "lint": "biome lint .",
     "postbuild": "npm run verify",
     "publish:assets": "tsx ./scripts/publish-assets.ts",
-    "verify": "tsx ./scripts/verify.ts"
+    "verify": "tsx ./scripts/verify.ts",
+    "prepare": "tsc"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1121.0",
