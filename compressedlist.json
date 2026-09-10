@@ -26,7 +26,7 @@
     [43114, "0x0000000000000000000000000000000000000000", 18, true]
   ],
   "BABY": [
-    ["Babylon", "BABY", "babylon", "svg"],
+    ["Babylon", "BABY", "babylon", "webp"],
     [60808, "0xe53dCec07d16D88e386AE0710E86d9a400f83c31", 6, false],
     [808813, "0x5E159518B8303A1f4eC9F9B10f077c89795DB178", 6, false]
   ],
@@ -65,7 +65,7 @@
     [60808, "0x4Ca70811E831db42072CBa1f0d03496EF126fAad", 18, false]
   ],
   "BTCB": [
-    ["BTCB Token", "BTCB", "binance-bitcoin", "svg"],
+    ["BTCB Token", "BTCB", "binance-bitcoin", "webp"],
     [56, "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c", 18, false]
   ],
   "cbBTC": [
@@ -141,12 +141,12 @@
     [1, "0x7C135549504245B5eAe64fc0E99Fa5ebabb8e35D", 18, false]
   ],
   "FRAX": [
-    ["Frax", "FRAX", "frax", "svg"],
+    ["Frax", "FRAX", "frax", "webp"],
     [1, "0x853d955aCEf822Db058eb8505911ED77F175b99e", 18, false],
     [60808, "0xc4a20a608616F18aA631316eEDa9Fb62d089361e", 18, false]
   ],
   "FXS": [
-    ["Frax Share", "FXS", "frax-share", "svg"],
+    ["Frax Share", "FXS", "frax-share", "webp"],
     [1, "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0", 18, false],
     [60808, "0x15e35B19AD29C512103EaABb55154Ef0Ee6ca661", 18, false]
   ],
@@ -301,7 +301,7 @@
     [60808, "0x6b062AA7F5FC52b530Cb13967aE2E6bc0D8Dd3E4", 18, false]
   ],
   "SOV": [
-    ["SOV", "SOV", "sovryn", "svg"],
+    ["SOV", "SOV", "sovryn", "webp"],
     [
       1,
       "0xbdab72602e9AD40FC6a6852CAf43258113B8F7a5",
@@ -357,7 +357,7 @@
     ]
   ],
   "thUSD": [
-    ["Threshold USD", "thUSD", "threshold-usd", "svg"],
+    ["Threshold USD", "thUSD", "threshold-usd", "webp"],
     [1, "0xCFC5bD99915aAa815401C5a41A927aB7a38d29cf", 18, false],
     [60808, "0xf7EF136751D7496021858c048FFA4f978C27831A", 18, false]
   ],

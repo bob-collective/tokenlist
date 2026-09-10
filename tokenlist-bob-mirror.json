@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-09-01T07:09:25.097Z",
+  "timestamp": "2026-09-10T10:35:27.585Z",
   "version": {
     "major": 1,
     "minor": 0,
@@ -70,7 +70,7 @@
       "name": "Babylon",
       "symbol": "BABY",
       "decimals": 6,
-      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/BABY/logo.svg",
+      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/BABY/logo.webp",
       "extensions": {
         "tokenId": "BABY",
         "coingeckoId": "babylon",
@@ -177,7 +177,7 @@
       "name": "Frax",
       "symbol": "FRAX",
       "decimals": 18,
-      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/FRAX/logo.svg",
+      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/FRAX/logo.webp",
       "extensions": {
         "tokenId": "FRAX",
         "coingeckoId": "frax",
@@ -193,7 +193,7 @@
       "name": "Frax Share",
       "symbol": "FXS",
       "decimals": 18,
-      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/FXS/logo.svg",
+      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/FXS/logo.webp",
       "extensions": {
         "tokenId": "FXS",
         "coingeckoId": "frax-share",
@@ -483,7 +483,7 @@
       "name": "SOV",
       "symbol": "SOV",
       "decimals": 18,
-      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/SOV/logo.svg",
+      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/SOV/logo.webp",
       "extensions": {
         "tokenId": "SOV",
         "coingeckoId": "sovryn",
@@ -547,7 +547,7 @@
       "name": "Threshold USD",
       "symbol": "thUSD",
       "decimals": 18,
-      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/thUSD/logo.svg",
+      "logoURI": "https://static.gobob.xyz/tokenlist/data/tokens/thUSD/logo.webp",
       "extensions": {
         "tokenId": "thUSD",
         "coingeckoId": "threshold-usd",
