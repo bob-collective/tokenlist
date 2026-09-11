@@ -426,6 +426,12 @@
     [146, "0x29219dd400f2Bf60E5a23d13Be72B486D4038894", 6, false, "USDC"],
     [999, "0xb88339CB7199b77E23DB6E890353E22632Ba630f", 6, false, "USDC"]
   ],
+  "USDG": [
+    ["Global Dollar", "USDG", "global-dollar", "svg"],
+    [1, "0xe343167631d89B6Ffc58B88d6b7fB0228795491D", 6, false],
+    [1584368940, "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH", 6, false],
+    [4663, "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168", 6, false]
+  ],
   "USDT": [
     ["Tether USD", "USDT", "tether", "svg"],
     [1, "0xdAC17F958D2ee523a2206206994597C13D831ec7", 6, false],
