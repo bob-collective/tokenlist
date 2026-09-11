@@ -16,6 +16,9 @@
     },
     "solana": {
       "address": "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij"
+    },
+    "robinhood-chain": {
+      "address": "0xCEC185eB182c47d1bA1EFc84e6959e18cd620Be4"
     }
   }
 }

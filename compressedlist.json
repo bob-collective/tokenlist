@@ -73,7 +73,8 @@
     [1, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [42161, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
     [8453, "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf", 8, false],
-    [1584368940, "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij", 8, false]
+    [1584368940, "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij", 8, false],
+    [4663, "0xCEC185eB182c47d1bA1EFc84e6959e18cd620Be4", 8, false]
   ],
   "DAI": [
     ["Dai Stablecoin", "DAI", "dai", "svg"],
@@ -120,7 +121,8 @@
       18,
       false,
       "Ethereum Token"
-    ]
+    ],
+    [4663, "0x0000000000000000000000000000000000000000", 18, true]
   ],
   "EURC": [
     ["Euro Coin", "EURC", "euro-coin", "svg"],
@@ -593,7 +595,8 @@
       false,
       "Wrapped Ether on Sonic"
     ],
-    [1329, "0x160345fC359604fC6e70E3c5fAcbdE5F7A9342d8", 18, false, "WETH"]
+    [1329, "0x160345fC359604fC6e70E3c5fAcbdE5F7A9342d8", 18, false, "WETH"],
+    [4663, "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73", 18, false, "WETH"]
   ],
   "wstETH": [
     ["Wrapped liquid staked Ether 2.0", "wstETH", "wrapped-steth", "svg"],
