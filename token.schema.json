@@ -89,6 +89,9 @@
             },
             "signet": {
               "$ref": "#/definitions/Address"
+            },
+            "robinhood-chain": {
+              "$ref": "#/definitions/Address"
             }
           }
         },
@@ -267,6 +270,9 @@
           "$ref": "#/definitions/ChainProperties"
         },
         "signet": {
+          "$ref": "#/definitions/ChainProperties"
+        },
+        "robinhood-chain": {
           "$ref": "#/definitions/ChainProperties"
         }
       },

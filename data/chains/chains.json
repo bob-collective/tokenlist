@@ -21,5 +21,6 @@
   "tron": "tron.svg",
   "solana": "solana.svg",
   "bitcoin": "bitcoin.svg",
-  "signet": "signet.svg"
+  "signet": "signet.svg",
+  "robinhood-chain": "robinhood.svg"
 }

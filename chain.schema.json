@@ -78,6 +78,9 @@
     },
     "signet": {
       "$ref": "#/definitions/LogoURI"
+    },
+    "robinhood-chain": {
+      "$ref": "#/definitions/LogoURI"
     }
   },
   "additionalProperties": false
