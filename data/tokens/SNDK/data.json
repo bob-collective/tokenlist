@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Sandisk Corporation • Robinhood Token",
+  "symbol": "SNDK",
+  "decimals": 18,
+  "coingeckoId": "sandisk-corporation-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xB90A19fF0Af67f7779afF50A882A9CfF42446400",
+      "overrides": {
+        "name": "Sandisk"
+      }
+    }
+  }
+}

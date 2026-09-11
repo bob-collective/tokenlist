@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Galaxy Digital Inc. • Robinhood Token",
+  "symbol": "GLXY",
+  "decimals": 18,
+  "coingeckoId": "galaxy-digital-inc-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x2D427692E928fa156ec22acfaBaFA0447C5805B7",
+      "overrides": {
+        "name": "Galaxy Digital"
+      }
+    }
+  }
+}

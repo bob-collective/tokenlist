@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Microsoft • Robinhood Token",
+  "symbol": "MSFT",
+  "decimals": 18,
+  "coingeckoId": "microsoft-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xe93237C50D904957Cf27E7B1133b510C669c2e74",
+      "overrides": {
+        "name": "Microsoft"
+      }
+    }
+  }
+}

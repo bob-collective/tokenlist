@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Palantir Technologies • Robinhood Token",
+  "symbol": "PLTR",
+  "decimals": 18,
+  "coingeckoId": "palantir-technologies-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A",
+      "overrides": {
+        "name": "Palantir"
+      }
+    }
+  }
+}

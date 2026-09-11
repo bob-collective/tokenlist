@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "IBM • Robinhood Token",
+  "symbol": "IBM",
+  "decimals": 18,
+  "coingeckoId": "international-business-machines-corporation-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x980dcf6766FA79f5Cf0c4AAdb3ab477ff15a9619",
+      "overrides": {
+        "name": "IBM"
+      }
+    }
+  }
+}

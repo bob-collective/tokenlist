@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Tesla • Robinhood Token",
+  "symbol": "TSLA",
+  "decimals": 18,
+  "coingeckoId": "tesla-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x322F0929c4625eD5bAd873c95208D54E1c003b2d",
+      "overrides": {
+        "name": "Tesla"
+      }
+    }
+  }
+}

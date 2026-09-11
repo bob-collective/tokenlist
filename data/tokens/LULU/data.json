@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Lululemon • Robinhood Token",
+  "symbol": "LULU",
+  "decimals": 18,
+  "coingeckoId": "lululemon-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x4e62068525Ab11FE768e29dfD00ef909B9803016",
+      "overrides": {
+        "name": "Lululemon"
+      }
+    }
+  }
+}

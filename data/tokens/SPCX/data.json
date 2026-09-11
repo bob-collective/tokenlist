@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "SpaceX • Robinhood Token",
+  "symbol": "SPCX",
+  "decimals": 18,
+  "coingeckoId": "spacex-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa",
+      "overrides": {
+        "name": "SpaceX"
+      }
+    }
+  }
+}

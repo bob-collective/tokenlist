@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Taiwan Semiconductor Manufacturing • Robinhood Token",
+  "symbol": "TSM",
+  "decimals": 18,
+  "coingeckoId": "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA",
+      "overrides": {
+        "name": "TSMC"
+      }
+    }
+  }
+}

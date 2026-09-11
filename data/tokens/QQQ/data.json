@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Invesco QQQ • Robinhood Token",
+  "symbol": "QQQ",
+  "decimals": 18,
+  "coingeckoId": "invesco-qqq-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68",
+      "overrides": {
+        "name": "Invesco QQQ"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Rivian Automotive • Robinhood Token",
+  "symbol": "RIVN",
+  "decimals": 18,
+  "coingeckoId": "rivian-automotive-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B",
+      "overrides": {
+        "name": "Rivian"
+      }
+    }
+  }
+}

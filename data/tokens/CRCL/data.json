@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Circle Internet Group • Robinhood Token",
+  "symbol": "CRCL",
+  "decimals": 18,
+  "coingeckoId": "circle-internet-group-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5",
+      "overrides": {
+        "name": "Circle"
+      }
+    }
+  }
+}
