@@ -52,6 +52,10 @@
     "sei-network": {
       "name": "WETH",
       "address": "0x160345fC359604fC6e70E3c5fAcbdE5F7A9342d8"
+    },
+    "robinhood-chain": {
+      "name": "WETH",
+      "address": "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73"
     }
   }
 }

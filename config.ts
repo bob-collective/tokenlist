@@ -12,6 +12,7 @@ import {
   optimism,
   plasma,
   polygon,
+  robinhood,
   sei,
   sepolia,
   soneium,
@@ -89,6 +90,7 @@ const supportedMainnetChains = [
       },
     },
   }),
+  robinhood,
 ];
 const supportedTestnetChains = [sepolia, bobSepolia];
 export const SUPPORTED_CHAINS = [

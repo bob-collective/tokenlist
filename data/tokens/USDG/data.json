@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Global Dollar",
+  "symbol": "USDG",
+  "decimals": 6,
+  "coingeckoId": "global-dollar",
+  "description": "Global Dollar (USDG) is a US dollar-pegged stablecoin issued by Paxos Digital Singapore, fully backed by cash and cash equivalents and redeemable 1:1 for USD.",
+  "website": "https://globaldollar.com",
+  "twitter": "@global_dollar",
+  "tokens": {
+    "ethereum": {
+      "address": "0xe343167631d89B6Ffc58B88d6b7fB0228795491D"
+    },
+    "solana": {
+      "address": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH"
+    },
+    "robinhood-chain": {
+      "address": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168"
+    }
+  }
+}
