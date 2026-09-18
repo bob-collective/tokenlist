@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Take-Two Interactive Software • Robinhood Token",
+  "symbol": "TTWO",
+  "decimals": 18,
+  "coingeckoId": "take-two-interactive-software-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x5e81213613b6B86EaB4c6c50d718d34359459786",
+      "overrides": {
+        "name": "Take-Two"
+      }
+    }
+  }
+}

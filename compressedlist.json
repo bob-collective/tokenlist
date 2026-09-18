@@ -1,4 +1,13 @@
 {
+  "AAPL": [
+    [
+      "Apple • Robinhood Token",
+      "AAPL",
+      "apple-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9", 18, false, "Apple"]
+  ],
   "aBOBSOLVBTCBBN": [
     [
       "Avalon Avalon SOLVBTCBBN",
@@ -21,9 +30,40 @@
     [1, "0xe7c3755482d0dA522678Af05945062d4427e0923", 18, false],
     [60808, "0xa669e059fDcbDFC532A2edd658eb2922799EEDb8", 18, false]
   ],
+  "AMC": [
+    [
+      "AMC Entertainment • Robinhood Token",
+      "AMC",
+      "amc-entertainment-holdings-inc-robinhood-token",
+      "svg"
+    ],
+    [4663, "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B", 18, false, "AMC"]
+  ],
+  "AMD": [
+    ["AMD • Robinhood Token", "AMD", "amd-robinhood-tokenized-stock", "svg"],
+    [4663, "0x86923f96303D656E4aa86D9d42D1e57ad2023fdC", 18, false, "AMD"]
+  ],
+  "AMZN": [
+    [
+      "Amazon • Robinhood Token",
+      "AMZN",
+      "amazon-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x12f190a9F9d7D37a250758b26824B97CE941bF54", 18, false, "Amazon"]
+  ],
   "AVAX": [
     ["Avalanche", "AVAX", "avalanche-2", "svg"],
     [43114, "0x0000000000000000000000000000000000000000", 18, true]
+  ],
+  "BABA": [
+    [
+      "Alibaba • Robinhood Token",
+      "BABA",
+      "alibaba-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xad25Ac6C84D497db898fa1E8387bf6Af3532a1c4", 18, false, "Alibaba"]
   ],
   "BABY": [
     ["Babylon", "BABY", "babylon", "svg"],
@@ -76,6 +116,33 @@
     [1584368940, "cbbtcf3aa214zXHbiAZQwf4122FBYbraNdFqgw4iMij", 8, false],
     [4663, "0xCEC185eB182c47d1bA1EFc84e6959e18cd620Be4", 8, false]
   ],
+  "COIN": [
+    [
+      "Coinbase • Robinhood Token",
+      "COIN",
+      "coinbase-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x6330D8C3178a418788dF01a47479c0ce7CCF450b", 18, false, "Coinbase"]
+  ],
+  "COST": [
+    [
+      "Costco • Robinhood Token",
+      "COST",
+      "costco-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x4EA005168D7F09a7A0Ba9D1DEf21a479950E44C2", 18, false, "Costco"]
+  ],
+  "CRCL": [
+    [
+      "Circle Internet Group • Robinhood Token",
+      "CRCL",
+      "circle-internet-group-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5", 18, false, "Circle"]
+  ],
   "DAI": [
     ["Dai Stablecoin", "DAI", "dai", "svg"],
     [1, "0x6B175474E89094C44Da98b954EedeAC495271d0F", 18, false],
@@ -91,6 +158,21 @@
     [56, "0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3", 18, false, "Dai Token"],
     [10, "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", 18, false],
     [8453, "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb", 18, false]
+  ],
+  "DJT": [
+    [
+      "Trump Media & Technology Group • Robinhood Token",
+      "DJT",
+      "trump-media-technology-group-corp-robinhood-token",
+      "svg"
+    ],
+    [
+      4663,
+      "0x1D11f0496982706C5e14A514D4E79F2e6BdE4516",
+      18,
+      false,
+      "Trump Media"
+    ]
   ],
   "DLLR": [
     ["DLLR", "DLLR", "sovryn-dollar", "svg"],
@@ -142,6 +224,10 @@
     ["Fidelity Digital Dollar", "FIDD", "fidelity-digital-dollar", "svg"],
     [1, "0x7C135549504245B5eAe64fc0E99Fa5ebabb8e35D", 18, false]
   ],
+  "FIG": [
+    ["Figma • Robinhood Token", "FIG", "figma-inc-robinhood-token", "svg"],
+    [4663, "0x41F4267525a8AFf329540eF24fD83d9044758B33", 18, false, "Figma"]
+  ],
   "FRAX": [
     ["Frax", "FRAX", "frax", "svg"],
     [1, "0x853d955aCEf822Db058eb8505911ED77F175b99e", 18, false],
@@ -152,6 +238,63 @@
     [1, "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0", 18, false],
     [60808, "0x15e35B19AD29C512103EaABb55154Ef0Ee6ca661", 18, false]
   ],
+  "GLD": [
+    [
+      "SPDR Gold Trust • Robinhood Token",
+      "GLD",
+      "spdr-gold-shares-robinhood-token",
+      "svg"
+    ],
+    [4663, "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e", 18, false, "SPDR Gold"]
+  ],
+  "GLXY": [
+    [
+      "Galaxy Digital Inc. • Robinhood Token",
+      "GLXY",
+      "galaxy-digital-inc-robinhood-token",
+      "svg"
+    ],
+    [
+      4663,
+      "0x2D427692E928fa156ec22acfaBaFA0447C5805B7",
+      18,
+      false,
+      "Galaxy Digital"
+    ]
+  ],
+  "GME": [
+    [
+      "GameStop • Robinhood Token",
+      "GME",
+      "gamestop-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x1b0E319c6A659F002271B69dB8A7df2F911c153E", 18, false, "GameStop"]
+  ],
+  "GOOGL": [
+    [
+      "Alphabet Class A • Robinhood Token",
+      "GOOGL",
+      "alphabet-class-a-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3", 18, false, "Alphabet"]
+  ],
+  "HIMS": [
+    [
+      "Hims & Hers Health • Robinhood Token",
+      "HIMS",
+      "hims-hers-health-inc-robinhood-token",
+      "svg"
+    ],
+    [
+      4663,
+      "0xCceE82fE024c36fA15E1005edE3E9e4787e23D09",
+      18,
+      false,
+      "Hims & Hers"
+    ]
+  ],
   "HybridBTC.pendle": [
     ["Hybrid Bitcoin", "HybridBTC.pendle", "wrapped-bitcoin", "svg"],
     [1, "0x9998e05030Aee3Af9AD3df35A34F5C51e1628779", 8, false],
@@ -160,6 +303,39 @@
   "HYPE": [
     ["HYPE", "HYPE", "hyperliquid", "svg"],
     [999, "0x0000000000000000000000000000000000000000", 18, true]
+  ],
+  "IBM": [
+    [
+      "IBM • Robinhood Token",
+      "IBM",
+      "international-business-machines-corporation-robinhood-token",
+      "svg"
+    ],
+    [4663, "0x980dcf6766FA79f5Cf0c4AAdb3ab477ff15a9619", 18, false, "IBM"]
+  ],
+  "INDA": [
+    [
+      "iShares MSCI India ETF • Robinhood Token",
+      "INDA",
+      "ishares-msci-india-etf-robinhood-token",
+      "svg"
+    ],
+    [
+      4663,
+      "0xACEF2e09adb47aD6aBeBAD9fF06689E60615C2B6",
+      18,
+      false,
+      "iShares MSCI India"
+    ]
+  ],
+  "INTC": [
+    [
+      "Intel • Robinhood Token",
+      "INTC",
+      "intel-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xc72b96e0E48ecd4DC75E1e45396e26300BC39681", 18, false, "Intel"]
   ],
   "iontBTC": [
     ["Ionic tBTC v2", "iontBTC", "wrapped-bitcoin", "svg"],
@@ -191,6 +367,84 @@
     [137, "0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39", 18, false],
     [10, "0x350a791Bfc2C21F9Ed5d10980Dad2e2638ffa7f6", 18, false]
   ],
+  "LLY": [
+    [
+      "Eli Lilly • Robinhood Token",
+      "LLY",
+      "eli-lilly-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x8005d266423c7ea827372c9c864491e5786600ea", 18, false, "Eli Lilly"]
+  ],
+  "LULU": [
+    [
+      "Lululemon • Robinhood Token",
+      "LULU",
+      "lululemon-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x4e62068525Ab11FE768e29dfD00ef909B9803016", 18, false, "Lululemon"]
+  ],
+  "META": [
+    [
+      "Meta Platforms • Robinhood Token",
+      "META",
+      "meta-platforms-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35", 18, false, "Meta"]
+  ],
+  "MSFT": [
+    [
+      "Microsoft • Robinhood Token",
+      "MSFT",
+      "microsoft-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xe93237C50D904957Cf27E7B1133b510C669c2e74", 18, false, "Microsoft"]
+  ],
+  "MSTR": [
+    [
+      "Strategy Inc. • Robinhood Token",
+      "MSTR",
+      "strategy-inc-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xec262a75e413fAfD0dF80480274532C79D42da09", 18, false, "Strategy"]
+  ],
+  "MU": [
+    [
+      "Micron Technology • Robinhood Token",
+      "MU",
+      "micron-technology-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD",
+      18,
+      false,
+      "Micron Technology"
+    ]
+  ],
+  "NFLX": [
+    [
+      "Netflix • Robinhood Token",
+      "NFLX",
+      "netflix-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xE0444EF8BF4eD74f74FD73686e2ddF4C1c5591E8", 18, false, "Netflix"]
+  ],
+  "NVDA": [
+    [
+      "NVIDIA • Robinhood Token",
+      "NVDA",
+      "nvidia-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC", 18, false, "NVIDIA"]
+  ],
   "oUSDT": [
     ["OpenUSDT", "oUSDT", "openusdt", "svg"],
     [1, "0x1217BfE6c773EEC6cc4A38b5Dc45B92292B6E189", 6, false],
@@ -201,6 +455,15 @@
   "PAXG": [
     ["Paxos Gold", "PAXG", "pax-gold", "svg"],
     [1, "0x45804880De22913dAFE09f4980848ECE6EcbAf78", 18, false]
+  ],
+  "PLTR": [
+    [
+      "Palantir Technologies • Robinhood Token",
+      "PLTR",
+      "palantir-technologies-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A", 18, false, "Palantir"]
   ],
   "POL": [
     ["Polygon Ecosystem Token", "POL", "polygon-ecosystem-token", "svg"],
@@ -216,10 +479,67 @@
     [1, "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8", 6, false],
     [1584368940, "2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo", 6, false]
   ],
+  "QQQ": [
+    [
+      "Invesco QQQ • Robinhood Token",
+      "QQQ",
+      "invesco-qqq-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68",
+      18,
+      false,
+      "Invesco QQQ"
+    ]
+  ],
+  "QUBT": [
+    [
+      "Quantum Computing • Robinhood Token",
+      "QUBT",
+      "quantum-computing-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0x59818904ab4cE163b3cE4FfB64f2D6Ca02c434B4",
+      18,
+      false,
+      "Quantum Computing"
+    ]
+  ],
+  "RBLX": [
+    [
+      "Roblox • Robinhood Token",
+      "RBLX",
+      "roblox-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xF0C4BF4C582cb3836e98394b1d4e7B7281101bE8", 18, false, "Roblox"]
+  ],
+  "RDDT": [
+    [
+      "Reddit • Robinhood Token",
+      "RDDT",
+      "reddit-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x05b37Fb53A299a1b874A619e1c4C404D52C36F4C", 18, false, "Reddit"]
+  ],
   "rETH": [
     ["Rocket Pool ETH", "rETH", "rocket-pool-eth", "svg"],
     [1, "0xae78736Cd615f374D3085123A210448E74Fc6393", 18, false],
     [60808, "0xB5686c4f60904Ec2BDA6277d6FE1F7cAa8D1b41a", 18, false]
+  ],
+  "RIVN": [
+    [
+      "Rivian Automotive • Robinhood Token",
+      "RIVN",
+      "rivian-automotive-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B", 18, false, "Rivian"]
   ],
   "RLUSD": [
     ["RLUSD", "RLUSD", "ripple-usd", "svg"],
@@ -279,6 +599,58 @@
     [1, "0xac3E018457B222d93114458476f3E3416Abbe38F", 18, false],
     [60808, "0x249d2952D1C678843e7cD7bF654EfCeC52f2F9E8", 18, false]
   ],
+  "SGOV": [
+    [
+      "iShares 0-3 Month Treasury Bond • Robinhood Token",
+      "SGOV",
+      "ishares-0-3-month-treasury-bond-etf-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0x92FD66527192E3e61d4DDd13322Aa222DE86F9B5",
+      18,
+      false,
+      "iShares 0-3M Treasury"
+    ]
+  ],
+  "SHOP": [
+    [
+      "Shopify • Robinhood Token",
+      "SHOP",
+      "shopify-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xF53F66751B1Eff985311b693531E3290F600c410", 18, false, "Shopify"]
+  ],
+  "SLV": [
+    [
+      "iShares Silver Trust • Robinhood Token",
+      "SLV",
+      "ishares-silver-trust-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0x411eFb0E7f985935DAec3D4C3ebaEa0d0AD7D89f",
+      18,
+      false,
+      "iShares Silver"
+    ]
+  ],
+  "SNAP": [
+    ["Snap • Robinhood Token", "SNAP", "snap-inc-robinhood-token", "svg"],
+    [4663, "0xF6589F11Bc40b669e584073F428B05562F568733", 18, false, "Snap"]
+  ],
+  "SNDK": [
+    [
+      "Sandisk Corporation • Robinhood Token",
+      "SNDK",
+      "sandisk-corporation-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0xB90A19fF0Af67f7779afF50A882A9CfF42446400", 18, false, "Sandisk"]
+  ],
   "SOL": [
     ["SOLANA", "SOL", "solana", "svg"],
     [1584368940, "So11111111111111111111111111111111111111112", 9, true],
@@ -313,6 +685,30 @@
       "eSOV"
     ],
     [60808, "0xba20a5e63eeEFfFA6fD365E7e540628F8fC61474", 18, false]
+  ],
+  "SPCX": [
+    [
+      "SpaceX • Robinhood Token",
+      "SPCX",
+      "spacex-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa", 18, false, "SpaceX"]
+  ],
+  "SPY": [
+    [
+      "SPDR S&P 500 ETF Trust • Robinhood Token",
+      "SPY",
+      "spdr-s-p-500-etf-trust-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+      18,
+      false,
+      "SPDR S&P 500"
+    ]
   ],
   "STONE": [
     ["StakeStone Ether", "STONE", "stakestone-ether", "webp"],
@@ -376,6 +772,33 @@
     ["TRON", "TRX", "tron", "svg"],
     [728126428, "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb", 6, true]
   ],
+  "TSLA": [
+    [
+      "Tesla • Robinhood Token",
+      "TSLA",
+      "tesla-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x322F0929c4625eD5bAd873c95208D54E1c003b2d", 18, false, "Tesla"]
+  ],
+  "TSM": [
+    [
+      "Taiwan Semiconductor Manufacturing • Robinhood Token",
+      "TSM",
+      "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA", 18, false, "TSMC"]
+  ],
+  "TTWO": [
+    [
+      "Take-Two Interactive Software • Robinhood Token",
+      "TTWO",
+      "take-two-interactive-software-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [4663, "0x5e81213613b6B86EaB4c6c50d718d34359459786", 18, false, "Take-Two"]
+  ],
   "UNI": [
     ["Uniswap", "UNI", "uniswap", "webp"],
     [1, "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984", 18, false],
@@ -389,6 +812,10 @@
     [42161, "0x6B2a01A5f79dEb4c2f3c0eDa7b01DF456FbD726a", 8, false],
     [8453, "0x93919784C523f39CACaa98Ee0a9d96c3F32b593e", 8, false],
     [56, "0x6B2a01A5f79dEb4c2f3c0eDa7b01DF456FbD726a", 8, false]
+  ],
+  "UPS": [
+    ["UPS • Robinhood Token", "UPS", "ups-robinhood-tokenized-stock", "svg"],
+    [4663, "0xf23250dac154D05Bb671CB0d0eBEf3c635c79CE2", 18, false, "UPS"]
   ],
   "USD1": [
     ["World Liberty Financial USD", "USD1", "usd1-wlfi", "svg"],
@@ -535,6 +962,21 @@
       "USDT0"
     ],
     [10, "0x01bFF41798a0BcF287b996046Ca68b395DbC1071", 6, false, null, "USDT0"]
+  ],
+  "USO": [
+    [
+      "United States Oil Fund • Robinhood Token",
+      "USO",
+      "united-states-oil-fund-robinhood-tokenized-stock",
+      "svg"
+    ],
+    [
+      4663,
+      "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
+      18,
+      false,
+      "US Oil Fund"
+    ]
   ],
   "WAVAX": [
     ["Wrapped AVAX", "WAVAX", "wrapped-avax", "svg"],

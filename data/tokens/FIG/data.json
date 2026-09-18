@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Figma • Robinhood Token",
+  "symbol": "FIG",
+  "decimals": 18,
+  "coingeckoId": "figma-inc-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x41F4267525a8AFf329540eF24fD83d9044758B33",
+      "overrides": {
+        "name": "Figma"
+      }
+    }
+  }
+}

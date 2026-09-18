@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Strategy Inc. • Robinhood Token",
+  "symbol": "MSTR",
+  "decimals": 18,
+  "coingeckoId": "strategy-inc-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xec262a75e413fAfD0dF80480274532C79D42da09",
+      "overrides": {
+        "name": "Strategy"
+      }
+    }
+  }
+}

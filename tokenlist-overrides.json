@@ -1,13 +1,27 @@
 {
   "$schema": "https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json",
   "name": "BOB Tokens",
-  "timestamp": "2026-09-11T15:28:02.668Z",
+  "timestamp": "2026-09-17T13:32:11.634Z",
   "version": {
     "major": 1,
     "minor": 0,
     "patch": 0
   },
   "tokens": [
+    {
+      "chainId": 4663,
+      "address": "0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9",
+      "name": "Apple",
+      "symbol": "AAPL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/AAPL/logo.svg",
+      "extensions": {
+        "tokenId": "AAPL",
+        "coingeckoId": "apple-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
     {
       "chainId": 60808,
       "address": "0x2E6500A7Add9a788753a897e4e3477f651c612eb",
@@ -79,6 +93,47 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B",
+      "name": "AMC",
+      "symbol": "AMC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/AMC/logo.svg",
+      "extensions": {
+        "tokenId": "AMC",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x86923f96303D656E4aa86D9d42D1e57ad2023fdC",
+      "name": "AMD",
+      "symbol": "AMD",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/AMD/logo.svg",
+      "extensions": {
+        "tokenId": "AMD",
+        "coingeckoId": "amd-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x12f190a9F9d7D37a250758b26824B97CE941bF54",
+      "name": "Amazon",
+      "symbol": "AMZN",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/AMZN/logo.svg",
+      "extensions": {
+        "tokenId": "AMZN",
+        "coingeckoId": "amazon-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 43114,
       "address": "0x0000000000000000000000000000000000000000",
       "name": "Avalanche",
@@ -89,6 +144,20 @@
         "tokenId": "AVAX",
         "coingeckoId": "avalanche-2",
         "native": true,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xad25Ac6C84D497db898fa1E8387bf6Af3532a1c4",
+      "name": "Alibaba",
+      "symbol": "BABA",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/BABA/logo.svg",
+      "extensions": {
+        "tokenId": "BABA",
+        "coingeckoId": "alibaba-robinhood-tokenized-stock",
+        "native": false,
         "bridge": {}
       }
     },
@@ -354,6 +423,47 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x6330D8C3178a418788dF01a47479c0ce7CCF450b",
+      "name": "Coinbase",
+      "symbol": "COIN",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/COIN/logo.svg",
+      "extensions": {
+        "tokenId": "COIN",
+        "coingeckoId": "coinbase-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x4EA005168D7F09a7A0Ba9D1DEf21a479950E44C2",
+      "name": "Costco",
+      "symbol": "COST",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/COST/logo.svg",
+      "extensions": {
+        "tokenId": "COST",
+        "coingeckoId": "costco-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5",
+      "name": "Circle",
+      "symbol": "CRCL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/CRCL/logo.svg",
+      "extensions": {
+        "tokenId": "CRCL",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
       "name": "Dai Stablecoin",
@@ -451,6 +561,19 @@
       "extensions": {
         "tokenId": "DAI",
         "coingeckoId": "dai",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x1D11f0496982706C5e14A514D4E79F2e6BdE4516",
+      "name": "Trump Media",
+      "symbol": "DJT",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/DJT/logo.svg",
+      "extensions": {
+        "tokenId": "DJT",
         "native": false,
         "bridge": {}
       }
@@ -772,6 +895,20 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x41F4267525a8AFf329540eF24fD83d9044758B33",
+      "name": "Figma",
+      "symbol": "FIG",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/FIG/logo.svg",
+      "extensions": {
+        "tokenId": "FIG",
+        "coingeckoId": "figma-inc-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
       "name": "Frax",
@@ -832,6 +969,76 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e",
+      "name": "SPDR Gold",
+      "symbol": "GLD",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/GLD/logo.svg",
+      "extensions": {
+        "tokenId": "GLD",
+        "coingeckoId": "spdr-gold-shares-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x2D427692E928fa156ec22acfaBaFA0447C5805B7",
+      "name": "Galaxy Digital",
+      "symbol": "GLXY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/GLXY/logo.svg",
+      "extensions": {
+        "tokenId": "GLXY",
+        "coingeckoId": "galaxy-digital-inc-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E",
+      "name": "GameStop",
+      "symbol": "GME",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/GME/logo.svg",
+      "extensions": {
+        "tokenId": "GME",
+        "coingeckoId": "gamestop-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      "name": "Alphabet",
+      "symbol": "GOOGL",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/GOOGL/logo.svg",
+      "extensions": {
+        "tokenId": "GOOGL",
+        "coingeckoId": "alphabet-class-a-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xCceE82fE024c36fA15E1005edE3E9e4787e23D09",
+      "name": "Hims & Hers",
+      "symbol": "HIMS",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/HIMS/logo.svg",
+      "extensions": {
+        "tokenId": "HIMS",
+        "coingeckoId": "hims-hers-health-inc-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x9998e05030Aee3Af9AD3df35A34F5C51e1628779",
       "name": "Hybrid Bitcoin",
@@ -870,6 +1077,47 @@
         "tokenId": "HYPE",
         "coingeckoId": "hyperliquid",
         "native": true,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x980dcf6766FA79f5Cf0c4AAdb3ab477ff15a9619",
+      "name": "IBM",
+      "symbol": "IBM",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/IBM/logo.svg",
+      "extensions": {
+        "tokenId": "IBM",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xACEF2e09adb47aD6aBeBAD9fF06689E60615C2B6",
+      "name": "iShares MSCI India",
+      "symbol": "INDA",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/INDA/logo.svg",
+      "extensions": {
+        "tokenId": "INDA",
+        "coingeckoId": "ishares-msci-india-etf-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xc72b96e0E48ecd4DC75E1e45396e26300BC39681",
+      "name": "Intel",
+      "symbol": "INTC",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/INTC/logo.svg",
+      "extensions": {
+        "tokenId": "INTC",
+        "coingeckoId": "intel-robinhood-tokenized-stock",
+        "native": false,
         "bridge": {}
       }
     },
@@ -1088,6 +1336,117 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x8005d266423c7ea827372c9c864491e5786600ea",
+      "name": "Eli Lilly",
+      "symbol": "LLY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LLY/logo.svg",
+      "extensions": {
+        "tokenId": "LLY",
+        "coingeckoId": "eli-lilly-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x4e62068525Ab11FE768e29dfD00ef909B9803016",
+      "name": "Lululemon",
+      "symbol": "LULU",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/LULU/logo.svg",
+      "extensions": {
+        "tokenId": "LULU",
+        "coingeckoId": "lululemon-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35",
+      "name": "Meta",
+      "symbol": "META",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/META/logo.svg",
+      "extensions": {
+        "tokenId": "META",
+        "coingeckoId": "meta-platforms-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xe93237C50D904957Cf27E7B1133b510C669c2e74",
+      "name": "Microsoft",
+      "symbol": "MSFT",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/MSFT/logo.svg",
+      "extensions": {
+        "tokenId": "MSFT",
+        "coingeckoId": "microsoft-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xec262a75e413fAfD0dF80480274532C79D42da09",
+      "name": "Strategy",
+      "symbol": "MSTR",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/MSTR/logo.svg",
+      "extensions": {
+        "tokenId": "MSTR",
+        "coingeckoId": "strategy-inc-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD",
+      "name": "Micron Technology",
+      "symbol": "MU",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/MU/logo.svg",
+      "extensions": {
+        "tokenId": "MU",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xE0444EF8BF4eD74f74FD73686e2ddF4C1c5591E8",
+      "name": "Netflix",
+      "symbol": "NFLX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/NFLX/logo.svg",
+      "extensions": {
+        "tokenId": "NFLX",
+        "coingeckoId": "netflix-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+      "name": "NVIDIA",
+      "symbol": "NVDA",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/NVDA/logo.svg",
+      "extensions": {
+        "tokenId": "NVDA",
+        "coingeckoId": "nvidia-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x1217BfE6c773EEC6cc4A38b5Dc45B92292B6E189",
       "name": "OpenUSDT",
@@ -1153,6 +1512,19 @@
       "extensions": {
         "tokenId": "PAXG",
         "coingeckoId": "pax-gold",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A",
+      "name": "Palantir",
+      "symbol": "PLTR",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/PLTR/logo.svg",
+      "extensions": {
+        "tokenId": "PLTR",
         "native": false,
         "bridge": {}
       }
@@ -1232,6 +1604,61 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68",
+      "name": "Invesco QQQ",
+      "symbol": "QQQ",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/QQQ/logo.svg",
+      "extensions": {
+        "tokenId": "QQQ",
+        "coingeckoId": "invesco-qqq-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x59818904ab4cE163b3cE4FfB64f2D6Ca02c434B4",
+      "name": "Quantum Computing",
+      "symbol": "QUBT",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/QUBT/logo.svg",
+      "extensions": {
+        "tokenId": "QUBT",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xF0C4BF4C582cb3836e98394b1d4e7B7281101bE8",
+      "name": "Roblox",
+      "symbol": "RBLX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/RBLX/logo.svg",
+      "extensions": {
+        "tokenId": "RBLX",
+        "coingeckoId": "roblox-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x05b37Fb53A299a1b874A619e1c4C404D52C36F4C",
+      "name": "Reddit",
+      "symbol": "RDDT",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/RDDT/logo.svg",
+      "extensions": {
+        "tokenId": "RDDT",
+        "coingeckoId": "reddit-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0xae78736Cd615f374D3085123A210448E74Fc6393",
       "name": "Rocket Pool ETH",
@@ -1261,6 +1688,19 @@
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B",
+      "name": "Rivian",
+      "symbol": "RIVN",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/RIVN/logo.svg",
+      "extensions": {
+        "tokenId": "RIVN",
+        "native": false,
+        "bridge": {}
       }
     },
     {
@@ -1496,6 +1936,73 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x92FD66527192E3e61d4DDd13322Aa222DE86F9B5",
+      "name": "iShares 0-3M Treasury",
+      "symbol": "SGOV",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SGOV/logo.svg",
+      "extensions": {
+        "tokenId": "SGOV",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xF53F66751B1Eff985311b693531E3290F600c410",
+      "name": "Shopify",
+      "symbol": "SHOP",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SHOP/logo.svg",
+      "extensions": {
+        "tokenId": "SHOP",
+        "coingeckoId": "shopify-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x411eFb0E7f985935DAec3D4C3ebaEa0d0AD7D89f",
+      "name": "iShares Silver",
+      "symbol": "SLV",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SLV/logo.svg",
+      "extensions": {
+        "tokenId": "SLV",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xF6589F11Bc40b669e584073F428B05562F568733",
+      "name": "Snap",
+      "symbol": "SNAP",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SNAP/logo.svg",
+      "extensions": {
+        "tokenId": "SNAP",
+        "coingeckoId": "snap-inc-robinhood-token",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xB90A19fF0Af67f7779afF50A882A9CfF42446400",
+      "name": "Sandisk",
+      "symbol": "SNDK",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SNDK/logo.svg",
+      "extensions": {
+        "tokenId": "SNDK",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1584368940,
       "address": "So11111111111111111111111111111111111111112",
       "name": "SOLANA",
@@ -1679,6 +2186,33 @@
         "bridge": {
           "1": "0x4200000000000000000000000000000000000010"
         }
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa",
+      "name": "SpaceX",
+      "symbol": "SPCX",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SPCX/logo.svg",
+      "extensions": {
+        "tokenId": "SPCX",
+        "coingeckoId": "spacex-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+      "name": "SPDR S&P 500",
+      "symbol": "SPY",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/SPY/logo.svg",
+      "extensions": {
+        "tokenId": "SPY",
+        "native": false,
+        "bridge": {}
       }
     },
     {
@@ -1936,6 +2470,46 @@
       }
     },
     {
+      "chainId": 4663,
+      "address": "0x322F0929c4625eD5bAd873c95208D54E1c003b2d",
+      "name": "Tesla",
+      "symbol": "TSLA",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/TSLA/logo.svg",
+      "extensions": {
+        "tokenId": "TSLA",
+        "coingeckoId": "tesla-robinhood-tokenized-stock",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA",
+      "name": "TSMC",
+      "symbol": "TSM",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/TSM/logo.svg",
+      "extensions": {
+        "tokenId": "TSM",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0x5e81213613b6B86EaB4c6c50d718d34359459786",
+      "name": "Take-Two",
+      "symbol": "TTWO",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/TTWO/logo.svg",
+      "extensions": {
+        "tokenId": "TTWO",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
       "chainId": 1,
       "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
       "name": "Uniswap",
@@ -2047,6 +2621,20 @@
       "extensions": {
         "tokenId": "uniBTC",
         "coingeckoId": "universal-btc",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xf23250dac154D05Bb671CB0d0eBEf3c635c79CE2",
+      "name": "UPS",
+      "symbol": "UPS",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/UPS/logo.svg",
+      "extensions": {
+        "tokenId": "UPS",
+        "coingeckoId": "ups-robinhood-tokenized-stock",
         "native": false,
         "bridge": {}
       }
@@ -2575,6 +3163,19 @@
       "extensions": {
         "tokenId": "USDT0",
         "coingeckoId": "usdt0",
+        "native": false,
+        "bridge": {}
+      }
+    },
+    {
+      "chainId": 4663,
+      "address": "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
+      "name": "US Oil Fund",
+      "symbol": "USO",
+      "decimals": 18,
+      "logoURI": "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/data/tokens/USO/logo.svg",
+      "extensions": {
+        "tokenId": "USO",
         "native": false,
         "bridge": {}
       }

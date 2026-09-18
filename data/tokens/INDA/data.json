@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "iShares MSCI India ETF • Robinhood Token",
+  "symbol": "INDA",
+  "decimals": 18,
+  "coingeckoId": "ishares-msci-india-etf-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xACEF2e09adb47aD6aBeBAD9fF06689E60615C2B6",
+      "overrides": {
+        "name": "iShares MSCI India"
+      }
+    }
+  }
+}

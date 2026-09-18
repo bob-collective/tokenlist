@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Quantum Computing • Robinhood Token",
+  "symbol": "QUBT",
+  "decimals": 18,
+  "coingeckoId": "quantum-computing-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x59818904ab4cE163b3cE4FfB64f2D6Ca02c434B4",
+      "overrides": {
+        "name": "Quantum Computing"
+      }
+    }
+  }
+}

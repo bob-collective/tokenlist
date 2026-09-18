@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Eli Lilly • Robinhood Token",
+  "symbol": "LLY",
+  "decimals": 18,
+  "coingeckoId": "eli-lilly-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x8005d266423c7ea827372c9c864491e5786600ea",
+      "overrides": {
+        "name": "Eli Lilly"
+      }
+    }
+  }
+}

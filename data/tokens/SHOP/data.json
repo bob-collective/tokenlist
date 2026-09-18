@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Shopify • Robinhood Token",
+  "symbol": "SHOP",
+  "decimals": 18,
+  "coingeckoId": "shopify-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xF53F66751B1Eff985311b693531E3290F600c410",
+      "overrides": {
+        "name": "Shopify"
+      }
+    }
+  }
+}

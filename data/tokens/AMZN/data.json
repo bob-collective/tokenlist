@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Amazon • Robinhood Token",
+  "symbol": "AMZN",
+  "decimals": 18,
+  "coingeckoId": "amazon-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x12f190a9F9d7D37a250758b26824B97CE941bF54",
+      "overrides": {
+        "name": "Amazon"
+      }
+    }
+  }
+}

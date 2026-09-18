@@ -36,6 +36,10 @@ const SKIP_VALIDATION = new Set<string>([
   `10:0xc3f854b2970f8727d28527ece33176fac67fef48`,
   // BABY on BOB Sepolia — testnet address points to wrong contract ("ubbn")
   `808813:0x5e159518b8303a1f4ec9f9b10f077c89795db178`,
+  // SPCX on Robinhood Chain — on-chain name ("Space Exploration Technologies
+  // Corp. Class A Common Stock • Robinhood Token") is 75 characters, past the
+  // tokenlist schema's 60-character limit, so the list carries a short form.
+  `4663:0x4a0e65a3eccec6dbe60ae065f2e7bb85fae35eea`,
 ]);
 
 type TokenValidatorClient = Pick<PublicClient, 'multicall'>;

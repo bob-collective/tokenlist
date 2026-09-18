@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Snap • Robinhood Token",
+  "symbol": "SNAP",
+  "decimals": 18,
+  "coingeckoId": "snap-inc-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xF6589F11Bc40b669e584073F428B05562F568733",
+      "overrides": {
+        "name": "Snap"
+      }
+    }
+  }
+}

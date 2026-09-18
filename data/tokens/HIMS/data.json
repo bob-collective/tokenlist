@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Hims & Hers Health • Robinhood Token",
+  "symbol": "HIMS",
+  "decimals": 18,
+  "coingeckoId": "hims-hers-health-inc-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xCceE82fE024c36fA15E1005edE3E9e4787e23D09",
+      "overrides": {
+        "name": "Hims & Hers"
+      }
+    }
+  }
+}

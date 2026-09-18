@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "SPDR S&P 500 ETF Trust • Robinhood Token",
+  "symbol": "SPY",
+  "decimals": 18,
+  "coingeckoId": "spdr-s-p-500-etf-trust-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+      "overrides": {
+        "name": "SPDR S&P 500"
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "United States Oil Fund • Robinhood Token",
+  "symbol": "USO",
+  "decimals": 18,
+  "coingeckoId": "united-states-oil-fund-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
+      "overrides": {
+        "name": "US Oil Fund"
+      }
+    }
+  }
+}

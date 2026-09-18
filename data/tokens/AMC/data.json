@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "AMC Entertainment • Robinhood Token",
+  "symbol": "AMC",
+  "decimals": 18,
+  "coingeckoId": "amc-entertainment-holdings-inc-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B",
+      "overrides": {
+        "name": "AMC"
+      }
+    }
+  }
+}

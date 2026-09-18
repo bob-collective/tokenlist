@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Alphabet Class A • Robinhood Token",
+  "symbol": "GOOGL",
+  "decimals": 18,
+  "coingeckoId": "alphabet-class-a-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      "overrides": {
+        "name": "Alphabet"
+      }
+    }
+  }
+}

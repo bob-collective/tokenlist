@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Costco • Robinhood Token",
+  "symbol": "COST",
+  "decimals": 18,
+  "coingeckoId": "costco-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0x4EA005168D7F09a7A0Ba9D1DEf21a479950E44C2",
+      "overrides": {
+        "name": "Costco"
+      }
+    }
+  }
+}

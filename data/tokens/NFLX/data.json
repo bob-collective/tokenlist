@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Netflix • Robinhood Token",
+  "symbol": "NFLX",
+  "decimals": 18,
+  "coingeckoId": "netflix-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xE0444EF8BF4eD74f74FD73686e2ddF4C1c5591E8",
+      "overrides": {
+        "name": "Netflix"
+      }
+    }
+  }
+}

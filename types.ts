@@ -65,7 +65,8 @@ export type Token = {
   logoURI: string;
   extensions: {
     tokenId: TokenId;
-    coingeckoId: string;
+    // Omitted when the id exceeds the tokenlist schema's 42-character cap.
+    coingeckoId?: string;
     native: boolean;
     bridge?: Record<SupportedChainId, Address>;
   };

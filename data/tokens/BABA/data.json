@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Alibaba • Robinhood Token",
+  "symbol": "BABA",
+  "decimals": 18,
+  "coingeckoId": "alibaba-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xad25Ac6C84D497db898fa1E8387bf6Af3532a1c4",
+      "overrides": {
+        "name": "Alibaba"
+      }
+    }
+  }
+}

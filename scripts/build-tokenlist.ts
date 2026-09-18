@@ -29,6 +29,15 @@ type LogoExtension = 'svg' | 'webp';
 type TokenEntry = [TokenId, TokenData, LogoExtension];
 type LogoURIResolver = (tokenId: TokenId, logoext: LogoExtension) => string;
 
+// The Uniswap tokenlist schema caps every extension value at 42 characters.
+// A few CoinGecko ids (mostly Robinhood tokenized equities) are longer, so they
+// stay in data.json and compressedlist.json but are left out of extensions.
+const MAX_EXTENSION_LENGTH = 42;
+
+function coingeckoExtension(coingeckoId: string) {
+  return coingeckoId.length <= MAX_EXTENSION_LENGTH ? { coingeckoId } : {};
+}
+
 // Solana addresses are base58 with no checksum concept — pass them through
 // untouched; everything else is normalised to an EVM/Tron checksummed address.
 function isSolanaChain(chain: string): boolean {
@@ -102,7 +111,7 @@ function mapToTokenlist(data: TokenEntry[], getLogo: LogoURIResolver) {
         logoURI,
         extensions: {
           tokenId,
-          coingeckoId: tokenData.coingeckoId,
+          ...coingeckoExtension(tokenData.coingeckoId),
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },
@@ -141,7 +150,7 @@ function mapToOverridesTokenlist(data: TokenEntry[], getLogo: LogoURIResolver) {
         logoURI,
         extensions: {
           tokenId,
-          coingeckoId: tokenData.coingeckoId,
+          ...coingeckoExtension(tokenData.coingeckoId),
           native: token.native ?? tokenData.native ?? false,
           bridge,
         },

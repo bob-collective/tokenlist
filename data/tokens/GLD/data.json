@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "SPDR Gold Trust • Robinhood Token",
+  "symbol": "GLD",
+  "decimals": 18,
+  "coingeckoId": "spdr-gold-shares-robinhood-token",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e",
+      "overrides": {
+        "name": "SPDR Gold"
+      }
+    }
+  }
+}

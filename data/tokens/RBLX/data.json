@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Roblox • Robinhood Token",
+  "symbol": "RBLX",
+  "decimals": 18,
+  "coingeckoId": "roblox-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xF0C4BF4C582cb3836e98394b1d4e7B7281101bE8",
+      "overrides": {
+        "name": "Roblox"
+      }
+    }
+  }
+}

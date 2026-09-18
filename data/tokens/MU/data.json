@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../token.schema.json",
+  "name": "Micron Technology • Robinhood Token",
+  "symbol": "MU",
+  "decimals": 18,
+  "coingeckoId": "micron-technology-robinhood-tokenized-stock",
+  "tokens": {
+    "robinhood-chain": {
+      "address": "0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD",
+      "overrides": {
+        "name": "Micron Technology"
+      }
+    }
+  }
+}
