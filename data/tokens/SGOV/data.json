@@ -8,7 +8,7 @@
     "robinhood-chain": {
       "address": "0x92FD66527192E3e61d4DDd13322Aa222DE86F9B5",
       "overrides": {
-        "name": "iShares 0-3M Treasury"
+        "name": "iShares 0-3 Month Treasury Bond"
       }
     }
   }

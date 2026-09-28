@@ -37,7 +37,13 @@
       "amc-entertainment-holdings-inc-robinhood-token",
       "svg"
     ],
-    [4663, "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B", 18, false, "AMC"]
+    [
+      4663,
+      "0x05a3d1Cd21d0C88145E82600E62e7E496e0F222B",
+      18,
+      false,
+      "AMC Entertainment"
+    ]
   ],
   "AMD": [
     ["AMD • Robinhood Token", "AMD", "amd-robinhood-tokenized-stock", "svg"],
@@ -141,7 +147,13 @@
       "circle-internet-group-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5", 18, false, "Circle"]
+    [
+      4663,
+      "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5",
+      18,
+      false,
+      "Circle Internet Group"
+    ]
   ],
   "DAI": [
     ["Dai Stablecoin", "DAI", "dai", "svg"],
@@ -171,7 +183,7 @@
       "0x1D11f0496982706C5e14A514D4E79F2e6BdE4516",
       18,
       false,
-      "Trump Media"
+      "Trump Media & Technology Group"
     ]
   ],
   "DLLR": [
@@ -245,7 +257,13 @@
       "spdr-gold-shares-robinhood-token",
       "svg"
     ],
-    [4663, "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e", 18, false, "SPDR Gold"]
+    [
+      4663,
+      "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e",
+      18,
+      false,
+      "SPDR Gold Trust"
+    ]
   ],
   "GLXY": [
     [
@@ -259,7 +277,7 @@
       "0x2D427692E928fa156ec22acfaBaFA0447C5805B7",
       18,
       false,
-      "Galaxy Digital"
+      "Galaxy Digital Inc."
     ]
   ],
   "GME": [
@@ -278,7 +296,13 @@
       "alphabet-class-a-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3", 18, false, "Alphabet"]
+    [
+      4663,
+      "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+      18,
+      false,
+      "Alphabet Class A"
+    ]
   ],
   "HIMS": [
     [
@@ -292,7 +316,7 @@
       "0xCceE82fE024c36fA15E1005edE3E9e4787e23D09",
       18,
       false,
-      "Hims & Hers"
+      "Hims & Hers Health"
     ]
   ],
   "HybridBTC.pendle": [
@@ -325,7 +349,7 @@
       "0xACEF2e09adb47aD6aBeBAD9fF06689E60615C2B6",
       18,
       false,
-      "iShares MSCI India"
+      "iShares MSCI India ETF"
     ]
   ],
   "INTC": [
@@ -392,7 +416,13 @@
       "meta-platforms-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35", 18, false, "Meta"]
+    [
+      4663,
+      "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35",
+      18,
+      false,
+      "Meta Platforms"
+    ]
   ],
   "MSFT": [
     [
@@ -410,7 +440,13 @@
       "strategy-inc-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0xec262a75e413fAfD0dF80480274532C79D42da09", 18, false, "Strategy"]
+    [
+      4663,
+      "0xec262a75e413fAfD0dF80480274532C79D42da09",
+      18,
+      false,
+      "Strategy Inc."
+    ]
   ],
   "MU": [
     [
@@ -463,7 +499,13 @@
       "palantir-technologies-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A", 18, false, "Palantir"]
+    [
+      4663,
+      "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A",
+      18,
+      false,
+      "Palantir Technologies"
+    ]
   ],
   "POL": [
     ["Polygon Ecosystem Token", "POL", "polygon-ecosystem-token", "svg"],
@@ -539,7 +581,13 @@
       "rivian-automotive-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B", 18, false, "Rivian"]
+    [
+      4663,
+      "0xB1BF26c1D20ff267A4f93550d1E0d06ac40a114B",
+      18,
+      false,
+      "Rivian Automotive"
+    ]
   ],
   "RLUSD": [
     ["RLUSD", "RLUSD", "ripple-usd", "svg"],
@@ -611,7 +659,7 @@
       "0x92FD66527192E3e61d4DDd13322Aa222DE86F9B5",
       18,
       false,
-      "iShares 0-3M Treasury"
+      "iShares 0-3 Month Treasury Bond"
     ]
   ],
   "SHOP": [
@@ -635,7 +683,7 @@
       "0x411eFb0E7f985935DAec3D4C3ebaEa0d0AD7D89f",
       18,
       false,
-      "iShares Silver"
+      "iShares Silver Trust"
     ]
   ],
   "SNAP": [
@@ -649,7 +697,13 @@
       "sandisk-corporation-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0xB90A19fF0Af67f7779afF50A882A9CfF42446400", 18, false, "Sandisk"]
+    [
+      4663,
+      "0xB90A19fF0Af67f7779afF50A882A9CfF42446400",
+      18,
+      false,
+      "Sandisk Corporation"
+    ]
   ],
   "SOL": [
     ["SOLANA", "SOL", "solana", "svg"],
@@ -707,7 +761,7 @@
       "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
       18,
       false,
-      "SPDR S&P 500"
+      "SPDR S&P 500 ETF Trust"
     ]
   ],
   "STONE": [
@@ -788,7 +842,13 @@
       "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA", 18, false, "TSMC"]
+    [
+      4663,
+      "0x58FfE4a942d3885bAa22D7520691F611EF09e7AA",
+      18,
+      false,
+      "Taiwan Semiconductor Manufacturing"
+    ]
   ],
   "TTWO": [
     [
@@ -797,7 +857,13 @@
       "take-two-interactive-software-robinhood-tokenized-stock",
       "svg"
     ],
-    [4663, "0x5e81213613b6B86EaB4c6c50d718d34359459786", 18, false, "Take-Two"]
+    [
+      4663,
+      "0x5e81213613b6B86EaB4c6c50d718d34359459786",
+      18,
+      false,
+      "Take-Two Interactive Software"
+    ]
   ],
   "UNI": [
     ["Uniswap", "UNI", "uniswap", "webp"],
@@ -975,7 +1041,7 @@
       "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
       18,
       false,
-      "US Oil Fund"
+      "United States Oil Fund"
     ]
   ],
   "WAVAX": [

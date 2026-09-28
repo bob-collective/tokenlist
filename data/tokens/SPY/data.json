@@ -8,7 +8,7 @@
     "robinhood-chain": {
       "address": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
       "overrides": {
-        "name": "SPDR S&P 500"
+        "name": "SPDR S&P 500 ETF Trust"
       }
     }
   }
