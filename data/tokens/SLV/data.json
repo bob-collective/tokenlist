@@ -8,7 +8,7 @@
     "robinhood-chain": {
       "address": "0x411eFb0E7f985935DAec3D4C3ebaEa0d0AD7D89f",
       "overrides": {
-        "name": "iShares Silver"
+        "name": "iShares Silver Trust"
       }
     }
   }
