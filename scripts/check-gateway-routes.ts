@@ -4,13 +4,34 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import {
   arbitrum,
+  avalanche,
+  base,
+  berachain,
+  bob,
+  bobSepolia,
   bsc,
   hyperEvm,
   mainnet,
   optimism,
+  plasma,
+  polygon,
   robinhood,
+  sei,
+  sepolia,
+  soneium,
+  sonic,
+  telos,
+  tron,
+  unichain,
 } from 'viem/chains';
-import { NON_EVM_CHAIN_ID_BY_NAME, SUPPORTED_CHAIN_MAP } from '../config';
+import {
+  BITCOIN_CHAIN_ID,
+  CHAIN_DIR,
+  NON_EVM_CHAIN_ID_BY_NAME,
+  SIGNET_CHAIN_ID,
+  SOLANA_CHAIN_ID,
+  SUPPORTED_CHAIN_MAP,
+} from '../config';
 import type { Token } from '../types';
 import { toEvmAddress } from '../utils';
 
@@ -24,14 +45,33 @@ const GATEWAY_ENVIRONMENTS = {
 
 type Environment = keyof typeof GATEWAY_ENVIRONMENTS;
 
-// Gateway chain names that differ from the tokenlist's chain keys.
+// Gateway chain name → chain ID, covering every chain in data/chains/chains.json.
+// Names for chains the gateway does not route yet are best guesses; an
+// unrecognised name surfaces as "unknown chain" in the report.
 const GATEWAY_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
   arbitrum: arbitrum.id,
+  avalanche: avalanche.id,
+  base: base.id,
+  berachain: berachain.id,
+  bitcoin: BITCOIN_CHAIN_ID,
+  bob: bob.id,
+  'bob-sepolia': bobSepolia.id,
   bsc: bsc.id,
   ethereum: mainnet.id,
   hyperevm: hyperEvm.id,
   optimism: optimism.id,
+  plasma: plasma.id,
+  polygon: polygon.id,
   robinhood: robinhood.id,
+  sei: sei.id,
+  sepolia: sepolia.id,
+  signet: SIGNET_CHAIN_ID,
+  solana: SOLANA_CHAIN_ID,
+  soneium: soneium.id,
+  sonic: sonic.id,
+  telos: telos.id,
+  tron: tron.id,
+  unichain: unichain.id,
 };
 
 // Discord rejects message content longer than 2000 characters.
@@ -55,13 +95,31 @@ interface MissingToken extends RouteToken {
 }
 
 const tokenlistPath = path.join(__dirname, '../tokenlist.json');
+const chainsPath = path.join(__dirname, '..', CHAIN_DIR, 'chains.json');
+
+// Fail fast when a chain is added to chains.json without a gateway mapping.
+function assertGatewayChainsComplete() {
+  const chainKeys = Object.keys(
+    JSON.parse(fs.readFileSync(chainsPath, 'utf8')) as Record<string, string>,
+  ).filter((key) => key !== '$schema');
+  const mappedIds = new Set(Object.values(GATEWAY_CHAIN_ID_BY_NAME));
+  const unmapped = chainKeys.filter((key) => {
+    const chainId =
+      SUPPORTED_CHAIN_MAP[key as keyof typeof SUPPORTED_CHAIN_MAP]?.id ??
+      NON_EVM_CHAIN_ID_BY_NAME[key];
+
+    return chainId === undefined || !mappedIds.has(chainId);
+  });
+
+  if (unmapped.length > 0) {
+    throw new Error(
+      `GATEWAY_CHAIN_ID_BY_NAME is missing chains from chains.json: ${unmapped.join(', ')}`,
+    );
+  }
+}
 
 function resolveChainId(chain: string): number | undefined {
-  return (
-    GATEWAY_CHAIN_ID_BY_NAME[chain] ??
-    SUPPORTED_CHAIN_MAP[chain as keyof typeof SUPPORTED_CHAIN_MAP]?.id ??
-    NON_EVM_CHAIN_ID_BY_NAME[chain]
-  );
+  return GATEWAY_CHAIN_ID_BY_NAME[chain];
 }
 
 // Tron addresses may appear in base58 or hex form; compare everything as
@@ -205,6 +263,8 @@ async function report(messages: string[]) {
 }
 
 async function main() {
+  assertGatewayChainsComplete();
+
   const envs = Object.keys(GATEWAY_ENVIRONMENTS) as Environment[];
   const routes = await Promise.all(envs.map(fetchRoutes));
   const routeTokensByEnv = Object.fromEntries(
