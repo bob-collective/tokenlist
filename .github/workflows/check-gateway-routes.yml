@@ -1,6 +1,10 @@
 name: Check gateway routes
 
 on:
+  # TODO: remove before merge — temporary trigger to run the check from the PR branch.
+  push:
+    branches:
+      - ci/gateway-route-token-check
   workflow_dispatch:
     inputs:
       api_version:
