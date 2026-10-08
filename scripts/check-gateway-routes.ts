@@ -152,7 +152,7 @@ function findMissingTokens(
 }
 
 function formatReport(missing: MissingToken[]): string[] {
-  const header = `**Gateway route tokens missing from tokenlist** (API ${API_VERSION}, ${missing.length} token${missing.length === 1 ? '' : 's'})`;
+  const header = `⚠️ **Gateway route tokens missing from tokenlist** (API ${API_VERSION}, ${missing.length} token${missing.length === 1 ? '' : 's'})`;
   const lines = missing.map(
     (token) =>
       `- \`${token.chain}\` \`${token.address}\` — ${token.environments.join(', ')}${token.reason === 'unknown chain' ? ' (unknown chain)' : ''}`,
@@ -192,21 +192,7 @@ async function postToDiscord(webhookUrl: string, messages: string[]) {
   }
 }
 
-async function main() {
-  const envs = Object.keys(GATEWAY_ENVIRONMENTS) as Environment[];
-  const routes = await Promise.all(envs.map(fetchRoutes));
-  const routeTokensByEnv = Object.fromEntries(
-    envs.map((env, i) => [env, collectRouteTokens(routes[i])]),
-  ) as Record<Environment, RouteToken[]>;
-
-  const missing = findMissingTokens(routeTokensByEnv, loadTokenlistKeys());
-
-  if (missing.length === 0) {
-    console.log('✅ All gateway route tokens are in the tokenlist');
-    return;
-  }
-
-  const messages = formatReport(missing);
+async function report(messages: string[]) {
   console.log(messages.join('\n'));
 
   if (!DISCORD_WEBHOOK_URL) {
@@ -218,7 +204,48 @@ async function main() {
   console.log('Report posted to Discord');
 }
 
-main().catch((error) => {
+async function main() {
+  const envs = Object.keys(GATEWAY_ENVIRONMENTS) as Environment[];
+  const routes = await Promise.all(envs.map(fetchRoutes));
+  const routeTokensByEnv = Object.fromEntries(
+    envs.map((env, i) => [env, collectRouteTokens(routes[i])]),
+  ) as Record<Environment, RouteToken[]>;
+
+  const missing = findMissingTokens(routeTokensByEnv, loadTokenlistKeys());
+
+  if (missing.length === 0) {
+    const tokenCount = new Set(
+      Object.values(routeTokensByEnv)
+        .flat()
+        .map((token) => `${token.chain}:${normalizeAddress(token.address)}`),
+    ).size;
+
+    await report([
+      `✅ **Gateway route tokens all present in tokenlist** (API ${API_VERSION}, ${tokenCount} tokens checked across ${envs.join(', ')})`,
+    ]);
+    return;
+  }
+
+  await report(formatReport(missing));
+}
+
+main().catch(async (error) => {
   console.error(error);
+
+  const message = error instanceof Error ? error.message : String(error);
+  const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
+  const runUrl =
+    GITHUB_SERVER_URL && GITHUB_REPOSITORY && GITHUB_RUN_ID
+      ? `\n${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+      : '';
+
+  try {
+    await report([
+      `❌ **Gateway route token check failed** (API ${API_VERSION})\n\`\`\`\n${message.slice(0, 1500)}\n\`\`\`${runUrl}`,
+    ]);
+  } catch (reportError) {
+    console.error(reportError);
+  }
+
   process.exit(1);
 });
