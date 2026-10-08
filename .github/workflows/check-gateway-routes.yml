@@ -1,0 +1,52 @@
+name: Check gateway routes
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+    inputs:
+      api_version:
+        description: Gateway API version
+        required: false
+        default: v4
+
+permissions: {}
+
+concurrency:
+  group: check-gateway-routes
+  cancel-in-progress: true
+
+env:
+  API_VERSION: ${{ inputs.api_version || 'v4' }}
+
+jobs:
+  check:
+    name: Detect route tokens missing from tokenlist
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 11.24.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check gateway routes
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.MONITORING_UI_DISCORD_WEBHOOK_URL }}
+        run: pnpm check:gateway-routes
