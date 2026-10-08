@@ -21,7 +21,7 @@ import type { Token } from '../types';
 import { toEvmAddress } from '../utils';
 
 const API_VERSION = process.env.API_VERSION || 'v4';
-const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL?.trim();
 
 const GATEWAY_ENVIRONMENTS = {
   staging: 'https://gateway-api-staging.gobob.xyz',
@@ -93,7 +93,12 @@ async function fetchRoutes(env: Environment): Promise<Route[]> {
   const res = await fetch(url);
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+    const server = res.headers.get('server') ?? 'unknown';
+    const body = (await res.text()).replace(/\s+/g, ' ').slice(0, 200);
+
+    throw new Error(
+      `Failed to fetch ${url}: ${res.status} ${res.statusText} (server: ${server}) ${body}`,
+    );
   }
 
   return (await res.json()) as Route[];
