@@ -81,3 +81,19 @@ These are committed to the repo and consumed downstream via the npm package.
 1. Create `data/tokens/[SYMBOL]/data.json` (use `token.schema.json` for structure)
 2. Add a logo asset (`logo.svg` or `logo.webp`)
 3. Run `pnpm build` — this regenerates `token-ids.ts`, all JSON outputs, and runs on-chain verification
+
+**Sourcing logos (tokens and chains):**
+
+Prefer an official SVG from the issuer's own site — the company/foundation that issues the token or runs the chain. Look for a brand kit / press kit / media kit page (often linked in the footer as "Brand", "Press", "Media", or "Assets"), or the SVG logo embedded in the site header.
+
+Examples of issuer sites:
+
+- USDT → https://tether.to/en/
+- USDC → https://www.circle.com
+
+Guidelines:
+
+- Use the token/chain mark itself (the coin icon), not a wordmark or the parent company logo when they differ.
+- SVG first; fall back to `logo.webp` only if the issuer publishes no SVG.
+- Avoid aggregators (CoinGecko, CoinMarketCap, Trust Wallet assets, etc.) as the primary source; use them only when the issuer site has nothing usable, and note it in the PR.
+- Token logos go in `data/tokens/[SYMBOL]/logo.svg`; chain logos go in `data/chains/[name].svg` and are referenced from `data/chains/chains.json`.
