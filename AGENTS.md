@@ -96,4 +96,5 @@ Guidelines:
 - Use the token/chain mark itself (the coin icon), not a wordmark or the parent company logo when they differ.
 - SVG first; fall back to `logo.webp` only if the issuer publishes no SVG.
 - Avoid aggregators (CoinGecko, CoinMarketCap, Trust Wallet assets, etc.) as the primary source; use them only when the issuer site has nothing usable, and note it in the PR.
+- Remove `width` and `height` attributes from the root `<svg>` and keep `viewBox` (add one if missing, e.g. `viewBox="0 0 W H"` from the removed width/height) so logos scale correctly to any size.
 - Token logos go in `data/tokens/[SYMBOL]/logo.svg`; chain logos go in `data/chains/[name].svg` and are referenced from `data/chains/chains.json`.
