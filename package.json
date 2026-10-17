@@ -24,6 +24,7 @@
     "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
     "build:types": "tsx ./scripts/build-types.ts",
     "check": "biome check .",
+    "check:gateway-routes": "tsx ./scripts/check-gateway-routes.ts",
     "check:write": "biome check --write .",
     "format": "biome format .",
     "format:write": "biome format --write .",

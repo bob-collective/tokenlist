@@ -11,6 +11,7 @@ pnpm build:chainlist    # Generate chainlist.json + chainlist-mirror.json from /
 pnpm build:types        # Regenerate token-ids.ts from current /data entries
 pnpm check              # Run Biome formatting, import organization, and lint checks
 pnpm check:write        # Apply safe Biome formatting/import/lint fixes
+pnpm check:gateway-routes # Report gateway route tokens missing from tokenlist.json (Discord if DISCORD_WEBHOOK_URL set)
 pnpm format             # Check formatting with Biome
 pnpm format:write       # Apply Biome formatting
 pnpm lint               # Run Biome lint rules
