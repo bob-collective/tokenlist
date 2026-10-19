@@ -15,6 +15,7 @@
     "tokenlist*.json",
     "chainlist.json",
     "chainlist-mirror.json",
+    "supported-chains.json",
     "compressedlist.json"
   ],
   "scripts": {

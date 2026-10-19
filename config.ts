@@ -41,6 +41,7 @@ export const OUTFILE_TYPES = 'token-ids.ts';
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
 export const OUTFILE_CHAIN_MIRROR = 'chainlist-mirror.json';
+export const OUTFILE_SUPPORTED_CHAINS = 'supported-chains.json';
 
 export const OUTFILE_COMPRESSED = 'compressedlist.json';
 
@@ -134,6 +135,10 @@ export const NON_EVM_CHAIN_NAMES = new Set<string>([
   ...Object.keys(NON_EVM_CHAIN_ID_BY_NAME),
   'tron',
 ]);
+
+// Non-EVM counterpart of SUPPORTED_TESTNET_CHAINS, so every chain in
+// supported-chains.json carries a testnet flag.
+export const NON_EVM_TESTNET_CHAIN_NAMES = new Set<string>(['signet']);
 
 export const SUPPORTED_CHAIN_IDS = [
   ...SUPPORTED_CHAINS.map((chain) => chain.id),

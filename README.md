@@ -2,12 +2,15 @@
 
 Authoritative token registry for the BOB ecosystem. The package publishes token list JSON files, TypeScript token identifiers, native-token identifiers, bridge metadata, and optional UI overrides from the source data in [`data/`](./data).
 
+The same data ships as a Rust crate, `gobob-tokenlist`, with typed token IDs, chains, token data, and the same utilities — see [Rust](#rust).
+
 ## Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Logo URLs](#logo-urls)
 - [Compact Token List](#compact-token-list)
+- [Rust](#rust)
 - [Data Model](#data-model)
 - [Adding New Tokens](#adding-new-tokens)
 - [Scripts](#scripts)
@@ -15,6 +18,8 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 ---
 
 ## Installation
+
+JavaScript / TypeScript:
 
 ```json
 {
@@ -25,6 +30,8 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 ```bash
 pnpm install
 ```
+
+Rust: see [Rust](#rust).
 
 ---
 
@@ -50,6 +57,7 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `tokenlist-overrides-mirror.json` | `tokenlist-overrides.json` with R2 mirror logo URIs                                                                               |
 | `chainlist.json`                  | Chain ID to logo URI map (GitHub-hosted logos)                                                                                    |
 | `chainlist-mirror.json`           | Chain ID to logo URI map (R2 mirror logos)                                                                                        |
+| `supported-chains.json`           | Supported chains keyed by `data.json` name: `chainId`, display `name`, `evm`, `testnet`                                           |
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts`                    | Generated token identifier types                                                                                                  |
 
@@ -164,6 +172,89 @@ logoURI: getMirrorLogoURI(id as TokenId, logoext),
 
 ---
 
+## Rust
+
+The repository root is also a Rust crate, `gobob-tokenlist`, built from the same [`data/`](./data). It is distributed as a Git dependency (not on crates.io) and needs Rust 1.88+.
+
+```toml
+[dependencies]
+gobob-tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "<commit_hash>" }
+```
+
+```bash
+cargo add gobob-tokenlist --git https://github.com/bob-collective/tokenlist --rev <commit_hash>
+```
+
+Token data is compiled into the crate: no I/O or JSON parsing at runtime. Bump `rev` to pick up new tokens.
+
+```rust
+use gobob_tokenlist::{tokens, tokens_with_overrides, Chain, NativeTokenId, TokenId};
+
+// Token IDs are enums; parse and display them with the original ID string.
+let id: TokenId = "BTC.b".parse()?;
+assert_eq!(id, TokenId::BTC_b);
+assert_eq!(id.as_str(), "BTC.b");
+
+// data.json contents
+let usdc = TokenId::USDC.data();
+assert_eq!((usdc.symbol, usdc.decimals, usdc.coingecko_id), ("USDC", 6, "usd-coin"));
+
+// tokenlist-overrides.json entries (use `tokens()` for tokenlist.json)
+let usdc_on_bob = tokens_with_overrides()
+    .find(|token| token.token_id == TokenId::USDC && token.chain == Chain::Bob)
+    .unwrap();
+assert_eq!(usdc_on_bob.symbol, "USDC.e");
+assert_eq!(usdc_on_bob.chain_id(), 60808);
+let logo = usdc_on_bob.logo_uri(); // or .mirror_logo_uri()
+
+// Look a token up by chain and address (any letter case; Tron also as 0x hex)
+let usdc_on_base = Chain::Base.token("0x833589fcd6edb6e08f4c7c32d4f71b54bda02913").unwrap();
+assert_eq!((usdc_on_base.token_id, usdc_on_base.decimals), (TokenId::USDC, 6));
+
+// BOB-only list, like tokenlist-bob.json
+let bob_tokens: Vec<_> = tokens().filter(|token| token.chain == Chain::Bob).collect();
+
+// Subsets convert to and from TokenId
+let eth: NativeTokenId = TokenId::ETH.try_into()?;
+assert_eq!(TokenId::from(eth), TokenId::ETH);
+assert!(NativeTokenId::try_from(TokenId::USDC).is_err());
+
+// Chains
+assert_eq!(Chain::from_id(60808), Some(Chain::Bob));
+assert_eq!("op-mainnet".parse::<Chain>()?, Chain::OpMainnet);
+assert!(!Chain::Solana.is_evm());
+```
+
+### npm ↔ Rust
+
+| npm package                                                                          | Rust crate                                                                                                     |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `TokenId`, `NativeTokenId`, `NonEvmTokenId`, `NonEvmNativeTokenId`                   | Enums of the same names: `ALL`, `as_str`, `FromStr`, `Display`; subsets convert with `From`/`TryFrom`          |
+| `SupportedChain`, `SUPPORTED_CHAIN_MAP`, `NON_EVM_CHAIN_IDS`                         | `Chain` enum: `ALL`, `as_str` (the `data.json` key), `id`, `from_id`, `is_evm`, `is_testnet`                   |
+| `SUPPORTED_CHAIN_IDS`, `SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`      | Constants of the same names (`&[u64]` and `u64`)                                                               |
+| `TOKENLIST_BASE_URL`, `TOKENLIST_MIRROR_URL`, `TOKENLIST_SCHEMA_URL`                 | Constants of the same names                                                                                    |
+| `TokenData` (`data.json`)                                                            | `TokenId::data()` → `TokenData`, with per-chain `ChainTokenData` and `Overrides`                               |
+| `Token` (`tokenlist.json` entry)                                                     | `Token`, iterated by `tokens()`; `tokens_with_overrides()` for `tokenlist-overrides.json`                      |
+| `getLogoURI`, `getMirrorLogoURI`                                                     | `logo_uri`, `mirror_logo_uri`; also `TokenId::logo_uri()`, `Token::logo_uri()`, `Chain::logo_uri()` (+ mirror) |
+| `checksumAddress`, `toEvmAddress`, `toTronAddress`                                   | `checksum_address`, `to_evm_address`, `to_tron_address` (return `Result` instead of throwing)                  |
+| `tokenlist*.json`, `chainlist*.json`, `supported-chains.json`, `compressedlist.json` | `json::TOKENLIST`, `json::TOKENLIST_BOB`, …, `json::COMPRESSEDLIST` (file contents, embedded verbatim)         |
+
+Notes:
+
+- **Variant names** keep the token ID's casing (`TokenId::cbBTC`, `TokenId::USDC`). Characters that are not valid in Rust identifiers are spelled out: `.` → `_` (`BTC.b` → `TokenId::BTC_b`) and `+` → `_PLUS` (`BTC+` → `TokenId::BTC_PLUS`). `Chain` variants are the PascalCase `data.json` key (`op-mainnet` → `Chain::OpMainnet`).
+- **`#[non_exhaustive]`:** token ID enums, `Chain`, and the data structs grow as tokens and chains are added, so `match` on them needs a `_` arm.
+- **Order:** `TokenId::ALL` and `tokens()` are sorted by token ID, case-insensitively by bytes, and `tokens()` then by `Chain::ALL`. The JSON lists sort with JavaScript's `localeCompare`, so a few IDs differ in position (`BTC+` / `BTC.b`); look entries up by ID rather than index.
+- **CoinGecko IDs:** `Token::coingecko_id` is always set, even where `tokenlist.json` omits `extensions.coingeckoId` for IDs over the schema's 42-character cap.
+- **Features:** `serde` adds `Serialize`/`Deserialize` for `Chain` (as its `data.json` key) and the token ID types (as the ID string).
+
+```toml
+gobob-tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "<commit_hash>", features = ["serde"] }
+```
+
+The crate is self-contained Rust: its [`build.rs`](./build.rs) reads `data/tokens/*/data.json`, `data/chains/chains.json`, and `supported-chains.json` at compile time, so no TypeScript tooling is involved in building it. The TypeScript build's only contribution is JSON (`supported-chains.json` carries the chain IDs that live in `config.ts`). `cargo test` checks the crate against the TS-generated JSON files, so the npm package and the crate cannot drift apart.
+
+---
+
 ## Data Model
 
 Each token lives in its own directory under [`data/`](./data). The directory name is the canonical token identifier and is used to generate `TokenId`.
@@ -243,7 +334,7 @@ Per-chain `tokens` entries:
 
 Chain keys must match the supported chain names in [`config.ts`](./config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
 
-Solana uses base58 token mint addresses and is emitted with chain ID `1399811149`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
+Solana uses base58 token mint addresses and is emitted with chain ID `1584368940`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
 
 ---
 
@@ -319,12 +410,14 @@ This updates:
 - `tokenlist-mirror.json`, `tokenlist-bob-mirror.json`, `tokenlist-overrides-mirror.json` — same lists with R2 mirror logo URIs
 - `chainlist.json` — supported chain logo map (GitHub-hosted logos)
 - `chainlist-mirror.json` — supported chain logo map (R2 mirror logos)
+- `supported-chains.json` — supported chain IDs, names, EVM and testnet flags
 - `compressedlist.json` — compact shared + per-chain tuple output
 
 ### 5. Verify
 
 ```bash
 pnpm verify
+cargo test   # Rust data matches the generated JSON files
 ```
 
 ---
@@ -336,7 +429,7 @@ pnpm verify
 | `pnpm build`                | Generate types, build token lists, then run verification                    |
 | `pnpm build:tokenlist`      | Generate tokenlist JSON files (GitHub-hosted and `-mirror` variants)        |
 | `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples)          |
-| `pnpm build:chainlist`      | Generate `chainlist.json` and `chainlist-mirror.json`                       |
+| `pnpm build:chainlist`      | Generate `chainlist.json`, `chainlist-mirror.json`, `supported-chains.json` |
 | `pnpm build:types`          | Generate `TokenId` and `NativeTokenId` TypeScript unions                    |
 | `pnpm check`                | Run Biome formatting, import organization, and lint checks                  |
 | `pnpm check:write`          | Apply safe Biome formatting/import/lint fixes                               |
@@ -345,6 +438,14 @@ pnpm verify
 | `pnpm lint`                 | Run Biome lint rules                                                        |
 | `pnpm publish:assets`       | Publish token and chain logos to Cloudflare R2 and verify the public copies |
 | `pnpm verify`               | Validate tokenlist schema and on-chain token data                           |
+
+Rust crate:
+
+| Command                                     | Description                               |
+| ------------------------------------------- | ----------------------------------------- |
+| `cargo test --all-features`                 | Run Rust unit, doc, and JSON parity tests |
+| `cargo fmt`                                 | Format the Rust sources                   |
+| `cargo clippy --all-targets --all-features` | Lint the Rust sources                     |
 
 ---
 
@@ -379,7 +480,7 @@ browser cache lifetime. Publishing is idempotent and does not delete assets that
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
 
-**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, or `chainlist-mirror.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
+**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, `chainlist-mirror.json`, or `supported-chains.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
 ---
 

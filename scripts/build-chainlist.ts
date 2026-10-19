@@ -3,9 +3,13 @@ import path from 'node:path';
 import {
   CHAIN_DIR,
   NON_EVM_CHAIN_ID_BY_NAME,
+  NON_EVM_CHAIN_IDS,
+  NON_EVM_TESTNET_CHAIN_NAMES,
   OUTFILE_CHAIN,
   OUTFILE_CHAIN_MIRROR,
+  OUTFILE_SUPPORTED_CHAINS,
   SUPPORTED_CHAIN_MAP,
+  SUPPORTED_TESTNET_CHAINS,
   TOKENLIST_BASE_URL,
   TOKENLIST_MIRROR_URL,
 } from '../config';
@@ -43,4 +47,32 @@ fs.writeFileSync(OUTFILE_CHAIN, JSON.stringify(chainlist, null, 2));
 fs.writeFileSync(
   OUTFILE_CHAIN_MIRROR,
   JSON.stringify(mirrorChainlist, null, 2),
+);
+
+// Every supported chain keyed by its data.json name, in SUPPORTED_CHAIN_IDS
+// order, for consumers that cannot import config.ts.
+const supportedChains = Object.fromEntries([
+  ...Object.entries(SUPPORTED_CHAIN_MAP).map(([chainName, chain]) => [
+    chainName,
+    {
+      chainId: chain.id,
+      name: chain.name,
+      evm: !NON_EVM_CHAIN_IDS.has(chain.id),
+      testnet: chainName in SUPPORTED_TESTNET_CHAINS,
+    },
+  ]),
+  ...Object.entries(NON_EVM_CHAIN_ID_BY_NAME).map(([chainName, chainId]) => [
+    chainName,
+    {
+      chainId,
+      name: chainName.charAt(0).toUpperCase() + chainName.slice(1),
+      evm: false,
+      testnet: NON_EVM_TESTNET_CHAIN_NAMES.has(chainName),
+    },
+  ]),
+]);
+
+fs.writeFileSync(
+  OUTFILE_SUPPORTED_CHAINS,
+  JSON.stringify(supportedChains, null, 2),
 );
