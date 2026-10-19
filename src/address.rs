@@ -35,6 +35,9 @@ impl std::error::Error for InvalidAddressError {}
 
 // A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
 const TRON_ADDRESS_PREFIX: u8 = 0x41;
+// Base58 length of those 25 bytes (payload + checksum): every value with the
+// 0x41 prefix encodes to exactly 34 characters.
+const TRON_ADDRESS_LEN: usize = 34;
 
 fn sha256d_checksum(payload: &[u8]) -> [u8; 4] {
     let hash = Sha256::digest(Sha256::digest(payload));
@@ -43,6 +46,11 @@ fn sha256d_checksum(payload: &[u8]) -> [u8; 4] {
 }
 
 fn decode_tron_address(address: &str) -> Option<[u8; 21]> {
+    // Checked first: base58 decoding is quadratic in the input length.
+    if address.len() != TRON_ADDRESS_LEN {
+        return None;
+    }
+
     let decoded = bs58::decode(address).into_vec().ok()?;
     let (payload, checksum) = decoded.split_at_checked(decoded.len().checked_sub(4)?)?;
     let payload: [u8; 21] = payload.try_into().ok()?;
@@ -238,6 +246,24 @@ mod tests {
             "0xa614f803B6FD780986A42c78Ec9c7f77e6DeD13C"
         );
         assert!(to_evm_address("Tnope").is_err());
+    }
+
+    #[test]
+    fn oversized_tron_input_is_rejected_before_decoding() {
+        let long = "T".repeat(1_000_000);
+
+        assert_eq!(decode_tron_address(&long), None);
+        assert!(checksum_address(&long).is_err());
+        assert!(to_evm_address(&long).is_err());
+        // One character short or long of a valid address.
+        assert_eq!(
+            decode_tron_address("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6"),
+            None
+        );
+        assert_eq!(
+            decode_tron_address("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t1"),
+            None
+        );
     }
 
     #[test]
