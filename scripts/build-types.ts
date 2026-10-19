@@ -1,6 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../config';
+import {
+  NON_EVM_CHAIN_NAMES,
+  OUTFILE_TYPES,
+  OUTFILE_TYPES_JSON,
+  TOKEN_DIR,
+} from '../config';
 import type { TokenData } from '../types';
 
 const tokenlistDirectories = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
@@ -58,3 +63,18 @@ export type NonEvmTokenId = ${toUnionType(nonEvmTokenIds)};
 export type NonEvmNativeTokenId = ${toUnionType(nonEvmNativeTokenIds)};\n`;
 
 fs.writeFileSync(OUTFILE_TYPES, fileDisclaimer + content);
+
+// The same unions as JSON arrays, for consumers that cannot read token-ids.ts.
+fs.writeFileSync(
+  OUTFILE_TYPES_JSON,
+  JSON.stringify(
+    {
+      TokenId: tokenlistDirectories,
+      NativeTokenId: nativeTokenIds,
+      NonEvmTokenId: nonEvmTokenIds,
+      NonEvmNativeTokenId: nonEvmNativeTokenIds,
+    },
+    null,
+    2,
+  ),
+);

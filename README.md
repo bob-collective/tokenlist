@@ -60,6 +60,7 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `supported-chains.json`           | Supported chains keyed by `data.json` name: `chainId`, display `name`, `evm`, `testnet`                                           |
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts`                    | Generated token identifier types                                                                                                  |
+| `token-ids.json`                  | `TokenId`, `NativeTokenId`, `NonEvmTokenId`, `NonEvmNativeTokenId` as JSON arrays                                                 |
 
 ### TypeScript Types
 
@@ -404,6 +405,7 @@ pnpm build
 This updates:
 
 - `token-ids.ts` — generated `TokenId` and `NativeTokenId` unions
+- `token-ids.json` — the same unions as JSON arrays
 - `tokenlist.json` — all tokens using base names, symbols, and decimals
 - `tokenlist-bob.json` — BOB chain tokens
 - `tokenlist-overrides.json` — tokens with overrides applied
@@ -480,7 +482,7 @@ browser cache lifetime. Publishing is idempotent and does not delete assets that
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
 
-**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, `chainlist-mirror.json`, or `supported-chains.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
+**Generated files:** Do not edit `token-ids.ts`, `token-ids.json`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, `chainlist-mirror.json`, or `supported-chains.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
 ---
 

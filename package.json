@@ -11,6 +11,7 @@
     "types.ts",
     "utils.ts",
     "token-ids.ts",
+    "token-ids.json",
     "tokenlist.json",
     "tokenlist*.json",
     "chainlist.json",

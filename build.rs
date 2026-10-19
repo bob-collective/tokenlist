@@ -195,12 +195,16 @@ fn read_tokens(root: &Path) -> Vec<Token> {
         .map(|id| {
             let dir = token_dir.join(&id);
             let data: Value = read_json(&dir.join("data.json"));
-            let logo_ext = if dir.join("logo.webp").is_file() {
-                "Webp"
-            } else if dir.join("logo.svg").is_file() {
-                "Svg"
-            } else {
-                panic!("{TOKEN_DIR}/{id}: missing logo.svg or logo.webp");
+            // Exactly one logo: with both, the npm build picks whichever its
+            // glob returns first.
+            let logo_ext = match (
+                dir.join("logo.webp").is_file(),
+                dir.join("logo.svg").is_file(),
+            ) {
+                (true, false) => "Webp",
+                (false, true) => "Svg",
+                (true, true) => panic!("{TOKEN_DIR}/{id}: both logo.svg and logo.webp; keep one"),
+                (false, false) => panic!("{TOKEN_DIR}/{id}: missing logo.svg or logo.webp"),
             };
 
             Token {
@@ -435,6 +439,12 @@ fn generate(chains: &[Chain], tokens: &[Token]) -> String {
             } else {
                 address::checksum_address(address).unwrap_or_else(|err| panic!("{context}: {err}"))
             };
+            // Tron entries must be base58: the form tokenlist.json carries and
+            // `Chain::token` looks up. `checksum_address` keeps hex as hex.
+            assert!(
+                key != "tron" || address.starts_with('T'),
+                "{context}: Tron addresses must be base58 (T...), not {address:?}"
+            );
             let mut bridge: Vec<(usize, String)> =
                 optional(entry, "bridge", &context, Value::as_object)
                     .into_iter()

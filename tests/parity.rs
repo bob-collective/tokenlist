@@ -219,52 +219,34 @@ fn token_data_is_indexed_by_token_id() {
     }
 }
 
-// Checks build.rs's subset enums against `TokenId::data()`. Both come from
-// the same `data/` and supported-chains.json, so this guards the generator,
-// not drift from the npm package: no generated JSON file records the token-level
-// `native` flag or the non-EVM subsets (only token-ids.ts does).
+// token-ids.json holds the same unions as the npm package's token-ids.ts.
+// Compared as sets: the npm lists sort with `localeCompare`.
 #[test]
-fn token_id_subsets_match_token_data() {
-    let native: Vec<TokenId> = TokenId::ALL
+fn token_ids_match_npm_unions() {
+    let unions = parse(include_str!("../token-ids.json"));
+    let npm = |name: &str| -> BTreeSet<String> {
+        serde_json::from_value(unions[name].clone()).unwrap_or_else(|err| panic!("{name}: {err}"))
+    };
+    let rust = |ids: &[&str]| -> BTreeSet<String> { ids.iter().map(|id| id.to_string()).collect() };
+
+    let token_ids: Vec<&str> = TokenId::ALL.iter().map(|id| id.as_str()).collect();
+    let native: Vec<&str> = NativeTokenId::ALL.iter().map(|id| id.as_str()).collect();
+    let non_evm: Vec<&str> = NonEvmTokenId::ALL.iter().map(|id| id.as_str()).collect();
+    let non_evm_native: Vec<&str> = NonEvmNativeTokenId::ALL
         .iter()
-        .copied()
-        .filter(|id| id.data().native)
-        .collect();
-    let non_evm: Vec<TokenId> = TokenId::ALL
-        .iter()
-        .copied()
-        .filter(|id| id.data().tokens.iter().any(|token| !token.chain.is_evm()))
-        .collect();
-    let non_evm_native: Vec<TokenId> = non_evm
-        .iter()
-        .copied()
-        .filter(|id| id.data().native)
+        .map(|id| id.as_str())
         .collect();
 
-    assert_eq!(
-        NativeTokenId::ALL
-            .iter()
-            .map(|&id| id.into())
-            .collect::<Vec<TokenId>>(),
-        native
-    );
-    assert_eq!(
-        NonEvmTokenId::ALL
-            .iter()
-            .map(|&id| id.into())
-            .collect::<Vec<TokenId>>(),
-        non_evm
-    );
-    assert_eq!(
-        NonEvmNativeTokenId::ALL
-            .iter()
-            .map(|&id| id.into())
-            .collect::<Vec<TokenId>>(),
-        non_evm_native
-    );
+    assert_eq!(rust(&token_ids), npm("TokenId"));
+    assert_eq!(rust(&native), npm("NativeTokenId"));
+    assert_eq!(rust(&non_evm), npm("NonEvmTokenId"));
+    assert_eq!(rust(&non_evm_native), npm("NonEvmNativeTokenId"));
 
     for &id in TokenId::ALL {
-        assert_eq!(NativeTokenId::try_from(id).is_ok(), native.contains(&id));
+        assert_eq!(
+            NativeTokenId::try_from(id).is_ok(),
+            native.contains(&id.as_str())
+        );
     }
 }
 

@@ -37,6 +37,7 @@ export const OUTFILE_TOKENLIST_MIRROR = 'tokenlist-mirror.json';
 export const OUTFILE_BOB_MIRROR = 'tokenlist-bob-mirror.json';
 export const OUTFILE_OVERRIDES_MIRROR = 'tokenlist-overrides-mirror.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
+export const OUTFILE_TYPES_JSON = 'token-ids.json';
 
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';

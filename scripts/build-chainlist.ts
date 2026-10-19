@@ -4,10 +4,12 @@ import {
   CHAIN_DIR,
   NON_EVM_CHAIN_ID_BY_NAME,
   NON_EVM_CHAIN_IDS,
+  NON_EVM_CHAIN_NAMES,
   NON_EVM_TESTNET_CHAIN_NAMES,
   OUTFILE_CHAIN,
   OUTFILE_CHAIN_MIRROR,
   OUTFILE_SUPPORTED_CHAINS,
+  SUPPORTED_CHAIN_IDS,
   SUPPORTED_CHAIN_MAP,
   SUPPORTED_TESTNET_CHAINS,
   TOKENLIST_BASE_URL,
@@ -49,28 +51,51 @@ fs.writeFileSync(
   JSON.stringify(mirrorChainlist, null, 2),
 );
 
-// Every supported chain keyed by its data.json name, in SUPPORTED_CHAIN_IDS
-// order, for consumers that cannot import config.ts.
-const supportedChains = Object.fromEntries([
-  ...Object.entries(SUPPORTED_CHAIN_MAP).map(([chainName, chain]) => [
-    chainName,
-    {
-      chainId: chain.id,
-      name: chain.name,
-      evm: !NON_EVM_CHAIN_IDS.has(chain.id),
-      testnet: chainName in SUPPORTED_TESTNET_CHAINS,
-    },
-  ]),
-  ...Object.entries(NON_EVM_CHAIN_ID_BY_NAME).map(([chainName, chainId]) => [
-    chainName,
-    {
-      chainId,
-      name: chainName.charAt(0).toUpperCase() + chainName.slice(1),
-      evm: false,
-      testnet: NON_EVM_TESTNET_CHAIN_NAMES.has(chainName),
-    },
-  ]),
+// Every chain in SUPPORTED_CHAIN_IDS, in that order and keyed by its data.json
+// name, for consumers that cannot import config.ts.
+const chainNameById = new Map<number, string>([
+  ...Object.entries(SUPPORTED_CHAIN_MAP).map(
+    ([chainName, chain]) => [chain.id, chainName] as const,
+  ),
+  ...Object.entries(NON_EVM_CHAIN_ID_BY_NAME).map(
+    ([chainName, chainId]) => [chainId as number, chainName] as const,
+  ),
 ]);
+
+const supportedChains = Object.fromEntries(
+  SUPPORTED_CHAIN_IDS.map((chainId) => {
+    const chainName = chainNameById.get(chainId);
+
+    if (chainName === undefined) {
+      throw new Error(`No data.json chain name for chain ID ${chainId}`);
+    }
+
+    // Same table as the NonEvmTokenId subsets in token-ids.ts.
+    const evm = !NON_EVM_CHAIN_NAMES.has(chainName);
+
+    if (evm === NON_EVM_CHAIN_IDS.has(chainId)) {
+      throw new Error(
+        `NON_EVM_CHAIN_NAMES and NON_EVM_CHAIN_IDS disagree on ${chainName}`,
+      );
+    }
+
+    const chain =
+      SUPPORTED_CHAIN_MAP[chainName as keyof typeof SUPPORTED_CHAIN_MAP];
+
+    return [
+      chainName,
+      {
+        chainId,
+        name:
+          chain?.name ?? chainName.charAt(0).toUpperCase() + chainName.slice(1),
+        evm,
+        testnet:
+          chainName in SUPPORTED_TESTNET_CHAINS ||
+          NON_EVM_TESTNET_CHAIN_NAMES.has(chainName),
+      },
+    ];
+  }),
+);
 
 fs.writeFileSync(
   OUTFILE_SUPPORTED_CHAINS,
