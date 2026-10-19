@@ -24,8 +24,24 @@ const SUPPORTED_CHAINS: &str = "supported-chains.json";
 const CHAIN_LOGOS: &str = "data/chains/chains.json";
 const TOKEN_DIR: &str = "data/tokens";
 
-// Strict and reserved Rust keywords (token IDs are matched case-sensitively),
-// plus `_`, which is not a valid identifier on its own.
+// Names that cannot be used as enum variants as is: strict and reserved Rust
+// keywords (matched case-sensitively), `_`, which is not a valid identifier on
+// its own, and the associated items `src/macros.rs` and the crate define on
+// `Chain` and the token ID enums, which a variant of the same name would shadow.
+const RESERVED_IDENTS: &[&str] = &[
+    "ALL",
+    "as_str",
+    "data",
+    "from_id",
+    "id",
+    "is_evm",
+    "is_testnet",
+    "logo_file",
+    "logo_uri",
+    "mirror_logo_uri",
+    "token",
+    "token_id",
+];
 const RUST_KEYWORDS: &[&str] = &[
     "_", "abstract", "as", "async", "await", "become", "box", "break", "const", "continue",
     "crate", "do", "dyn", "else", "enum", "extern", "false", "final", "fn", "for", "gen", "if",
@@ -199,7 +215,8 @@ fn read_tokens(root: &Path) -> Vec<Token> {
 
 // Chain keys are kebab-case `data.json` keys: `op-mainnet` → `OpMainnet`.
 fn chain_ident(key: &str) -> String {
-    key.split('-')
+    let ident = key
+        .split('-')
         .map(|part| {
             let mut chars = part.chars();
 
@@ -208,25 +225,33 @@ fn chain_ident(key: &str) -> String {
                 .map(|first| first.to_ascii_uppercase().to_string() + chars.as_str())
                 .unwrap_or_default()
         })
-        .collect()
+        .collect();
+
+    variant_ident(ident, &format!("chain key {key:?}"), "chain_ident")
 }
 
 // Token IDs keep their original casing as enum variants (`TokenId::cbBTC`);
 // characters that are not valid in identifiers are spelled out.
 fn token_ident(id: &str) -> String {
-    let mut ident = id.replace('.', "_").replace('+', "_PLUS");
+    let ident = id.replace('.', "_").replace('+', "_PLUS");
 
+    variant_ident(ident, &format!("token ID {id:?}"), "token_ident")
+}
+
+// Turns a candidate into a valid enum variant name, or fails the build naming
+// the `source` entry and the `mapper` function to extend.
+fn variant_ident(mut ident: String, source: &str, mapper: &str) -> String {
     assert!(
         !ident.is_empty()
             && ident
                 .bytes()
                 .all(|b| b.is_ascii_alphanumeric() || b == b'_'),
-        "cannot map token ID {id:?} to a Rust identifier; extend `token_ident` in build.rs",
+        "cannot map {source} to a Rust identifier; extend `{mapper}` in build.rs",
     );
     if ident.starts_with(|c: char| c.is_ascii_digit()) {
         ident.insert(0, '_');
     }
-    if RUST_KEYWORDS.contains(&ident.as_str()) {
+    if RUST_KEYWORDS.contains(&ident.as_str()) || RESERVED_IDENTS.contains(&ident.as_str()) {
         ident.push('_');
     }
 
@@ -264,11 +289,16 @@ fn doc(text: &str) -> String {
     format!("#[doc = {:?}]", format!(" {escaped}"))
 }
 
-fn find_chain<'a>(chains: &'a [Chain], key: &str, context: &str) -> &'a Chain {
+// Position of `key` in `Chain::ALL`.
+fn chain_index(chains: &[Chain], key: &str, context: &str) -> usize {
     chains
         .iter()
-        .find(|chain| chain.key == key)
+        .position(|chain| chain.key == key)
         .unwrap_or_else(|| panic!("{context}: unknown chain {key:?}, not in {SUPPORTED_CHAINS}"))
+}
+
+fn find_chain<'a>(chains: &'a [Chain], key: &str, context: &str) -> &'a Chain {
+    &chains[chain_index(chains, key, context)]
 }
 
 fn generate(chains: &[Chain], tokens: &[Token]) -> String {
@@ -387,12 +417,13 @@ fn generate(chains: &[Chain], tokens: &[Token]) -> String {
         )
         .unwrap();
 
-        // Per-chain entries in `Chain::ALL` order (`Map` does not keep the
-        // data.json order).
+        // Per-chain and bridge entries are sorted into `Chain::ALL` order:
+        // `Map` iterates alphabetically, or in document order when a consumer
+        // enables serde_json's `preserve_order`.
         let mut entries: Vec<_> = required(data, "tokens", &context, Value::as_object)
             .iter()
             .collect();
-        entries.sort_by_key(|(key, _)| chains.iter().position(|chain| chain.key == **key));
+        entries.sort_by_key(|(key, _)| chain_index(chains, key, &context));
         for (key, entry) in entries {
             let context = format!("{context}: tokens.{key}");
             let entry = as_object(entry, &context);
@@ -404,20 +435,24 @@ fn generate(chains: &[Chain], tokens: &[Token]) -> String {
             } else {
                 address::checksum_address(address).unwrap_or_else(|err| panic!("{context}: {err}"))
             };
-            let bridge: Vec<String> = optional(entry, "bridge", &context, Value::as_object)
-                .into_iter()
-                .flatten()
-                .map(|(bridge_key, bridge_address)| {
-                    let bridge_address = bridge_address
-                        .as_str()
-                        .unwrap_or_else(|| panic!("{context}: invalid `bridge.{bridge_key}`"));
+            let mut bridge: Vec<(usize, String)> =
+                optional(entry, "bridge", &context, Value::as_object)
+                    .into_iter()
+                    .flatten()
+                    .map(|(bridge_key, bridge_address)| {
+                        let bridge_address = bridge_address
+                            .as_str()
+                            .unwrap_or_else(|| panic!("{context}: invalid `bridge.{bridge_key}`"));
+                        let index = chain_index(chains, bridge_key, &context);
 
-                    format!(
-                        "(Chain::{}, {bridge_address:?})",
-                        find_chain(chains, bridge_key, &context).ident
-                    )
-                })
-                .collect();
+                        (
+                            index,
+                            format!("(Chain::{}, {bridge_address:?})", chains[index].ident),
+                        )
+                    })
+                    .collect();
+            bridge.sort_by_key(|(index, _)| *index);
+            let bridge: Vec<String> = bridge.into_iter().map(|(_, entry)| entry).collect();
             let empty = Object::new();
             let overrides =
                 optional(entry, "overrides", &context, Value::as_object).unwrap_or(&empty);

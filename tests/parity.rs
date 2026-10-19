@@ -5,9 +5,9 @@
 use std::collections::{BTreeMap, BTreeSet};
 
 use gobob_tokenlist::{
-    Chain, NativeTokenId, NonEvmNativeTokenId, NonEvmTokenId, SUPPORTED_CHAIN_IDS,
-    TOKENLIST_SCHEMA_URL, Token, TokenId, checksum_address, json, to_evm_address, to_tron_address,
-    tokens, tokens_with_overrides,
+    Chain, ChainTokenData, NativeTokenId, NonEvmNativeTokenId, NonEvmTokenId, SUPPORTED_CHAIN_IDS,
+    TOKENLIST_SCHEMA_URL, Token, TokenData, TokenId, checksum_address, json, to_evm_address,
+    to_tron_address, tokens, tokens_with_overrides,
 };
 use serde_json::{Map, Value, json};
 
@@ -135,18 +135,80 @@ fn chain_logos_match_chainlist() {
 }
 
 #[test]
-fn token_ids_match_compressedlist() {
+fn token_data_matches_compressedlist() {
     let compressed = parse(json::COMPRESSEDLIST);
-    let expected: BTreeSet<&str> = compressed
-        .as_object()
-        .unwrap()
-        .keys()
-        .map(String::as_str)
-        .collect();
+    let compressed = compressed.as_object().unwrap();
+    let expected: BTreeSet<&str> = compressed.keys().map(String::as_str).collect();
     let actual: BTreeSet<&str> = TokenId::ALL.iter().map(|id| id.as_str()).collect();
 
     assert_eq!(actual, expected);
     assert_eq!(TokenId::ALL.len(), actual.len());
+
+    // The only generated file with every CoinGecko ID, including those over
+    // the token list schema's 42-character cap.
+    for &id in TokenId::ALL {
+        let data = id.data();
+        let entry = compressed[id.as_str()].as_array().unwrap();
+        let shared = json!([
+            data.name,
+            data.symbol,
+            data.coingecko_id,
+            data.logo_ext.as_str()
+        ]);
+
+        assert_eq!(entry[0], shared, "{id}");
+
+        // Keyed by chain ID: the JSON keeps data.json order, the crate Chain::ALL order.
+        let expected: BTreeMap<u64, &Value> = entry[1..]
+            .iter()
+            .map(|chain_entry| (chain_entry[0].as_u64().unwrap(), chain_entry))
+            .collect();
+        let actual: BTreeMap<u64, Value> = data
+            .tokens
+            .iter()
+            .map(|token| (token.chain.id(), compressed_chain_entry(data, token)))
+            .collect();
+
+        assert_eq!(actual.len(), entry.len() - 1, "{id}");
+        assert_eq!(
+            actual.keys().collect::<Vec<_>>(),
+            expected.keys().collect::<Vec<_>>(),
+            "{id}"
+        );
+        for (chain_id, actual) in &actual {
+            assert_eq!(actual, expected[chain_id], "{id} on {chain_id}");
+        }
+    }
+}
+
+// A compressedlist.json chain tuple: [chainId, address, decimals, native,
+// name?, symbol?], with name and symbol only where they differ from the
+// token's defaults (name `null` when only the symbol differs).
+fn compressed_chain_entry(data: &TokenData, token: &ChainTokenData) -> Value {
+    let differing =
+        |value: Option<&'static str>, default: &str| value.filter(|value| *value != default);
+    let name = differing(token.overrides.name.or(token.name), data.name);
+    let symbol = differing(token.overrides.symbol.or(token.symbol), data.symbol);
+    let mut entry = vec![
+        json!(token.chain.id()),
+        json!(token.address),
+        json!(
+            token
+                .overrides
+                .decimals
+                .or(token.decimals)
+                .unwrap_or(data.decimals)
+        ),
+        json!(token.native.unwrap_or(data.native)),
+    ];
+
+    match (name, symbol) {
+        (name, Some(symbol)) => entry.extend([json!(name), json!(symbol)]),
+        (Some(name), None) => entry.push(json!(name)),
+        (None, None) => {}
+    }
+
+    Value::Array(entry)
 }
 
 #[test]
@@ -157,6 +219,10 @@ fn token_data_is_indexed_by_token_id() {
     }
 }
 
+// Checks build.rs's subset enums against `TokenId::data()`. Both come from
+// the same `data/` and supported-chains.json, so this guards the generator,
+// not drift from the npm package: no generated JSON file records the token-level
+// `native` flag or the non-EVM subsets (only token-ids.ts does).
 #[test]
 fn token_id_subsets_match_token_data() {
     let native: Vec<TokenId> = TokenId::ALL
@@ -245,7 +311,8 @@ fn chain_token_finds_every_token() {
         );
         assert_eq!(token.chain.token(token.address), Some(token));
 
-        if token.chain.is_evm() {
+        // Hex addresses on any chain (EVM, Bitcoin networks) match in any case.
+        if token.address.starts_with("0x") {
             let lowercase = token.address.to_ascii_lowercase();
             assert_eq!(token.chain.token(&lowercase), Some(token));
         }

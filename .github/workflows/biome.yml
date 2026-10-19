@@ -37,3 +37,9 @@ jobs:
 
       - name: Run Biome
         run: pnpm check
+
+      # The Rust crate reads supported-chains.json, so it must match config.ts.
+      - name: Check generated chain lists
+        run: |
+          pnpm build:chainlist
+          git diff --exit-code chainlist.json chainlist-mirror.json supported-chains.json

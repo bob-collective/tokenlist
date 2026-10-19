@@ -109,7 +109,7 @@ Rules:
 - Token ID variants keep the directory name's casing; `.` → `_` and `+` → `_PLUS`. `build.rs` fails on any other character or on an identifier collision — extend `token_ident` there if a new token needs it.
 - Keep dependency requirements loose (`"0.11"`, `"1"`, ranges where APIs allow) so consumers reuse the versions in their `Cargo.lock`, and enable no features on build-dependencies: Cargo unifies them with every proc macro and build script in a consumer's graph (e.g. `preserve_order` on `serde_json` would change typify/progenitor codegen). `build.rs` reads ordered JSON objects with its `Entries` visitor instead.
 - The crate's MSRV is 1.88 (`rust-version`, set by `sha2`); change it in `Cargo.toml` and the `msrv` job of `.github/workflows/rust.yml` together.
-- CI (`.github/workflows/rust.yml`) runs `cargo fmt --check`, `cargo clippy -D warnings`, and `cargo test` with and without `--all-features`, and checks the MSRV. It needs no Node toolchain; `cargo test` fails if `data/` changed without `pnpm build`.
+- CI (`.github/workflows/rust.yml`) runs `cargo fmt --check`, `cargo clippy -D warnings`, and `cargo test` with and without `--all-features`, and checks the MSRV. It needs no Node toolchain; `cargo test` fails if `data/` changed without `pnpm build`. The Biome workflow (`.github/workflows/biome.yml`) regenerates `chainlist*.json` and `supported-chains.json` and fails if they differ from the committed files, so `config.ts` chain edits cannot skip `pnpm build`.
 
 **Adding a new token:**
 

@@ -115,9 +115,10 @@ impl Token {
 impl Chain {
     /// The [`tokens`] entry with `address` on this chain.
     ///
-    /// EVM addresses match in any letter case. Tron addresses match in base58
-    /// or as 0x-prefixed hex (the [`to_evm_address`](crate::to_evm_address)
-    /// form). Other addresses, such as Solana mints, must match exactly.
+    /// Solana mints must match exactly. Every other address is normalized
+    /// like the token tables (see [`checksum_address`]), so hex addresses
+    /// match in any letter case, and Tron addresses also match as 0x-prefixed
+    /// hex (the [`to_evm_address`](crate::to_evm_address) form).
     ///
     /// Scans every token: cache the result on hot paths.
     ///
@@ -131,13 +132,12 @@ impl Chain {
     /// assert_eq!(usdt.address, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
     /// ```
     pub fn token(self, address: &str) -> Option<Token> {
-        // Bring `address` into the form stored in the token tables.
-        let address = if self.is_evm() {
-            checksum_address(address).ok()?
-        } else if self == Chain::Tron {
-            to_tron_address(&checksum_address(address).ok()?)
-        } else {
-            address.to_owned()
+        // Bring `address` into the form stored in the token tables, which
+        // build.rs checksums on every chain except Solana.
+        let address = match self {
+            Chain::Solana => address.to_owned(),
+            Chain::Tron => to_tron_address(&checksum_address(address).ok()?),
+            _ => checksum_address(address).ok()?,
         };
 
         tokens().find(|token| token.chain == self && token.address == address)

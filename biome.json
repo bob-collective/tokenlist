@@ -14,6 +14,7 @@
       "!tokenlist*.json",
       "!chainlist.json",
       "!chainlist*.json",
+      "!supported-chains.json",
       "!**/*.svg"
     ]
   },
