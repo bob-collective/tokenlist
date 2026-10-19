@@ -106,7 +106,7 @@ Rules:
 - Never generate Rust from TypeScript or read `.ts` files from Rust. If the crate needs data that only TS knows, emit it as JSON from a `scripts/` build step and read that JSON in `build.rs`.
 - Keep the public APIs aligned: a consumer-facing export in `config.ts`, `types.ts`, or `utils.ts` should get a Rust counterpart (and a README "npm ↔ Rust" row).
 - Bump `version` in `Cargo.toml` and `package.json` together.
-- The Rust `Chain` variant is the PascalCase `supported-chains.json` key (`op-mainnet` → `OpMainnet`). A new non-EVM testnet must be added to `NON_EVM_TESTNET_CHAIN_NAMES` in `config.ts` so `supported-chains.json` flags it.
+- The Rust `Chain` variant is the PascalCase `supported-chains.json` key (`op-mainnet` → `OpMainnet`). Non-EVM chains are declared once, with their ID and testnet flag, in `NON_EVM_CHAINS` in `config.ts`; the other non-EVM maps derive from it.
 - Token ID variants keep the directory name's casing; `.` → `_` and `+` → `_PLUS`. `build.rs` fails on any other character or on an identifier collision — extend `token_ident` there if a new token needs it.
 - Keep dependency requirements loose (`"0.11"`, `"1"`, ranges where APIs allow) so consumers reuse the versions in their `Cargo.lock`, and enable no features on build-dependencies: Cargo unifies them with every proc macro and build script in a consumer's graph (e.g. `preserve_order` on `serde_json` would change typify/progenitor codegen). `build.rs` reads ordered JSON objects with its `Entries` visitor instead.
 - The crate's MSRV is 1.88 (`rust-version`, set by `sha2`); change it in `Cargo.toml` and the `msrv` job of `.github/workflows/rust.yml` together.

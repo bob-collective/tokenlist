@@ -5,7 +5,7 @@ import {
   NON_EVM_CHAIN_ID_BY_NAME,
   NON_EVM_CHAIN_IDS,
   NON_EVM_CHAIN_NAMES,
-  NON_EVM_TESTNET_CHAIN_NAMES,
+  NON_EVM_CHAINS,
   OUTFILE_CHAIN,
   OUTFILE_CHAIN_MIRROR,
   OUTFILE_SUPPORTED_CHAINS,
@@ -62,6 +62,14 @@ const chainNameById = new Map<number, string>([
   ),
 ]);
 
+for (const [chainName, chain] of Object.entries(NON_EVM_CHAINS)) {
+  if (!SUPPORTED_CHAIN_IDS.includes(chain.id)) {
+    throw new Error(
+      `NON_EVM_CHAINS.${chainName} is not in SUPPORTED_CHAIN_IDS`,
+    );
+  }
+}
+
 const supportedChains = Object.fromEntries(
   SUPPORTED_CHAIN_IDS.map((chainId) => {
     const chainName = chainNameById.get(chainId);
@@ -89,9 +97,10 @@ const supportedChains = Object.fromEntries(
         name:
           chain?.name ?? chainName.charAt(0).toUpperCase() + chainName.slice(1),
         evm,
+        // viem chains by list membership; non-EVM chains declare it.
         testnet:
           chainName in SUPPORTED_TESTNET_CHAINS ||
-          NON_EVM_TESTNET_CHAIN_NAMES.has(chainName),
+          (NON_EVM_CHAINS[chainName]?.testnet ?? false),
       },
     ];
   }),

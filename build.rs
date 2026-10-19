@@ -26,13 +26,16 @@ const TOKEN_DIR: &str = "data/tokens";
 
 // Names that cannot be used as enum variants as is: strict and reserved Rust
 // keywords (matched case-sensitively), `_`, which is not a valid identifier on
-// its own, and the associated items `src/macros.rs` and the crate define on
-// `Chain` and the token ID enums, which a variant of the same name would shadow.
+// its own, and the associated items on `Chain` and the token ID enums (inherent,
+// and trait functions callers reach as `TokenId::from(...)`), which a variant of
+// the same name would shadow.
 const RESERVED_IDENTS: &[&str] = &[
     "ALL",
     "as_str",
     "data",
+    "from",
     "from_id",
+    "from_str",
     "id",
     "is_evm",
     "is_testnet",
@@ -41,6 +44,7 @@ const RESERVED_IDENTS: &[&str] = &[
     "mirror_logo_uri",
     "token",
     "token_id",
+    "try_from",
 ];
 const RUST_KEYWORDS: &[&str] = &[
     "_", "abstract", "as", "async", "await", "become", "box", "break", "const", "continue",
@@ -439,12 +443,20 @@ fn generate(chains: &[Chain], tokens: &[Token]) -> String {
             } else {
                 address::checksum_address(address).unwrap_or_else(|err| panic!("{context}: {err}"))
             };
-            // Tron entries must be base58: the form tokenlist.json carries and
-            // `Chain::token` looks up. `checksum_address` keeps hex as hex.
-            assert!(
-                key != "tron" || address.starts_with('T'),
-                "{context}: Tron addresses must be base58 (T...), not {address:?}"
-            );
+            // Tron entries must be base58, the form tokenlist.json carries and
+            // `Chain::token` looks up; every other non-Solana chain takes 0x hex.
+            // `checksum_address` accepts both forms, so check the chain's.
+            match key.as_str() {
+                "solana" => {}
+                "tron" => assert!(
+                    address.starts_with('T'),
+                    "{context}: Tron addresses must be base58 (T...), not {address:?}"
+                ),
+                _ => assert!(
+                    address.starts_with("0x"),
+                    "{context}: addresses must be 0x hex, not {address:?}"
+                ),
+            }
             let mut bridge: Vec<(usize, String)> =
                 optional(entry, "bridge", &context, Value::as_object)
                     .into_iter()

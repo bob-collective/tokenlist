@@ -241,7 +241,8 @@ macro_rules! define_token_id_subset {
                 value
                     .parse::<crate::TokenId>()
                     .ok()
-                    .and_then(|id| $name::try_from(id).ok())
+                    // Qualified: a variant named `try_from` would shadow `$name::try_from`.
+                    .and_then(|id| <$name as TryFrom<crate::TokenId>>::try_from(id).ok())
                     .ok_or_else(|| crate::ParseError::new(stringify!($name), value))
             }
         }
