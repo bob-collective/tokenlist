@@ -33,6 +33,7 @@ const RESERVED_IDENTS: &[&str] = &[
     "ALL",
     "as_str",
     "data",
+    "display_name",
     "from",
     "from_id",
     "from_str",
@@ -321,10 +322,12 @@ fn generate(chains: &[Chain], tokens: &[Token]) -> String {
     for chain in chains {
         writeln!(
             out,
-            "    {}\n    {} {{ name: {:?}, id: {}, evm: {}, testnet: {}, logo: {:?} }},",
+            "    {}\n    {} {{ name: {:?}, display_name: {:?}, id: {}, evm: {}, testnet: {}, logo: \
+             {:?} }},",
             doc(&chain.name),
             chain.ident,
             chain.key,
+            chain.name,
             chain.id,
             chain.evm,
             chain.testnet,

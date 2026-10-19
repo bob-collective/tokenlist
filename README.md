@@ -231,7 +231,7 @@ assert!(!Chain::Solana.is_evm());
 | npm package                                                                          | Rust crate                                                                                                     |
 | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
 | `TokenId`, `NativeTokenId`, `NonEvmTokenId`, `NonEvmNativeTokenId`                   | Enums of the same names: `ALL`, `as_str`, `FromStr`, `Display`; subsets convert with `From`/`TryFrom`          |
-| `SupportedChain`, `SUPPORTED_CHAIN_MAP`, `NON_EVM_CHAIN_IDS`                         | `Chain` enum: `ALL`, `as_str` (the `data.json` key), `id`, `from_id`, `is_evm`, `is_testnet`                   |
+| `SupportedChain`, `SUPPORTED_CHAIN_MAP`, `NON_EVM_CHAIN_IDS`                         | `Chain` enum: `ALL`, `as_str` (the `data.json` key), `display_name`, `id`, `from_id`, `is_evm`, `is_testnet`   |
 | `SUPPORTED_CHAIN_IDS`, `SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`      | Constants of the same names (`&[u64]` and `u64`)                                                               |
 | `TOKENLIST_BASE_URL`, `TOKENLIST_MIRROR_URL`, `TOKENLIST_SCHEMA_URL`                 | Constants of the same names                                                                                    |
 | `TokenData` (`data.json`)                                                            | `TokenId::data()` → `TokenData`, with per-chain `ChainTokenData` and `Overrides`                               |

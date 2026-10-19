@@ -251,6 +251,25 @@ fn token_ids_match_npm_unions() {
 }
 
 #[test]
+fn chains_match_supported_chains_json() {
+    let actual: Map<String, Value> = Chain::ALL
+        .iter()
+        .map(|chain| {
+            let entry = json!({
+                "chainId": chain.id(),
+                "name": chain.display_name(),
+                "evm": chain.is_evm(),
+                "testnet": chain.is_testnet(),
+            });
+
+            (chain.as_str().to_owned(), entry)
+        })
+        .collect();
+
+    assert_eq!(Value::Object(actual), parse(json::SUPPORTED_CHAINS));
+}
+
+#[test]
 fn chains_round_trip() {
     assert_eq!(SUPPORTED_CHAIN_IDS.len(), Chain::ALL.len());
 

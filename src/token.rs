@@ -15,11 +15,15 @@ pub struct TokenData {
     pub name: &'static str,
     /// Default token symbol.
     pub symbol: &'static str,
-    /// Default token decimals.
+    /// Default token decimals. A chain entry can override it (see
+    /// [`ChainTokenData::decimals`]); [`Token::decimals`] has the resolved
+    /// per-chain value.
     pub decimals: u8,
     /// CoinGecko API ID used for price feeds.
     pub coingecko_id: &'static str,
-    /// Whether the token is a native chain asset (ETH, BNB, ...).
+    /// Whether the token is a native chain asset (ETH, BNB, ...). A chain
+    /// entry can override it (see [`ChainTokenData::native`]); [`Token::native`]
+    /// has the resolved per-chain value.
     pub native: bool,
     /// Format of `data/tokens/<ID>/logo.<ext>`.
     pub logo_ext: LogoExt,

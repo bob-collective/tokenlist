@@ -52,6 +52,7 @@ macro_rules! define_chains {
         $(#[$attr:meta])*
         $variant:ident {
             name: $name:literal,
+            display_name: $display_name:literal,
             id: $id:literal,
             evm: $evm:literal,
             testnet: $testnet:literal,
@@ -76,6 +77,15 @@ macro_rules! define_chains {
             pub const fn as_str(self) -> &'static str {
                 match self {
                     $(Chain::$variant => $name,)*
+                }
+            }
+
+            /// Human-readable name from `supported-chains.json`: viem's chain
+            /// name for EVM chains (e.g. `"OP Mainnet"`), the capitalized key
+            /// otherwise (e.g. `"Solana"`).
+            pub const fn display_name(self) -> &'static str {
+                match self {
+                    $(Chain::$variant => $display_name,)*
                 }
             }
 
