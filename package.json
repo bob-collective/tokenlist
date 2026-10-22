@@ -3,34 +3,50 @@
   "version": "1.0.0",
   "description": "BOB token list data and utilities",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "typescript/index.ts",
+  "exports": {
+    ".": "./typescript/index.ts",
+    "./package.json": "./package.json",
+    "./*.json": "./*.json",
+    "./*.ts": "./typescript/*.ts",
+    "./*": "./typescript/*.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "typescript/*",
+        "*"
+      ]
+    }
+  },
   "packageManager": "pnpm@11.24.0",
   "files": [
-    "index.ts",
-    "config.ts",
-    "types.ts",
-    "utils.ts",
-    "token-ids.ts",
+    "typescript/index.ts",
+    "typescript/config.ts",
+    "typescript/types.ts",
+    "typescript/utils.ts",
+    "typescript/token-ids.ts",
     "tokenlist.json",
     "tokenlist*.json",
     "chainlist.json",
     "chainlist-mirror.json",
+    "supported-chains.json",
     "compressedlist.json"
   ],
   "scripts": {
     "build": "npm run build:types && npm run build:tokenlist && npm run build:chainlist && npm run build:compressedlist && npm run format:write",
-    "build:chainlist": "tsx ./scripts/build-chainlist.ts",
-    "build:compressedlist": "tsx ./scripts/build-compressedlist.ts",
-    "build:tokenlist": "tsx ./scripts/build-tokenlist.ts",
-    "build:types": "tsx ./scripts/build-types.ts",
+    "build:chainlist": "tsx ./typescript/scripts/build-chainlist.ts",
+    "build:compressedlist": "tsx ./typescript/scripts/build-compressedlist.ts",
+    "build:tokenlist": "tsx ./typescript/scripts/build-tokenlist.ts",
+    "build:types": "tsx ./typescript/scripts/build-types.ts",
     "check": "biome check .",
     "check:write": "biome check --write .",
     "format": "biome format .",
     "format:write": "biome format --write .",
     "lint": "biome lint .",
     "postbuild": "npm run verify",
-    "publish:assets": "tsx ./scripts/publish-assets.ts",
-    "verify": "tsx ./scripts/verify.ts"
+    "publish:assets": "tsx ./typescript/scripts/publish-assets.ts",
+    "verify": "tsx ./typescript/scripts/verify.ts"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1121.0",

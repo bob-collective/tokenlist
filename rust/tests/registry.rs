@@ -1,0 +1,139 @@
+use std::collections::HashSet;
+use std::ptr;
+
+use tokenlist::{Address, ChainId, TokenAddress, TokenId, TokenRegistry};
+
+#[test]
+fn ids_round_trip_through_strings() {
+    for &id in TokenId::ALL {
+        assert_eq!(id.as_str().parse(), Ok(id));
+        assert_eq!(id.to_string(), id.as_str());
+    }
+    for &chain in ChainId::ALL {
+        assert_eq!(chain.as_str().parse(), Ok(chain));
+        assert_eq!(chain.to_string(), chain.as_str());
+    }
+}
+
+#[test]
+fn punctuated_ids_keep_their_strings() {
+    let tokens = [
+        TokenId::BtcPlus,
+        TokenId::BtcB,
+        TokenId::HybridBtcPendle,
+        TokenId::SolvBtcJup,
+    ];
+    let expected = ["BTC+", "BTC.b", "HybridBTC.pendle", "SolvBTC.JUP"];
+    assert_eq!(tokens.map(TokenId::as_str), expected);
+
+    let chains = [
+        ChainId::OpMainnet,
+        ChainId::BnbSmartChain,
+        ChainId::HyperEvm,
+    ];
+    let expected = ["op-mainnet", "bnb-smart-chain", "hyper-evm"];
+    assert_eq!(chains.map(ChainId::as_str), expected);
+}
+
+#[test]
+fn unknown_and_unsupported_ids_do_not_parse() {
+    // IDs are case-sensitive; Signet remains unsupported.
+    for id in ["", "usdc", "BTC_PLUS", "sBTC"] {
+        assert!(id.parse::<TokenId>().is_err(), "{id}");
+    }
+    for key in ["", "Bob", "OpMainnet", "signet"] {
+        assert!(key.parse::<ChainId>().is_err(), "{key}");
+    }
+}
+
+#[test]
+fn every_pair_matches_the_static_records() {
+    for &id in TokenId::ALL {
+        for &chain in ChainId::ALL {
+            let expected = TokenRegistry::all()
+                .iter()
+                .find(|data| data.id == id && data.chain_id == chain.chain_id());
+            for borrowed in [
+                TokenRegistry::get_ref(id, chain),
+                TokenRegistry::on_chain(id, chain),
+            ] {
+                assert_eq!(borrowed.map(ptr::from_ref), expected.map(ptr::from_ref));
+            }
+            for owned in [
+                TokenRegistry::get(id, chain),
+                id.on_chain(chain),
+                chain.get(id),
+            ] {
+                assert_eq!(owned, expected.copied());
+            }
+        }
+    }
+}
+
+#[test]
+fn every_token_is_deployed_and_every_chain_id_unique() {
+    let tokens: HashSet<_> = TokenRegistry::all().iter().map(|data| data.id).collect();
+    assert_eq!(tokens, TokenId::ALL.iter().copied().collect());
+    let chain_ids: HashSet<_> = ChainId::ALL.iter().map(|chain| chain.chain_id()).collect();
+    assert_eq!(chain_ids.len(), ChainId::ALL.len());
+}
+
+#[test]
+fn addresses_and_native_flags_come_from_the_data() {
+    let evm = |address: &str| TokenAddress::Evm(address.parse().unwrap());
+    for (id, chain, address, native) in [
+        (
+            TokenId::Btc,
+            ChainId::Bitcoin,
+            TokenAddress::Bitcoin(Address::ZERO),
+            true,
+        ),
+        (
+            TokenId::Eth,
+            ChainId::Ethereum,
+            TokenAddress::Evm(Address::ZERO),
+            true,
+        ),
+        (
+            TokenId::Pol,
+            ChainId::Polygon,
+            evm("0x0000000000000000000000000000000000001010"),
+            true,
+        ),
+        (
+            TokenId::Usdc,
+            ChainId::Ethereum,
+            evm("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"),
+            false,
+        ),
+        (
+            TokenId::Sol,
+            ChainId::Solana,
+            TokenAddress::Solana("So11111111111111111111111111111111111111112"),
+            true,
+        ),
+        (
+            TokenId::Trx,
+            ChainId::Tron,
+            TokenAddress::Tron("T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"),
+            true,
+        ),
+        (
+            TokenId::Usdt,
+            ChainId::Tron,
+            TokenAddress::Tron("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"),
+            false,
+        ),
+    ] {
+        let data = TokenRegistry::get(id, chain).unwrap();
+        assert_eq!(
+            (data.address, data.native),
+            (address, native),
+            "{id} on {chain}"
+        );
+    }
+
+    let btc = TokenId::Btc.on_chain(ChainId::Bitcoin).unwrap();
+    assert_eq!((btc.chain_id, ChainId::Bitcoin.chain_id()), (90000, 90000));
+    assert_eq!((btc.decimals, btc.coingecko_id), (8, "bitcoin"));
+}

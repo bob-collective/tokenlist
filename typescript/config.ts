@@ -41,6 +41,7 @@ export const OUTFILE_TYPES = 'token-ids.ts';
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
 export const OUTFILE_CHAIN_MIRROR = 'chainlist-mirror.json';
+export const OUTFILE_SUPPORTED_CHAINS = 'supported-chains.json';
 
 export const OUTFILE_COMPRESSED = 'compressedlist.json';
 
@@ -104,10 +105,10 @@ export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
 
 // Non-EVM chains have no viem definition, so their chain IDs and name→id
 // mapping live here. Solana uses its genesis-derived numeric chain ID; the
-// Bitcoin networks use their genesis block timestamps (mainnet 2009-01-03,
-// signet 2020-09-01) since Bitcoin has no native chain-ID concept.
+// Bitcoin mainnet uses the application ID 90000; Signet uses its genesis
+// block timestamp (2020-09-01), since Bitcoin has no native chain-ID concept.
 export const SOLANA_CHAIN_ID = 1584368940;
-export const BITCOIN_CHAIN_ID = 1231006505;
+export const BITCOIN_CHAIN_ID = 90000;
 export const SIGNET_CHAIN_ID = 1598918400;
 
 // chain name (as used in data.json keys) → chain ID, for chains absent from

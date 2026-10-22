@@ -57,4 +57,8 @@ export type NativeTokenId = ${toUnionType(nativeTokenIds)};
 export type NonEvmTokenId = ${toUnionType(nonEvmTokenIds)};
 export type NonEvmNativeTokenId = ${toUnionType(nonEvmNativeTokenIds)};\n`;
 
-fs.writeFileSync(OUTFILE_TYPES, fileDisclaimer + content);
+// token-ids.ts lives next to config.ts, in typescript/.
+fs.writeFileSync(
+  path.join(__dirname, '..', OUTFILE_TYPES),
+  fileDisclaimer + content,
+);

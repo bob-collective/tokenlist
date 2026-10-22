@@ -93,7 +93,7 @@
   ],
   "BTC": [
     ["Bitcoin", "BTC", "bitcoin", "svg"],
-    [1231006505, "0x0000000000000000000000000000000000000000", 8, true]
+    [90000, "0x0000000000000000000000000000000000000000", 8, true]
   ],
   "BTC.b": [
     ["Bitcoin", "BTC.b", "bitcoin-avalanche-bridged-btc-b", "svg"],
