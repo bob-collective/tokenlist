@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    defaults:
+      run:
+        working-directory: rust
 
     steps:
       - name: Checkout
@@ -43,6 +46,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    defaults:
+      run:
+        working-directory: rust
 
     steps:
       - name: Checkout
@@ -50,7 +56,7 @@ jobs:
         with:
           persist-credentials: false
 
-      # Keep in sync with rust-version in Cargo.toml.
+      # Keep in sync with rust-version in rust/Cargo.toml.
       - name: Setup Rust 1.88
         run: rustup toolchain install 1.88 --profile minimal
 

@@ -37,12 +37,10 @@ export const OUTFILE_TOKENLIST_MIRROR = 'tokenlist-mirror.json';
 export const OUTFILE_BOB_MIRROR = 'tokenlist-bob-mirror.json';
 export const OUTFILE_OVERRIDES_MIRROR = 'tokenlist-overrides-mirror.json';
 export const OUTFILE_TYPES = 'token-ids.ts';
-export const OUTFILE_TYPES_JSON = 'token-ids.json';
 
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
 export const OUTFILE_CHAIN_MIRROR = 'chainlist-mirror.json';
-export const OUTFILE_SUPPORTED_CHAINS = 'supported-chains.json';
 
 export const OUTFILE_COMPRESSED = 'compressedlist.json';
 
@@ -112,21 +110,13 @@ export const SOLANA_CHAIN_ID = 1584368940;
 export const BITCOIN_CHAIN_ID = 1231006505;
 export const SIGNET_CHAIN_ID = 1598918400;
 
-// Chains absent from SUPPORTED_CHAINS (non-EVM chains viem cannot describe),
-// keyed by data.json chain name. The single source for their chain IDs and
-// testnet status; the maps below are derived from it.
-export const NON_EVM_CHAINS: Record<string, { id: number; testnet: boolean }> =
-  {
-    solana: { id: SOLANA_CHAIN_ID, testnet: false },
-    bitcoin: { id: BITCOIN_CHAIN_ID, testnet: false },
-    signet: { id: SIGNET_CHAIN_ID, testnet: true },
-  };
-
-// chain name (as used in data.json keys) → chain ID, for NON_EVM_CHAINS.
-export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> =
-  Object.fromEntries(
-    Object.entries(NON_EVM_CHAINS).map(([name, chain]) => [name, chain.id]),
-  );
+// chain name (as used in data.json keys) → chain ID, for chains absent from
+// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
+export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
+  solana: SOLANA_CHAIN_ID,
+  bitcoin: BITCOIN_CHAIN_ID,
+  signet: SIGNET_CHAIN_ID,
+};
 
 // Chain IDs treated as non-EVM by verification. Tron has a viem definition
 // and is verified on-chain, but its TVM addresses are non-EVM; Solana and the

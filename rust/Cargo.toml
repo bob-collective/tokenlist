@@ -1,0 +1,42 @@
+[package]
+name = "gobob-tokenlist"
+# Keep in sync with "version" in ../package.json (tests/parity.rs checks it
+# against ../tokenlist.json).
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.88"
+description = "BOB token list data and utilities"
+license = "MIT"
+repository = "https://github.com/bob-collective/tokenlist"
+readme = "../README.md"
+# Distributed as a git dependency, not via crates.io: build.rs reads
+# ../compressedlist.json, which lies outside this package.
+publish = false
+
+[features]
+serde = ["dep:serde"]
+
+# Requirements are kept loose so the crate reuses the versions already in a
+# consumer's Cargo.lock instead of pulling in new ones.
+[dependencies]
+alloy-primitives = { version = "1", default-features = false }
+serde = { version = "1", optional = true }
+strum = { version = ">=0.27, <0.29", features = ["derive"] }
+
+# build.rs turns ../compressedlist.json into the TokenId enum and the static
+# token table. Only features without behavioural effect are enabled here:
+# build-dependency features are unified with every proc macro and build script
+# in a consumer's graph (e.g. serde_json/preserve_order would change other
+# crates' codegen). prettyplease already enables syn/full.
+[build-dependencies]
+heck = "0.5"
+prettyplease = "0.2"
+proc-macro2 = "1"
+quote = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", default-features = false, features = ["std"] }
+syn = { version = "2", features = ["full"] }
+
+[dev-dependencies]
+serde_json = "1"

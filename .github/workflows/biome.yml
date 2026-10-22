@@ -38,10 +38,12 @@ jobs:
       - name: Run Biome
         run: pnpm check
 
-      # The Rust crate reads supported-chains.json and is tested against
-      # token-ids.json, so both must match config.ts and data/.
-      - name: Check generated chain lists and token IDs
+      # The Rust crate (rust/) is generated from compressedlist.json, so it and
+      # the other deterministic outputs must match typescript/config.ts and data/.
+      - name: Check generated files
         run: |
-          pnpm build:chainlist
           pnpm build:types
-          git diff --exit-code chainlist.json chainlist-mirror.json supported-chains.json token-ids.ts token-ids.json
+          pnpm build:chainlist
+          pnpm build:compressedlist
+          pnpm exec biome format --write compressedlist.json
+          git diff --exit-code typescript/token-ids.ts chainlist.json chainlist-mirror.json compressedlist.json
