@@ -1,35 +1,24 @@
 //! Generates `$OUT_DIR/generated.rs` from two files the npm build writes:
-//!
-//! - `../supported-chains.json`: `ChainId`, one variant per supported chain;
-//! - `../compressedlist.json`: `TokenId`, one variant per token with a supported
-//!   deployment, a flat `TokenData` array and a compact enum-indexed table.
-//!
-//! The code is built with `quote`, parsed with `syn` and formatted with
-//! `prettyplease`. Malformed or inconsistent data fails the build with the
-//! offending entry in the message.
+//! `../supported-chains.json` (`ChainId`) and `../compressedlist.json`
+//! (`TokenId`, a flat `TokenData` array and an enum-indexed slot table).
+//! Malformed or inconsistent data fails the build, naming the entry.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
-use std::error::Error;
-use std::path::{Path, PathBuf};
-use std::{env, fs};
+use std::{env, error::Error, fs, path::PathBuf};
 
 use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
-use serde::Deserialize;
-use serde::de::DeserializeOwned;
+use serde::{Deserialize, de::DeserializeOwned};
 use serde_json::Value;
-use serde_with::de::DeserializeAsWrap;
-use serde_with::{MapPreventDuplicates, Same};
+use serde_with::{As, MapPreventDuplicates, Same};
 
 type Result<T, E = Box<dyn Error>> = std::result::Result<T, E>;
 
-// `TOKENLIST_BASE_URL` in typescript/config.ts; tests/parity.rs checks the
-// generated URLs against the logoURIs in tokenlist-overrides.json.
+// `TOKENLIST_BASE_URL` in typescript/config.ts.
 const TOKENLIST_BASE_URL: &str =
     "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/";
 
-/// A `supported-chains.json` entry, keyed by the chain's `data.json` name.
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct SupportedChain {
@@ -37,16 +26,12 @@ struct SupportedChain {
     evm: bool,
 }
 
-// Numeric chain ID → (dense enum ordinal, address kind), or None if unsupported.
-type ChainVariants = HashMap<u64, Option<(usize, &'static str)>>;
-
-/// `[name, symbol, coingeckoId, logo]`, the first element of every
-/// `compressedlist.json` entry.
+/// `[name, symbol, coingeckoId, logo]`, the head of each `compressedlist.json` entry.
 #[derive(Deserialize)]
 struct Shared(String, String, Option<String>, String);
 
-/// `[chainId, address, decimals, native, nameOverride?, symbolOverride?]`, one
-/// per chain. The name slot holds `null` when only the symbol is overridden.
+/// `[chainId, address, decimals, native, name?, symbol?]`; `name` is `null`
+/// when only the symbol is overridden.
 #[derive(Deserialize)]
 struct ChainEntry(
     u64,
@@ -57,40 +42,40 @@ struct ChainEntry(
     #[serde(default)] Option<String>,
 );
 
+/// Numeric chain ID → (`ChainId` ordinal, address kind), `None` if unsupported.
+type Ordinals = HashMap<u64, Option<(usize, &'static str)>>;
+
 fn main() -> Result<()> {
-    let root = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?).join("..");
-    let chains = read_map(&root, "supported-chains.json")?;
-    let tokens = read_map(&root, "compressedlist.json")?;
-
-    let (chain_code, chain_variants) =
-        generate_chains(&chains).map_err(|e| format!("supported-chains.json: {e}"))?;
-    let token_code = generate_tokens(&tokens, &chain_variants)
+    let (chains, ordinals) = read_map("supported-chains.json")
+        .and_then(|chains| generate_chains(&chains))
+        .map_err(|e| format!("supported-chains.json: {e}"))?;
+    let tokens = read_map("compressedlist.json")
+        .and_then(|tokens| generate_tokens(&tokens, &ordinals))
         .map_err(|e| format!("compressedlist.json: {e}"))?;
-
-    let file: syn::File = syn::parse2(quote!(#chain_code #token_code))?;
+    let file = syn::parse2(quote!(#chains #tokens))?;
     let out = PathBuf::from(env::var("OUT_DIR")?).join("generated.rs");
-    fs::write(out, prettyplease::unparse(&file))?;
-    Ok(())
+    Ok(fs::write(out, prettyplease::unparse(&file))?)
 }
 
-/// A JSON object at the repo root, by key, rejecting duplicate keys.
-fn read_map<T: DeserializeOwned>(root: &Path, file: &str) -> Result<BTreeMap<String, T>> {
-    let path = root.join(file);
+/// A JSON object at the repo root.
+fn read_map<T: DeserializeOwned>(file: &str) -> Result<BTreeMap<String, T>> {
+    let path = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
+        .join("..")
+        .join(file);
     println!("cargo::rerun-if-changed={}", path.display());
-
-    let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-    parse_map(&text).map_err(|e| format!("{file}: {e}").into())
+    parse_map(&fs::read_to_string(path)?)
 }
 
+/// Rejects duplicate keys and trailing data.
 fn parse_map<T: DeserializeOwned>(text: &str) -> Result<BTreeMap<String, T>> {
     let mut de = serde_json::Deserializer::from_str(text);
-    DeserializeAsWrap::<BTreeMap<String, T>, MapPreventDuplicates<Same, Same>>::deserialize(&mut de)
-        .and_then(|map| de.end().map(|()| map.into_inner()))
-        .map_err(Into::into)
+    let map = As::<MapPreventDuplicates<Same, Same>>::deserialize(&mut de)?;
+    de.end()?;
+    Ok(map)
 }
 
-/// The enum variant for a token ID or chain key: `+` becomes `_plus_`, then
-/// UpperCamelCase. Rejects invalid identifiers and two keys sharing a variant.
+/// The variant for a token ID or chain key: `+` becomes `_plus_`, then
+/// UpperCamelCase. Rejects invalid identifiers and keys sharing a variant.
 fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Result<syn::Ident> {
     let name = key.replace('+', "_plus_").to_upper_camel_case();
     let ident = syn::parse_str(&name)
@@ -101,38 +86,31 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
     Ok(ident)
 }
 
-/// The `ChainId` enum, and each chain ID's ordinal (`None` for unsupported chains,
-/// whose deployments are left out).
-fn generate_chains(
-    chains: &BTreeMap<String, SupportedChain>,
-) -> Result<(TokenStream, ChainVariants)> {
-    let mut variants = Vec::new();
-    let mut names = Vec::new();
-    let mut chain_ids = Vec::new();
-    let mut chain_variants = HashMap::new();
-    let mut keys = HashMap::new();
+/// The `ChainId` enum and each chain ID's ordinal.
+fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenStream, Ordinals)> {
+    let (mut variants, mut names, mut ids) = (vec![], vec![], vec![]);
+    let (mut ordinals, mut keys) = (HashMap::new(), HashMap::new());
 
-    for (key, chain) in chains {
-        let id = chain.chain_id;
-        let kind = match (chain.evm, key.as_str()) {
+    for (key, &SupportedChain { chain_id: id, evm }) in chains {
+        let kind = match (evm, key.as_str()) {
             (true, _) => Some("Evm"),
             (_, "bitcoin") => Some("Bitcoin"),
             (_, "solana") => Some("Solana"),
             (_, "tron") => Some("Tron"),
             _ => None,
         };
-        let variant = kind
-            .map(|_| variant("ChainId", key, &mut keys))
-            .transpose()?;
-        if let Some(variant) = &variant {
+        if ordinals
+            .insert(id, kind.map(|kind| (names.len(), kind)))
+            .is_some()
+        {
+            return Err(format!("{key}: chain ID {id} is listed twice").into());
+        }
+        if kind.is_some() {
+            let variant = variant("ChainId", key, &mut keys)?;
             let doc = format!(" `{key}` (chain ID {id}).");
             variants.push(quote!(#[doc = #doc] #[strum(serialize = #key)] #variant));
-            names.push(variant.clone());
-            chain_ids.push(id);
-        }
-        let variant = kind.map(|kind| (names.len() - 1, kind));
-        if chain_variants.insert(id, variant).is_some() {
-            return Err(format!("{key}: chain ID {id} is listed twice").into());
+            names.push(variant);
+            ids.push(id);
         }
     }
 
@@ -153,22 +131,20 @@ fn generate_chains(
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
-        pub(crate) static CHAIN_IDS: [u64; #count] = [#(#chain_ids),*];
+        static CHAIN_IDS: [u64; #count] = [#(#ids),*];
     };
-    Ok((code, chain_variants))
+    Ok((code, ordinals))
 }
 
+/// The `TokenId` enum, the `TokenData` records and the token × chain index.
 fn generate_tokens(
     tokens: &BTreeMap<String, Vec<Value>>,
-    chain_variants: &ChainVariants,
+    ordinals: &Ordinals,
 ) -> Result<TokenStream> {
-    let mut variants = Vec::new();
-    let mut names = Vec::new();
-    let mut records = Vec::new();
-    let mut rows = Vec::new();
-    let chain_count = chain_variants.values().flatten().count();
+    let (mut variants, mut names, mut records, mut rows) = (vec![], vec![], vec![], vec![]);
+    let chain_count = ordinals.values().flatten().count();
     let mut keys = HashMap::new();
-    // (chain ID, normalized address), to reject addresses used by two tokens.
+    // (chain ID, normalized address), to reject addresses shared by two tokens.
     let mut addresses = HashSet::new();
 
     for (id, entry) in tokens {
@@ -176,58 +152,49 @@ fn generate_tokens(
         let Shared(name, symbol, coingecko_id, logo) =
             Shared::deserialize(shared).map_err(|e| format!("{id}[0]: {e}"))?;
         let coingecko_id = coingecko_id.ok_or(format!("{id}: missing coingeckoId"))?;
-        if logo != "svg" && logo != "webp" {
+        if !matches!(logo.as_str(), "svg" | "webp") {
             return Err(format!("{id}[0]: unknown logo format {logo:?}").into());
         }
+        let icon_url = format!("{TOKENLIST_BASE_URL}data/tokens/{id}/logo.{logo}");
 
         let mut seen_chains = HashSet::new();
-        // (ChainId ordinal, per-chain fields); the TokenId variant is only
-        // made once the token is known to have a supported deployment.
-        let mut deployments = Vec::new();
+        // (ChainId ordinal, record fields); the TokenId variant is only made
+        // once the token is known to have a supported deployment.
+        let mut deployments = vec![];
 
         for (index, chain) in chains.iter().enumerate() {
             let at = format!("{id}[{}]", index + 1);
             let ChainEntry(chain_id, address, decimals, native, name_override, symbol_override) =
                 ChainEntry::deserialize(chain).map_err(|e| format!("{at}: {e}"))?;
-
             if !seen_chains.insert(chain_id) {
                 return Err(format!("{at}: duplicate chain {chain_id}").into());
             }
-            let Some(chain_variant) = chain_variants.get(&chain_id) else {
-                return Err(format!(
+            let &Some((ordinal, kind)) = ordinals.get(&chain_id).ok_or_else(|| {
+                format!(
                     "{at}: chain {chain_id} is not in supported-chains.json; add it to typescript/config.ts and run `pnpm build`"
                 )
-                .into());
-            };
-            let Some((chain_variant, kind)) = chain_variant else {
+            })?
+            else {
                 continue;
             };
-            let address_code = if matches!(*kind, "Evm" | "Bitcoin") {
-                let valid_hex = address.strip_prefix("0x").is_some_and(|hex| {
+
+            let hex = matches!(kind, "Evm" | "Bitcoin");
+            let valid = if hex {
+                address.strip_prefix("0x").is_some_and(|hex| {
                     hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit())
-                });
-                if !valid_hex {
-                    return Err(format!("{at}: invalid EVM address {address:?}").into());
-                }
-                let kind = format_ident!("{kind}");
-                quote!(crate::TokenAddress::#kind(
-                    ::alloy_primitives::address!(#address)
-                ))
+                })
+            } else if kind == "Tron" {
+                let decoded = bs58::decode(&address).with_check(Some(0x41)).into_vec();
+                decoded.is_ok_and(|bytes| bytes.len() == 21)
             } else {
-                let decoder = bs58::decode(&address);
-                let decoded = if *kind == "Tron" {
-                    decoder.with_check(Some(0x41)).into_vec()
-                } else {
-                    decoder.into_vec()
-                };
-                if !decoded.is_ok_and(|bytes| bytes.len() == if *kind == "Tron" { 21 } else { 32 })
-                {
-                    return Err(format!("{at}: invalid {kind} address {address:?}").into());
-                }
-                let kind = format_ident!("{kind}");
-                quote!(crate::TokenAddress::#kind(#address))
+                bs58::decode(&address)
+                    .into_vec()
+                    .is_ok_and(|bytes| bytes.len() == 32)
             };
-            let address_key = if matches!(*kind, "Evm" | "Bitcoin") {
+            if !valid {
+                return Err(format!("{at}: invalid {kind} address {address:?}").into());
+            }
+            let address_key = if hex {
                 address.to_ascii_lowercase()
             } else {
                 address.clone()
@@ -238,17 +205,25 @@ fn generate_tokens(
                 );
             }
 
+            let kind = format_ident!("{kind}");
+            let address = if hex {
+                quote!(::alloy_primitives::address!(#address))
+            } else {
+                quote!(#address)
+            };
             let name = name_override.as_deref().unwrap_or(&name);
             let symbol = symbol_override.as_deref().unwrap_or(&symbol);
             deployments.push((
-                chain_variant,
+                ordinal,
                 quote! {
                     chain_id: #chain_id,
-                    address: #address_code,
+                    address: crate::TokenAddress::#kind(#address),
                     decimals: #decimals,
                     native: #native,
                     name: #name,
                     symbol: #symbol,
+                    coingecko_id: #coingecko_id,
+                    icon_url: #icon_url,
                 },
             ));
         }
@@ -263,18 +238,10 @@ fn generate_tokens(
         variants.push(quote!(#[doc = #doc] #[strum(serialize = #id)] #variant));
         names.push(variant.clone());
 
-        let icon_url = format!("{TOKENLIST_BASE_URL}data/tokens/{id}/logo.{logo}");
         let mut row = vec![0_u16; chain_count];
-        for (chain_variant, fields) in deployments {
-            row[*chain_variant] = record_slot(records.len()).map_err(|e| format!("{id}: {e}"))?;
-            records.push(quote! {
-                TokenData {
-                    id: TokenId::#variant,
-                    #fields
-                    coingecko_id: #coingecko_id,
-                    icon_url: #icon_url,
-                }
-            });
+        for (ordinal, fields) in deployments {
+            row[ordinal] = record_slot(records.len()).map_err(|e| format!("{id}: {e}"))?;
+            records.push(quote!(TokenData { id: TokenId::#variant, #fields }));
         }
         rows.push(quote!([#(#row),*]));
     }
@@ -298,18 +265,16 @@ fn generate_tokens(
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
-        pub(crate) static RECORDS: [TokenData; #record_count] = [#(#records),*];
+        static RECORDS: [TokenData; #record_count] = [#(#records),*];
 
-        // Zero means absent; other slots hold the record index plus one.
-        pub(crate) static INDEX: [[u16; #chain_count]; #token_count] = [#(#rows),*];
+        static INDEX: [[u16; #chain_count]; #token_count] = [#(#rows),*];
     })
 }
 
+/// `INDEX` slot for a record: its index plus one, as zero means absent.
 fn record_slot(index: usize) -> Result<u16> {
-    index
-        .checked_add(1)
-        .and_then(|slot| u16::try_from(slot).ok())
-        .ok_or_else(|| "more than 65535 deployments; widen the registry index".into())
+    u16::try_from(index.saturating_add(1))
+        .map_err(|_| "more than 65535 deployments; widen the registry index".into())
 }
 
 #[cfg(test)]
@@ -318,13 +283,16 @@ mod tests {
     use serde_json::json;
 
     fn generate(chains: Value, tokens: Value) -> Result<String> {
-        let chains = serde_json::from_value(chains)?;
-        let tokens = serde_json::from_value(tokens)?;
-        let (chain_code, ordinals) = generate_chains(&chains)?;
-        let token_code = generate_tokens(&tokens, &ordinals)?;
+        let (chains, ordinals) = generate_chains(&serde_json::from_value(chains)?)?;
+        let tokens = generate_tokens(&serde_json::from_value(tokens)?, &ordinals)?;
         Ok(prettyplease::unparse(&syn::parse2(
-            quote!(#chain_code #token_code),
+            quote!(#chains #tokens),
         )?))
+    }
+
+    fn assert_fails(chains: Value, tokens: Value, message: &str) {
+        let error = generate(chains, tokens).unwrap_err().to_string();
+        assert!(error.contains(message), "{error}");
     }
 
     fn chains() -> Value {
@@ -347,100 +315,74 @@ mod tests {
         for text in [r#"{"USDC": [], "USDC": []}"#, r#"{"USDC": []} {}"#] {
             assert!(parse_map::<Vec<Value>>(text).is_err());
         }
-        assert!(
-            parse_map::<SupportedChain>(
-                r#"{"ethereum":{"chainId":1,"evm":true},"ethereum":{"chainId":2,"evm":true}}"#
-            )
-            .is_err()
-        );
     }
 
     #[test]
     fn rejects_duplicate_chain_ids_and_variant_collisions() {
         for (chains, message) in [
             (
-                json!({
-                    "ethereum": {"chainId": 1, "evm": true},
-                    "solana": {"chainId": 1, "evm": false}
-                }),
+                json!({"ethereum": {"chainId": 1, "evm": true}, "solana": {"chainId": 1, "evm": false}}),
                 "chain ID 1 is listed twice",
             ),
             (
-                json!({
-                    "foo-bar": {"chainId": 1, "evm": true},
-                    "foo_bar": {"chainId": 2, "evm": true}
-                }),
+                json!({"foo-bar": {"chainId": 1, "evm": true}, "foo_bar": {"chainId": 2, "evm": true}}),
                 "both map to ChainId::FooBar",
             ),
         ] {
-            let error = generate(chains, json!({})).unwrap_err().to_string();
-            assert!(error.contains(message), "{error}");
+            assert_fails(chains, json!({}), message);
         }
         let mut other = entry();
         other[1][1] = json!("0x0000000000000000000000000000000000000002");
-        let error = generate(chains(), json!({"BTC.b": entry(), "BTC_b": other}))
-            .unwrap_err()
-            .to_string();
-        assert!(error.contains("both map to TokenId::BtcB"), "{error}");
+        let tokens = json!({"BTC.b": entry(), "BTC_b": other});
+        assert_fails(chains(), tokens, "both map to TokenId::BtcB");
     }
 
     #[test]
     fn rejects_invalid_enum_identifiers() {
-        let error = generate(chains(), json!({"123": entry()}))
-            .unwrap_err()
-            .to_string();
-        assert!(
-            error.contains("123: TokenId::123 is not a valid identifier"),
-            "{error}"
-        );
+        let message = "123: TokenId::123 is not a valid identifier";
+        assert_fails(chains(), json!({"123": entry()}), message);
     }
 
     #[test]
     fn rejects_duplicate_deployments_and_addresses() {
-        let mut duplicate_chain = entry();
-        let duplicate = duplicate_chain[1].clone();
-        duplicate_chain.as_array_mut().unwrap().push(duplicate);
-        let error = generate(chains(), json!({"USDC": duplicate_chain}))
-            .unwrap_err()
-            .to_string();
-        assert!(error.contains("USDC[2]: duplicate chain 1"), "{error}");
+        let token = entry();
+        let tokens = json!({"USDC": [token[0], token[1], token[1]]});
+        assert_fails(chains(), tokens, "USDC[2]: duplicate chain 1");
 
-        let mut first = entry();
+        let [mut first, mut second] = [entry(), entry()];
         first[1][1] = json!("0xabcdef0000000000000000000000000000000001");
-        let mut second = entry();
         second[1][1] = json!("0xABCDEF0000000000000000000000000000000001");
-        let error = generate(chains(), json!({"FIRST": first, "SECOND": second}))
-            .unwrap_err()
-            .to_string();
-        assert!(error.contains("SECOND[1]: another token uses"), "{error}");
+        let tokens = json!({"FIRST": first, "SECOND": second});
+        assert_fails(chains(), tokens, "SECOND[1]: another token uses");
     }
 
     #[test]
     fn rejects_unknown_chains_malformed_addresses_and_tuples() {
         for (slot, value, message) in [
             (0, json!(999), "chain 999 is not in supported-chains.json"),
-            (1, json!("0x123"), "invalid EVM address"),
+            (1, json!("0x123"), "invalid Evm address"),
             (
                 1,
                 json!("0x000000000000000000000000000000000000000g"),
-                "invalid EVM address",
+                "invalid Evm address",
             ),
             (2, json!(256), "invalid value"),
             (3, json!("false"), "invalid type"),
         ] {
-            let mut malformed = entry();
-            malformed[1][slot] = value;
-            let error = generate(chains(), json!({"USDC": malformed}))
-                .unwrap_err()
-                .to_string();
-            assert!(error.contains("USDC[1]"), "{error}");
-            assert!(error.contains(message), "{error}");
+            let mut token = entry();
+            token[1][slot] = value;
+            assert_fails(
+                chains(),
+                json!({"USDC": token}),
+                &format!("USDC[1]: {message}"),
+            );
         }
-        let mut malformed = entry();
-        malformed[1].as_array_mut().unwrap().push(Value::Null);
-        malformed[1].as_array_mut().unwrap().push(Value::Null);
-        malformed[1].as_array_mut().unwrap().push(json!("extra"));
-        assert!(generate(chains(), json!({"USDC": malformed})).is_err());
+        let mut token = entry();
+        token[1]
+            .as_array_mut()
+            .unwrap()
+            .extend([Value::Null, Value::Null, json!("extra")]);
+        assert!(generate(chains(), json!({"USDC": token})).is_err());
     }
 
     #[test]
@@ -450,12 +392,9 @@ mod tests {
             (2, Value::Null, "missing coingeckoId"),
             (3, json!("png"), "unknown logo format"),
         ] {
-            let mut malformed = entry();
-            malformed[0][slot] = value;
-            let error = generate(chains(), json!({"USDC": malformed}))
-                .unwrap_err()
-                .to_string();
-            assert!(error.contains(message), "{error}");
+            let mut token = entry();
+            token[0][slot] = value;
+            assert_fails(chains(), json!({"USDC": token}), message);
         }
     }
 
@@ -466,16 +405,14 @@ mod tests {
             .as_array_mut()
             .unwrap()
             .extend([Value::Null, json!("USDC.e")]);
-        token.as_array_mut().unwrap().push(json!([
+        let solana = json!([
             1584368940,
             "So11111111111111111111111111111111111111112",
             6,
             false
-        ]));
-        assert!(generate(chains(), json!({"USDC": token})).is_ok());
-        assert!(generate(chains(), json!({
-            "SOL": [["Solana", "SOL", "solana", "svg"], [1584368940, "So11111111111111111111111111111111111111112", 9, true]]
-        })).is_ok());
+        ]);
+        token.as_array_mut().unwrap().push(solana);
+        generate(chains(), json!({"USDC": token})).unwrap();
     }
 
     #[test]
@@ -486,12 +423,8 @@ mod tests {
             (728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6u"),
         ] {
             let mut token = entry();
-            token[1][0] = json!(chain_id);
-            token[1][1] = json!(address);
-            let error = generate(chains(), json!({"USDT": token}))
-                .unwrap_err()
-                .to_string();
-            assert!(error.contains("USDT[1]: invalid"), "{error}");
+            token[1] = json!([chain_id, address, 6, false]);
+            assert_fails(chains(), json!({"USDT": token}), "USDT[1]: invalid");
         }
     }
 
@@ -499,7 +432,6 @@ mod tests {
     fn record_slots_reserve_zero_and_check_capacity() {
         assert_eq!(record_slot(0).unwrap(), 1);
         assert_eq!(record_slot(65534).unwrap(), u16::MAX);
-        assert!(record_slot(65535).is_err());
-        assert!(record_slot(usize::MAX).is_err());
+        assert!(record_slot(65535).is_err() && record_slot(usize::MAX).is_err());
     }
 }
