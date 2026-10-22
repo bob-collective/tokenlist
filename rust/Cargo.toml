@@ -25,6 +25,7 @@ strum = { version = ">=0.27, <0.29", features = ["derive"] }
 # in a consumer's graph (e.g. serde_json/preserve_order would change other
 # crates' codegen). prettyplease already enables syn/full.
 [build-dependencies]
+bs58 = { version = "0.5", features = ["check"] }
 heck = "0.5"
 prettyplease = "0.2"
 proc-macro2 = "1"
@@ -35,6 +36,7 @@ serde_with = { version = "3", default-features = false, features = ["std"] }
 syn = { version = "2", features = ["full"] }
 
 [dev-dependencies]
+bs58 = { version = "0.5", features = ["check"] }
 # The generator integration test imports build.rs and exercises its validation.
 heck = "0.5"
 prettyplease = "0.2"

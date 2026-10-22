@@ -1,7 +1,7 @@
 //! Generates `$OUT_DIR/generated.rs` from two files the npm build writes:
 //!
-//! - `../supported-chains.json`: `ChainId`, one variant per EVM chain;
-//! - `../compressedlist.json`: `TokenId`, one variant per token with an EVM
+//! - `../supported-chains.json`: `ChainId`, one variant per supported chain;
+//! - `../compressedlist.json`: `TokenId`, one variant per token with a supported
 //!   deployment, a flat `TokenData` array and a compact enum-indexed table.
 //!
 //! The code is built with `quote`, parsed with `syn` and formatted with
@@ -15,7 +15,7 @@ use std::{env, fs};
 
 use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
-use quote::quote;
+use quote::{format_ident, quote};
 use serde::Deserialize;
 use serde::de::DeserializeOwned;
 use serde_json::Value;
@@ -37,8 +37,8 @@ struct SupportedChain {
     evm: bool,
 }
 
-// Numeric chain ID → dense enum ordinal, or None for non-EVM chains.
-type ChainVariants = HashMap<u64, Option<usize>>;
+// Numeric chain ID → (dense enum ordinal, address kind), or None if unsupported.
+type ChainVariants = HashMap<u64, Option<(usize, &'static str)>>;
 
 /// `[name, symbol, coingeckoId, logo]`, the first element of every
 /// `compressedlist.json` entry.
@@ -101,7 +101,7 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
     Ok(ident)
 }
 
-/// The `ChainId` enum, and each chain ID's ordinal (`None` for non-EVM chains,
+/// The `ChainId` enum, and each chain ID's ordinal (`None` for unsupported chains,
 /// whose deployments are left out).
 fn generate_chains(
     chains: &BTreeMap<String, SupportedChain>,
@@ -114,9 +114,14 @@ fn generate_chains(
 
     for (key, chain) in chains {
         let id = chain.chain_id;
-        let variant = chain
-            .evm
-            .then(|| variant("ChainId", key, &mut keys))
+        let kind = match (chain.evm, key.as_str()) {
+            (true, _) => Some("Evm"),
+            (_, "solana") => Some("Solana"),
+            (_, "tron") => Some("Tron"),
+            _ => None,
+        };
+        let variant = kind
+            .map(|_| variant("ChainId", key, &mut keys))
             .transpose()?;
         if let Some(variant) = &variant {
             let doc = format!(" `{key}` (chain ID {id}).");
@@ -124,7 +129,7 @@ fn generate_chains(
             names.push(variant.clone());
             chain_ids.push(id);
         }
-        let variant = variant.map(|_| names.len() - 1);
+        let variant = kind.map(|kind| (names.len() - 1, kind));
         if chain_variants.insert(id, variant).is_some() {
             return Err(format!("{key}: chain ID {id} is listed twice").into());
         }
@@ -132,7 +137,7 @@ fn generate_chains(
 
     let count = names.len();
     let code = quote! {
-        /// An EVM chain, named after its `data.json` key: `FromStr`, `Display`
+        /// A supported chain, named after its `data.json` key: `FromStr`, `Display`
         /// and [`ChainId::as_str`] use that key (`"op-mainnet"` is
         /// `ChainId::OpMainnet`).
         #[derive(
@@ -143,7 +148,7 @@ fn generate_chains(
         pub enum ChainId { #(#variants),* }
 
         impl ChainId {
-            /// Every supported EVM chain, in registry order.
+            /// Every supported chain, in registry order.
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
@@ -162,7 +167,7 @@ fn generate_tokens(
     let mut rows = Vec::new();
     let chain_count = chain_variants.values().flatten().count();
     let mut keys = HashMap::new();
-    // (chain ID, lowercase address), to reject addresses used by two tokens.
+    // (chain ID, normalized address), to reject addresses used by two tokens.
     let mut addresses = HashSet::new();
 
     for (id, entry) in tokens {
@@ -176,7 +181,7 @@ fn generate_tokens(
 
         let mut seen_chains = HashSet::new();
         // (ChainId ordinal, per-chain fields); the TokenId variant is only
-        // made once the token is known to have an EVM deployment.
+        // made once the token is known to have a supported deployment.
         let mut deployments = Vec::new();
 
         for (index, chain) in chains.iter().enumerate() {
@@ -193,16 +198,39 @@ fn generate_tokens(
                 )
                 .into());
             };
-            let Some(chain_variant) = chain_variant else {
+            let Some((chain_variant, kind)) = chain_variant else {
                 continue;
             };
-            let valid_hex = address
-                .strip_prefix("0x")
-                .is_some_and(|hex| hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit()));
-            if !valid_hex {
-                return Err(format!("{at}: invalid EVM address {address:?}").into());
-            }
-            if !addresses.insert((chain_id, address.to_ascii_lowercase())) {
+            let address_code = if *kind == "Evm" {
+                let valid_hex = address.strip_prefix("0x").is_some_and(|hex| {
+                    hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit())
+                });
+                if !valid_hex {
+                    return Err(format!("{at}: invalid EVM address {address:?}").into());
+                }
+                quote!(crate::TokenAddress::Evm(
+                    ::alloy_primitives::address!(#address)
+                ))
+            } else {
+                let decoder = bs58::decode(&address);
+                let decoded = if *kind == "Tron" {
+                    decoder.with_check(Some(0x41)).into_vec()
+                } else {
+                    decoder.into_vec()
+                };
+                if !decoded.is_ok_and(|bytes| bytes.len() == if *kind == "Tron" { 21 } else { 32 })
+                {
+                    return Err(format!("{at}: invalid {kind} address {address:?}").into());
+                }
+                let kind = format_ident!("{kind}");
+                quote!(crate::TokenAddress::#kind(#address))
+            };
+            let address_key = if *kind == "Evm" {
+                address.to_ascii_lowercase()
+            } else {
+                address.clone()
+            };
+            if !addresses.insert((chain_id, address_key)) {
                 return Err(
                     format!("{at}: another token uses {address} on chain {chain_id}").into(),
                 );
@@ -214,7 +242,7 @@ fn generate_tokens(
                 chain_variant,
                 quote! {
                     chain_id: #chain_id,
-                    address: ::alloy_primitives::address!(#address),
+                    address: #address_code,
                     decimals: #decimals,
                     native: #native,
                     name: #name,
@@ -223,7 +251,7 @@ fn generate_tokens(
             ));
         }
 
-        // Only deployed on non-EVM chains.
+        // Only deployed on unsupported chains.
         if deployments.is_empty() {
             continue;
         }
@@ -252,7 +280,7 @@ fn generate_tokens(
     let token_count = names.len();
     let record_count = records.len();
     Ok(quote! {
-        /// A token with at least one EVM deployment, named after its
+        /// A token with at least one supported deployment, named after its
         /// `data/tokens/` directory: `FromStr`, `Display` and
         /// [`TokenId::as_str`] use that exact ID string (`"BTC+"` is
         /// `TokenId::BtcPlus`).
@@ -264,7 +292,7 @@ fn generate_tokens(
         pub enum TokenId { #(#variants),* }
 
         impl TokenId {
-            /// Every token with an EVM deployment, in registry order.
+            /// Every token with a supported deployment, in registry order.
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
@@ -279,7 +307,7 @@ fn record_slot(index: usize) -> Result<u16> {
     index
         .checked_add(1)
         .and_then(|slot| u16::try_from(slot).ok())
-        .ok_or_else(|| "more than 65535 EVM deployments; widen the registry index".into())
+        .ok_or_else(|| "more than 65535 deployments; widen the registry index".into())
 }
 
 #[cfg(test)]
@@ -300,7 +328,8 @@ mod tests {
     fn chains() -> Value {
         json!({
             "ethereum": {"chainId": 1, "evm": true},
-            "solana": {"chainId": 1584368940, "evm": false}
+            "solana": {"chainId": 1584368940, "evm": false},
+            "tron": {"chainId": 728126428, "evm": false}
         })
     }
 
@@ -435,14 +464,33 @@ mod tests {
             .as_array_mut()
             .unwrap()
             .extend([Value::Null, json!("USDC.e")]);
-        token
-            .as_array_mut()
-            .unwrap()
-            .push(json!([1584368940, "solana-mint", 6, false]));
+        token.as_array_mut().unwrap().push(json!([
+            1584368940,
+            "So11111111111111111111111111111111111111112",
+            6,
+            false
+        ]));
         assert!(generate(chains(), json!({"USDC": token})).is_ok());
         assert!(generate(chains(), json!({
-            "SOL": [["Solana", "SOL", "solana", "svg"], [1584368940, "solana-mint", 9, true]]
+            "SOL": [["Solana", "SOL", "solana", "svg"], [1584368940, "So11111111111111111111111111111111111111112", 9, true]]
         })).is_ok());
+    }
+
+    #[test]
+    fn rejects_invalid_non_evm_addresses() {
+        for (chain_id, address) in [
+            (1584368940, "0OIl"),
+            (1584368940, "1111"),
+            (728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6u"),
+        ] {
+            let mut token = entry();
+            token[1][0] = json!(chain_id);
+            token[1][1] = json!(address);
+            let error = generate(chains(), json!({"USDT": token}))
+                .unwrap_err()
+                .to_string();
+            assert!(error.contains("USDT[1]: invalid"), "{error}");
+        }
     }
 
     #[test]

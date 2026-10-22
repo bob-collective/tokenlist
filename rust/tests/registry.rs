@@ -1,4 +1,4 @@
-use gobob_tokenlist::{Address, ChainId, TokenData, TokenId, TokenRegistry};
+use gobob_tokenlist::{Address, ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
 
 #[test]
 fn token_ids_round_trip_through_strings() {
@@ -34,12 +34,12 @@ fn punctuated_ids_keep_their_strings() {
 }
 
 #[test]
-fn unknown_and_non_evm_ids_do_not_parse() {
-    // IDs are case-sensitive; BTC, sBTC and TRX only exist on non-EVM chains.
-    for id in ["", "usdc", "BTC_PLUS", "BTC", "sBTC", "TRX"] {
+fn unknown_and_unsupported_ids_do_not_parse() {
+    // IDs are case-sensitive; Bitcoin and Signet remain unsupported.
+    for id in ["", "usdc", "BTC_PLUS", "BTC", "sBTC"] {
         assert!(id.parse::<TokenId>().is_err(), "{id}");
     }
-    for key in ["", "Bob", "OpMainnet", "solana", "bitcoin", "tron"] {
+    for key in ["", "Bob", "OpMainnet", "bitcoin", "signet"] {
         assert!(key.parse::<ChainId>().is_err(), "{key}");
     }
 }
@@ -109,17 +109,39 @@ fn metadata_resolves_per_chain_values() {
 fn native_flags_come_from_the_data() {
     let eth = TokenRegistry::on_chain(TokenId::Eth, ChainId::Ethereum).unwrap();
     assert!(eth.native);
-    assert_eq!(eth.address, Address::ZERO);
+    assert_eq!(eth.address, TokenAddress::Evm(Address::ZERO));
 
     let pol = TokenRegistry::on_chain(TokenId::Pol, ChainId::Polygon).unwrap();
     assert!(pol.native);
     assert_eq!(
         pol.address,
-        "0x0000000000000000000000000000000000001010"
-            .parse::<Address>()
-            .unwrap()
+        TokenAddress::Evm(
+            "0x0000000000000000000000000000000000001010"
+                .parse::<Address>()
+                .unwrap()
+        )
     );
 
     let usdc = TokenRegistry::on_chain(TokenId::Usdc, ChainId::Ethereum).unwrap();
     assert!(!usdc.native);
+}
+
+#[test]
+fn non_evm_addresses_preserve_their_format() {
+    let sol = TokenId::Sol.on_chain(ChainId::Solana).unwrap();
+    let trx = TokenId::Trx.on_chain(ChainId::Tron).unwrap();
+    let usdt = TokenId::Usdt.on_chain(ChainId::Tron).unwrap();
+    assert_eq!(
+        sol.address,
+        TokenAddress::Solana("So11111111111111111111111111111111111111112")
+    );
+    assert_eq!(
+        trx.address,
+        TokenAddress::Tron("T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb")
+    );
+    assert_eq!(
+        usdt.address,
+        TokenAddress::Tron("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t")
+    );
+    assert!(sol.native && trx.native && !usdt.native);
 }

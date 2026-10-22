@@ -1,5 +1,5 @@
 //! Authoritative token registry for the BOB ecosystem: the Rust counterpart
-//! of the `@gobob/tokenlist` npm package, for tokens deployed on EVM chains.
+//! of the `@gobob/tokenlist` npm package, for EVM, Solana and Tron tokens.
 //!
 //! `build.rs` generates [`ChainId`] from `supported-chains.json`, and
 //! [`TokenId`] and the token data from `compressedlist.json`, at compile time.
@@ -27,8 +27,7 @@
 //! assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 //! ```
 //!
-//! Bitcoin, Solana and Tron are not covered: they have no [`ChainId`], and
-//! tokens that only exist there (`BTC`, `sBTC`, `TRX`) have no [`TokenId`].
+//! Bitcoin and Signet are not covered; `BTC` and `sBTC` have no [`TokenId`].
 
 #![warn(missing_docs)]
 
@@ -43,7 +42,21 @@ mod generated {
 
 pub use generated::{ChainId, TokenId};
 
-/// A token on one EVM chain: one `tokenlist-overrides.json` entry.
+/// A chain-specific token address. Display preserves base58 strings.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, strum::Display)]
+pub enum TokenAddress {
+    /// A typed EVM address, displayed with its checksum.
+    #[strum(transparent)]
+    Evm(Address),
+    /// A base58 Solana mint.
+    #[strum(transparent)]
+    Solana(&'static str),
+    /// A base58check Tron address.
+    #[strum(transparent)]
+    Tron(&'static str),
+}
+
+/// A token on one chain: one `tokenlist-overrides.json` entry.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 #[non_exhaustive]
 pub struct TokenData {
@@ -51,9 +64,9 @@ pub struct TokenData {
     pub id: TokenId,
     /// Numeric chain ID.
     pub chain_id: u64,
-    /// Token contract address. Native assets use the address in `data.json`:
+    /// Token contract address or Solana mint. Native assets use `data.json`:
     /// the zero address, or a system contract such as POL's `0x…1010`.
-    pub address: Address,
+    pub address: TokenAddress,
     /// Decimals on this chain.
     pub decimals: u8,
     /// Whether the token is this chain's native asset.
@@ -76,7 +89,7 @@ pub type TokenMetadata = TokenData;
 pub struct TokenRegistry;
 
 impl TokenRegistry {
-    /// Every EVM deployment, in registry order.
+    /// Every supported deployment, in registry order.
     pub fn all() -> &'static [TokenData] {
         &generated::RECORDS
     }
