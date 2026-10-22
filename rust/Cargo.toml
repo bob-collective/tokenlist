@@ -10,21 +10,17 @@ license = "MIT"
 repository = "https://github.com/bob-collective/tokenlist"
 readme = "../README.md"
 # Distributed as a git dependency, not via crates.io: build.rs reads
-# ../compressedlist.json, which lies outside this package.
+# ../supported-chains.json and ../compressedlist.json, outside this package.
 publish = false
-
-[features]
-serde = ["dep:serde"]
 
 # Requirements are kept loose so the crate reuses the versions already in a
 # consumer's Cargo.lock instead of pulling in new ones.
 [dependencies]
 alloy-primitives = { version = "1", default-features = false }
-serde = { version = "1", optional = true }
 strum = { version = ">=0.27, <0.29", features = ["derive"] }
 
-# build.rs turns ../compressedlist.json into the TokenId enum and the static
-# token table. Only features without behavioural effect are enabled here:
+# build.rs turns the JSON files into the ChainId/TokenId enums and the token
+# tables. Only features without behavioural effect are enabled here:
 # build-dependency features are unified with every proc macro and build script
 # in a consumer's graph (e.g. serde_json/preserve_order would change other
 # crates' codegen). prettyplease already enables syn/full.

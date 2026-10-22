@@ -1,51 +1,51 @@
-//! Checks the generated table against the JSON files the npm package builds
-//! from the same `data/`: `compressedlist.json` (build.rs's input, read here
-//! independently) and the `tokenlist*.json` lists.
+//! Checks the generated tables against the JSON files the npm package builds
+//! from the same data: build.rs's inputs (`supported-chains.json`,
+//! `compressedlist.json`, read here independently) and
+//! `tokenlist-overrides.json`.
 
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
-use gobob_tokenlist::{TokenId, TokenRegistry};
+use gobob_tokenlist::{ChainId, TokenId, TokenRegistry};
 use serde_json::Value;
 
+const SUPPORTED_CHAINS: &str = include_str!("../../supported-chains.json");
 const COMPRESSEDLIST: &str = include_str!("../../compressedlist.json");
 const TOKENLIST: &str = include_str!("../../tokenlist.json");
 const TOKENLIST_OVERRIDES: &str = include_str!("../../tokenlist-overrides.json");
-const TOKENLIST_OVERRIDES_MIRROR: &str = include_str!("../../tokenlist-overrides-mirror.json");
-
-/// Tron, Bitcoin, Solana and Bitcoin signet.
-const NON_EVM_CHAIN_IDS: [u64; 4] = [728126428, 1231006505, 1584368940, 1598918400];
 
 fn parse(json: &str) -> Value {
     serde_json::from_str(json).unwrap()
 }
 
-/// The `tokens` of a token list, without non-EVM entries.
-fn evm_entries(list: &Value) -> Vec<&Value> {
-    list["tokens"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .filter(|entry| !NON_EVM_CHAIN_IDS.contains(&entry["chainId"].as_u64().unwrap()))
-        .collect()
-}
+/// Numeric chain ID → `ChainId` for the EVM chains of `supported-chains.json`,
+/// checking that exactly those keys parse as `ChainId`s.
+fn evm_chains() -> HashMap<u64, ChainId> {
+    let mut chains = HashMap::new();
 
-fn token_id(entry: &Value) -> TokenId {
-    let id = entry["extensions"]["tokenId"].as_str().unwrap();
-    id.parse()
-        .unwrap_or_else(|_| panic!("{id} is in the token list but not in TokenId"))
+    for (key, entry) in parse(SUPPORTED_CHAINS).as_object().unwrap() {
+        let parsed = key.parse::<ChainId>();
+        if entry["evm"] == false {
+            assert!(parsed.is_err(), "{key} is not EVM");
+            continue;
+        }
+        let chain = parsed.unwrap_or_else(|_| panic!("{key} is missing from ChainId"));
+        assert_eq!(chain.as_str(), key);
+        chains.insert(entry["chainId"].as_u64().unwrap(), chain);
+    }
+
+    chains
 }
 
 #[test]
 fn tokens_match_compressedlist() {
-    let compressed = parse(COMPRESSEDLIST);
-    let compressed = compressed.as_object().unwrap();
+    let chains = evm_chains();
     let mut ids = HashSet::new();
 
-    for (id, entry) in compressed {
+    for (id, entry) in parse(COMPRESSEDLIST).as_object().unwrap() {
         let entry = entry.as_array().unwrap();
         let has_evm_deployment = entry[1..]
             .iter()
-            .any(|chain| !NON_EVM_CHAIN_IDS.contains(&chain[0].as_u64().unwrap()));
+            .any(|chain| chains.contains_key(&chain[0].as_u64().unwrap()));
 
         let Ok(token_id) = id.parse::<TokenId>() else {
             assert!(
@@ -60,21 +60,37 @@ fn tokens_match_compressedlist() {
         );
         ids.insert(token_id);
 
-        let token = TokenRegistry::get(token_id);
+        assert_eq!(token_id.as_str(), id);
+
         let [name, symbol, coingecko_id, logo] = entry[0].as_array().unwrap().as_slice() else {
             panic!("{id}: malformed shared tuple");
         };
-        assert_eq!(token.id, token_id);
-        assert_eq!(token.id.as_str(), id);
-        assert_eq!(token.name, *name, "{id}");
-        assert_eq!(token.symbol, *symbol, "{id}");
-        assert_eq!(token.coingecko_id, *coingecko_id, "{id}");
-        assert!(
-            token
-                .icon_url
-                .ends_with(&format!("/{id}/logo.{}", logo.as_str().unwrap())),
-            "{id}"
-        );
+        let logo = format!("/{id}/logo.{}", logo.as_str().unwrap());
+        let mut evm_chain_count = 0;
+
+        for chain_entry in &entry[1..] {
+            let Some(&chain) = chains.get(&chain_entry[0].as_u64().unwrap()) else {
+                continue; // non-EVM
+            };
+            evm_chain_count += 1;
+            let context = format!("{id} on {chain}");
+            let metadata =
+                TokenRegistry::on_chain(token_id, chain).unwrap_or_else(|| panic!("no {context}"));
+            // The name slot holds null when only the symbol is overridden.
+            let name_override = chain_entry.get(4).filter(|name| !name.is_null());
+            let symbol_override = chain_entry.get(5);
+
+            assert_eq!(metadata.name, *name_override.unwrap_or(name), "{context}");
+            assert_eq!(
+                metadata.symbol,
+                *symbol_override.unwrap_or(symbol),
+                "{context}"
+            );
+            assert_eq!(metadata.coingecko_id, *coingecko_id, "{context}");
+            assert!(metadata.icon_url.ends_with(&logo), "{context}");
+        }
+
+        assert_eq!(TokenRegistry::get(token_id).len(), evm_chain_count, "{id}");
     }
 
     assert_eq!(ids.len(), TokenRegistry::all().len());
@@ -82,18 +98,23 @@ fn tokens_match_compressedlist() {
 
 #[test]
 fn deployments_match_tokenlist_overrides() {
-    let list = parse(TOKENLIST_OVERRIDES);
-    let entries = evm_entries(&list);
+    let chains = evm_chains();
     let mut seen = HashSet::new();
 
-    for entry in &entries {
-        let id = token_id(entry);
+    for entry in parse(TOKENLIST_OVERRIDES)["tokens"].as_array().unwrap() {
         let chain_id = entry["chainId"].as_u64().unwrap();
-        let token = TokenRegistry::get(id);
-        let deployment = TokenRegistry::on_chain(id, chain_id)
-            .unwrap_or_else(|| panic!("no {id} deployment on chain {chain_id}"));
-        let context = format!("{id} on chain {chain_id}");
+        let Some(&chain) = chains.get(&chain_id) else {
+            continue; // non-EVM
+        };
+        let id_str = entry["extensions"]["tokenId"].as_str().unwrap();
+        let id: TokenId = id_str
+            .parse()
+            .unwrap_or_else(|_| panic!("{id_str} is missing from TokenId"));
+        let context = format!("{id} on {chain}");
+        let deployment =
+            TokenRegistry::on_chain(id, chain).unwrap_or_else(|| panic!("no {context}"));
 
+        assert_eq!(deployment.chain_id, chain_id, "{context}");
         assert_eq!(
             deployment.address.to_checksum(None),
             entry["address"],
@@ -110,32 +131,26 @@ fn deployments_match_tokenlist_overrides() {
             deployment.native, entry["extensions"]["native"],
             "{context}"
         );
-        assert_eq!(token.icon_url, entry["logoURI"], "{context}");
+        assert_eq!(deployment.icon_url, entry["logoURI"], "{context}");
         // Omitted from the list when longer than the schema's 42-character cap.
         if let Some(coingecko_id) = entry["extensions"].get("coingeckoId") {
-            assert_eq!(token.coingecko_id, *coingecko_id, "{context}");
+            assert_eq!(deployment.coingecko_id, *coingecko_id, "{context}");
         }
-        assert!(seen.insert((id, chain_id)), "{context} is listed twice");
+        assert!(seen.insert((id, chain)), "{context} is listed twice");
     }
 
-    let deployments: usize = TokenRegistry::all()
-        .iter()
-        .map(|token| token.deployments.len())
-        .sum();
-    assert_eq!(deployments, entries.len());
+    let deployments: usize = TokenRegistry::all().values().map(HashMap::len).sum();
+    assert_eq!(deployments, seen.len());
 }
 
 #[test]
-fn mirror_icon_urls_match_mirror_list() {
-    let list = parse(TOKENLIST_OVERRIDES_MIRROR);
+fn deployments_are_keyed_by_their_chain() {
+    let chains = evm_chains();
 
-    for entry in evm_entries(&list) {
-        let id = token_id(entry);
-        assert_eq!(
-            TokenRegistry::get(id).mirror_icon_url,
-            entry["logoURI"],
-            "{id}"
-        );
+    for (&id, by_chain) in TokenRegistry::all() {
+        for (&chain, metadata) in by_chain {
+            assert_eq!(chains[&metadata.chain_id], chain, "{id} on {chain}");
+        }
     }
 }
 

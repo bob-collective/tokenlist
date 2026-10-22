@@ -41,6 +41,7 @@ export const OUTFILE_TYPES = 'token-ids.ts';
 export const CHAIN_DIR = './data/chains';
 export const OUTFILE_CHAIN = 'chainlist.json';
 export const OUTFILE_CHAIN_MIRROR = 'chainlist-mirror.json';
+export const OUTFILE_SUPPORTED_CHAINS = 'supported-chains.json';
 
 export const OUTFILE_COMPRESSED = 'compressedlist.json';
 

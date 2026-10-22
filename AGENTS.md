@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 pnpm build                # Full build: generates types, tokenlist JSONs, then verifies
 pnpm build:tokenlist      # Generate tokenlist JSON files (+ -mirror variants) from /data
-pnpm build:chainlist      # Generate chainlist.json + chainlist-mirror.json from /data/chains
+pnpm build:chainlist      # Generate chainlist.json, chainlist-mirror.json, supported-chains.json
 pnpm build:compressedlist # Generate compressedlist.json (the Rust crate's input) from /data
 pnpm build:types          # Regenerate typescript/token-ids.ts from current /data entries
 pnpm check                # Run Biome formatting, import organization, and lint checks
@@ -51,8 +51,10 @@ data/tokens/[TOKEN]/data.json  →  typescript/scripts/build-tokenlist.ts       
 data/tokens/*/                 →  typescript/scripts/build-compressedlist.ts  →  compressedlist.json
 data/tokens/*/                 →  typescript/scripts/build-types.ts           →  typescript/token-ids.ts (auto-generated)
 data/chains/chains.json        →  typescript/scripts/build-chainlist.ts       →  chainlist.json
-                                                                              →  chainlist-mirror.json
+  + typescript/config.ts                                                      →  chainlist-mirror.json
+                                                                              →  supported-chains.json
 
+supported-chains.json          →  rust/build.rs (at compile time)             →  ChainId enum
 compressedlist.json            →  rust/build.rs (at compile time)             →  TokenId enum + static token table
 ```
 
@@ -91,7 +93,8 @@ Non-EVM handling:
 - `tokenlist*-mirror.json` — Same three lists with `logoURI` pointing at the R2 mirror (`static.gobob.xyz`) instead of GitHub raw
 - `chainlist.json` — Chain ID to logo URI map (GitHub-hosted logos)
 - `chainlist-mirror.json` — Chain ID to logo URI map (R2 mirror logos, `static.gobob.xyz`)
-- `compressedlist.json` — Compact `[shared, ...chains]` tuples per token, with per-chain decimals, native flag, and name/symbol overrides already resolved; also the Rust crate's only input
+- `supported-chains.json` — Every supported chain keyed by its `data.json` name: `chainId` and `evm` (false for the chains in `NON_EVM_CHAIN_NAMES`). The Rust crate's `ChainId` source
+- `compressedlist.json` — Compact `[shared, ...chains]` tuples per token, with per-chain decimals, native flag, and name/symbol overrides already resolved; the Rust crate's token source
 
 These are committed to the repo and consumed downstream via the npm package.
 
@@ -99,26 +102,25 @@ These are committed to the repo and consumed downstream via the npm package.
 
 `gobob-tokenlist` (`publish = false`; consumers depend on it with `git = "https://github.com/bob-collective/tokenlist"`, and Cargo finds it in `rust/`). It covers EVM deployments only.
 
-- `rust/build.rs` — Reads `../compressedlist.json` (nothing else), validates it, builds the code with `quote`, parses it with `syn`, formats it with `prettyplease`, and writes `$OUT_DIR/generated.rs`: the `TokenId` enum (strum `EnumString`/`IntoStaticStr`/`Display`) and the static `TOKENS` table in `TokenId` order. Nothing generated is committed. Bitcoin, Solana, and Tron entries are dropped, and tokens left without EVM deployments get no `TokenId`. The build fails, naming the entry, on duplicate token IDs (`serde_with::MapPreventDuplicates`), IDs that map to the same variant or to no valid identifier, duplicate chains within a token, an address reused on a chain, malformed tuples or addresses, and unknown chain IDs.
-- `EVM_CHAIN_IDS`/`NON_EVM_CHAIN_IDS` in `rust/build.rs` classify chains explicitly. Adding a chain to `SUPPORTED_CHAINS` in `typescript/config.ts` means adding its ID there too.
-- `rust/src/lib.rs` — `TokenMetadata`, `Deployment`, `TokenRegistry` (`all`, `get`, `on_chain`, `by_address`), `TokenId::as_str`, and the optional `serde` impls. Behaviour belongs here; `build.rs` emits data and the enum definition only.
-- `rust/tests/parity.rs` — Checks the generated table against `compressedlist.json` (parsed independently), `tokenlist-overrides.json`, and `tokenlist-overrides-mirror.json` entry by entry, and `Cargo.toml` `version` against `tokenlist.json`. `rust/tests/registry.rs` covers the API.
+- `rust/build.rs` — Reads `../supported-chains.json` and `../compressedlist.json` (nothing else), validates them, builds the code with `quote`, parses it with `syn`, formats it with `prettyplease`, and writes `$OUT_DIR/generated.rs`: the `ChainId` enum (EVM chains), the `TokenId` enum (tokens with an EVM deployment), and `tokens()`, a `HashMap<TokenId, HashMap<ChainId, TokenMetadata>>` holding each token's metadata on every EVM chain it is deployed on. Both enums derive strum `EnumString`/`IntoStaticStr`/`Display`. Nothing generated is committed. The build fails, naming the entry, on duplicate keys (`serde_with::MapPreventDuplicates`), keys that map to the same variant or to no valid identifier, a chain ID listed twice, duplicate chains within a token, an address reused on a chain, malformed tuples or addresses, and chain IDs missing from `supported-chains.json`.
+- `rust/src/lib.rs` — `TokenMetadata` (one token on one chain: a `tokenlist-overrides.json` entry), `TokenRegistry` (`all`, `get`, `on_chain`), and `as_str` for both enums. `TokenRegistry` holds `tokens()` in a `LazyLock`, built on first use, so `get` and `on_chain` are hash map lookups. Behaviour belongs here; `build.rs` emits data and the enum definitions only.
+- `rust/tests/parity.rs` — Checks the generated tables against `supported-chains.json`, `compressedlist.json` (both parsed independently), and `tokenlist-overrides.json` entry by entry, each deployment's `ChainId` key against its `chain_id`, and `Cargo.toml` `version` against `tokenlist.json`. `rust/tests/registry.rs` covers the API.
 
 Rules:
 
 - TypeScript and Rust share nothing but JSON: the crate never reads `.ts` files or `data/`, and `typescript/scripts/` never writes Rust. Do not change the `compressedlist.json` tuple format for Rust's sake; npm consumers parse it too.
-- Token ID variants: `id.replace('+', "_plus_").to_upper_camel_case()` (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`); `FromStr`/`Display`/`as_str` use the original ID string.
+- Variants: `key.replace('+', "_plus_").to_upper_camel_case()` for token IDs (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`) and chain keys (`op-mainnet` → `OpMainnet`); `FromStr`/`Display`/`as_str` use the original string.
 - Bump `version` in `rust/Cargo.toml` and `package.json` together.
 - Keep dependency requirements loose (`"1"`, ranges where APIs allow) so consumers reuse the versions in their `Cargo.lock`. Build-dependency features are unified with every proc macro and build script in a consumer's graph, so enable none that change behaviour (e.g. `preserve_order` on `serde_json`).
 - The crate's MSRV is 1.88 (`rust-version`, set by `serde_with`); change it in `rust/Cargo.toml` and the `msrv` job of `.github/workflows/rust.yml` together.
-- CI: `.github/workflows/rust.yml` runs `cargo fmt --check`, `cargo clippy -D warnings`, and `cargo test` with and without `--all-features` in `rust/`, plus the MSRV check; it needs no Node toolchain. `.github/workflows/biome.yml` regenerates `typescript/token-ids.ts`, `chainlist*.json`, and `compressedlist.json` and fails if they differ from the committed files, so `data/` edits cannot skip `pnpm build`.
+- CI: `.github/workflows/rust.yml` runs `cargo fmt --check`, `cargo clippy -D warnings`, and `cargo test` with and without `--all-features` in `rust/`, plus the MSRV check; it needs no Node toolchain. `.github/workflows/biome.yml` regenerates `typescript/token-ids.ts`, `chainlist*.json`, `supported-chains.json`, and `compressedlist.json` and fails if they differ from the committed files, so `data/` edits cannot skip `pnpm build`.
 
 **Adding a new token:**
 
 1. Create `data/tokens/[SYMBOL]/data.json` (use `token.schema.json` for structure)
 2. Add a logo asset (`logo.svg` or `logo.webp`)
 3. Run `pnpm build` — this regenerates `typescript/token-ids.ts`, all JSON outputs, and runs on-chain verification
-4. Run `cargo test` in `rust/` — the crate picks up `compressedlist.json` at compile time; this confirms it matches the regenerated JSON files
+4. Run `cargo test` in `rust/` — the crate picks up `supported-chains.json` and `compressedlist.json` at compile time; this confirms it matches the regenerated JSON files
 
 **Sourcing logos (tokens and chains):**
 
