@@ -116,6 +116,7 @@ fn generate_chains(
         let id = chain.chain_id;
         let kind = match (chain.evm, key.as_str()) {
             (true, _) => Some("Evm"),
+            (_, "bitcoin") => Some("Bitcoin"),
             (_, "solana") => Some("Solana"),
             (_, "tron") => Some("Tron"),
             _ => None,
@@ -201,14 +202,15 @@ fn generate_tokens(
             let Some((chain_variant, kind)) = chain_variant else {
                 continue;
             };
-            let address_code = if *kind == "Evm" {
+            let address_code = if matches!(*kind, "Evm" | "Bitcoin") {
                 let valid_hex = address.strip_prefix("0x").is_some_and(|hex| {
                     hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit())
                 });
                 if !valid_hex {
                     return Err(format!("{at}: invalid EVM address {address:?}").into());
                 }
-                quote!(crate::TokenAddress::Evm(
+                let kind = format_ident!("{kind}");
+                quote!(crate::TokenAddress::#kind(
                     ::alloy_primitives::address!(#address)
                 ))
             } else {
@@ -225,7 +227,7 @@ fn generate_tokens(
                 let kind = format_ident!("{kind}");
                 quote!(crate::TokenAddress::#kind(#address))
             };
-            let address_key = if *kind == "Evm" {
+            let address_key = if matches!(*kind, "Evm" | "Bitcoin") {
                 address.to_ascii_lowercase()
             } else {
                 address.clone()

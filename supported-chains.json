@@ -84,7 +84,7 @@
     "evm": false
   },
   "bitcoin": {
-    "chainId": 1231006505,
+    "chainId": 90000,
     "evm": false
   },
   "signet": {

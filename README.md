@@ -231,12 +231,12 @@ assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 | `ChainId::get(id)` | Same lookup through a chain enum value. |
 | `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` without copying metadata. `TokenRegistry::on_chain(id, chain)` remains an equivalent borrowed lookup. |
 | `TokenRegistry::all()` | `&'static [TokenData]` containing every supported deployment in registry order. |
-| `TokenAddress` | `Evm(Address)`, `Solana(&'static str)`, or `Tron(&'static str)`. Implements `Copy` and `Display`; match `Evm(address)` to access `alloy_primitives::Address` methods. |
+| `TokenAddress` | `Evm(Address)`, `Bitcoin(Address)`, `Solana(&'static str)`, or `Tron(&'static str)`. Implements `Copy` and `Display`; match `Evm(address)` to access `alloy_primitives::Address` methods. |
 | `TokenData` | One token on one chain: `id`, `chain_id`, `address` (`TokenAddress`), `decimals`, `native`, `name`/`symbol` (overrides applied), `coingecko_id`, `icon_url`. Implements `Copy`; `TokenMetadata` remains a type alias. |
 
 The index stores one `u16` per token/chain pair: zero means absent; other values are record indices plus one. The build rejects more than 65,535 deployments instead of truncating indices. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
 
-The crate covers EVM, Solana and Tron deployments and carries no bridge addresses. Bitcoin and Signet remain unsupported; `BTC` and `sBTC` have no `TokenId`. Solana addresses are validated as 32-byte base58; Tron addresses require a valid base58check checksum and `0x41` prefix. Validation runs at build time; original base58 strings are preserved.
+The crate covers EVM, Bitcoin, Solana and Tron deployments and carries no bridge addresses. Bitcoin uses chain ID `90000` and `TokenAddress::Bitcoin(Address::ZERO)` for native BTC. Signet remains unsupported; `sBTC` has no `TokenId`. Solana addresses are validated as 32-byte base58; Tron addresses require a valid base58check checksum and `0x41` prefix. Validation runs at build time; original base58 strings are preserved.
 
 The build fails, naming the offending entry, if either input has duplicate keys or keys that map to the same variant, `supported-chains.json` lists a chain ID twice, or `compressedlist.json` has duplicate chains within a token, an address reused on one supported chain, a malformed tuple or address, or a chain missing from `supported-chains.json`.
 

@@ -35,11 +35,11 @@ fn punctuated_ids_keep_their_strings() {
 
 #[test]
 fn unknown_and_unsupported_ids_do_not_parse() {
-    // IDs are case-sensitive; Bitcoin and Signet remain unsupported.
-    for id in ["", "usdc", "BTC_PLUS", "BTC", "sBTC"] {
+    // IDs are case-sensitive; Signet remains unsupported.
+    for id in ["", "usdc", "BTC_PLUS", "sBTC"] {
         assert!(id.parse::<TokenId>().is_err(), "{id}");
     }
-    for key in ["", "Bob", "OpMainnet", "bitcoin", "signet"] {
+    for key in ["", "Bob", "OpMainnet", "signet"] {
         assert!(key.parse::<ChainId>().is_err(), "{key}");
     }
 }
@@ -107,6 +107,14 @@ fn metadata_resolves_per_chain_values() {
 
 #[test]
 fn native_flags_come_from_the_data() {
+    let btc = TokenId::Btc.on_chain(ChainId::Bitcoin).unwrap();
+    assert_eq!((btc.chain_id, ChainId::Bitcoin.chain_id()), (90000, 90000));
+    assert_eq!(btc.address, TokenAddress::Bitcoin(Address::ZERO));
+    assert_eq!(
+        (btc.native, btc.decimals, btc.coingecko_id),
+        (true, 8, "bitcoin")
+    );
+
     let eth = TokenRegistry::on_chain(TokenId::Eth, ChainId::Ethereum).unwrap();
     assert!(eth.native);
     assert_eq!(eth.address, TokenAddress::Evm(Address::ZERO));

@@ -1,5 +1,5 @@
 //! Authoritative token registry for the BOB ecosystem: the Rust counterpart
-//! of the `@gobob/tokenlist` npm package, for EVM, Solana and Tron tokens.
+//! of the `@gobob/tokenlist` npm package, for EVM, Bitcoin, Solana and Tron tokens.
 //!
 //! `build.rs` generates [`ChainId`] from `supported-chains.json`, and
 //! [`TokenId`] and the token data from `compressedlist.json`, at compile time.
@@ -27,7 +27,7 @@
 //! assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 //! ```
 //!
-//! Bitcoin and Signet are not covered; `BTC` and `sBTC` have no [`TokenId`].
+//! Signet is not covered; `sBTC` has no [`TokenId`].
 
 #![warn(missing_docs)]
 
@@ -48,6 +48,9 @@ pub enum TokenAddress {
     /// A typed EVM address, displayed with its checksum.
     #[strum(transparent)]
     Evm(Address),
+    /// Bitcoin's native BTC placeholder: the zero address.
+    #[strum(transparent)]
+    Bitcoin(Address),
     /// A base58 Solana mint.
     #[strum(transparent)]
     Solana(&'static str),

@@ -24,7 +24,7 @@ fn supported_chains() -> HashMap<u64, ChainId> {
 
     for (key, entry) in parse(SUPPORTED_CHAINS).as_object().unwrap() {
         let parsed = key.parse::<ChainId>();
-        if entry["evm"] == false && !matches!(key.as_str(), "solana" | "tron") {
+        if entry["evm"] == false && !matches!(key.as_str(), "bitcoin" | "solana" | "tron") {
             assert!(parsed.is_err(), "{key} is unsupported");
             continue;
         }
