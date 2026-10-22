@@ -2,8 +2,7 @@
 //!
 //! - `../supported-chains.json`: `ChainId`, one variant per EVM chain;
 //! - `../compressedlist.json`: `TokenId`, one variant per token with an EVM
-//!   deployment, and `tokens()`, every token's `TokenMetadata` keyed by
-//!   `TokenId`, then by `ChainId`.
+//!   deployment, a flat `TokenData` array and a compact enum-indexed table.
 //!
 //! The code is built with `quote`, parsed with `syn` and formatted with
 //! `prettyplease`. Malformed or inconsistent data fails the build with the
@@ -37,6 +36,9 @@ struct SupportedChain {
     chain_id: u64,
     evm: bool,
 }
+
+// Numeric chain ID → dense enum ordinal, or None for non-EVM chains.
+type ChainVariants = HashMap<u64, Option<usize>>;
 
 /// `[name, symbol, coingeckoId, logo]`, the first element of every
 /// `compressedlist.json` entry.
@@ -77,10 +79,14 @@ fn read_map<T: DeserializeOwned>(root: &Path, file: &str) -> Result<BTreeMap<Str
     println!("cargo::rerun-if-changed={}", path.display());
 
     let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-    let mut de = serde_json::Deserializer::from_str(&text);
+    parse_map(&text).map_err(|e| format!("{file}: {e}").into())
+}
+
+fn parse_map<T: DeserializeOwned>(text: &str) -> Result<BTreeMap<String, T>> {
+    let mut de = serde_json::Deserializer::from_str(text);
     DeserializeAsWrap::<BTreeMap<String, T>, MapPreventDuplicates<Same, Same>>::deserialize(&mut de)
         .and_then(|map| de.end().map(|()| map.into_inner()))
-        .map_err(|e| format!("{file}: {e}").into())
+        .map_err(Into::into)
 }
 
 /// The enum variant for a token ID or chain key: `+` becomes `_plus_`, then
@@ -95,12 +101,14 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
     Ok(ident)
 }
 
-/// The `ChainId` enum, and each chain ID's variant (`None` for non-EVM chains,
+/// The `ChainId` enum, and each chain ID's ordinal (`None` for non-EVM chains,
 /// whose deployments are left out).
 fn generate_chains(
     chains: &BTreeMap<String, SupportedChain>,
-) -> Result<(TokenStream, HashMap<u64, Option<syn::Ident>>)> {
+) -> Result<(TokenStream, ChainVariants)> {
     let mut variants = Vec::new();
+    let mut names = Vec::new();
+    let mut chain_ids = Vec::new();
     let mut chain_variants = HashMap::new();
     let mut keys = HashMap::new();
 
@@ -113,12 +121,16 @@ fn generate_chains(
         if let Some(variant) = &variant {
             let doc = format!(" `{key}` (chain ID {id}).");
             variants.push(quote!(#[doc = #doc] #[strum(serialize = #key)] #variant));
+            names.push(variant.clone());
+            chain_ids.push(id);
         }
+        let variant = variant.map(|_| names.len() - 1);
         if chain_variants.insert(id, variant).is_some() {
             return Err(format!("{key}: chain ID {id} is listed twice").into());
         }
     }
 
+    let count = names.len();
     let code = quote! {
         /// An EVM chain, named after its `data.json` key: `FromStr`, `Display`
         /// and [`ChainId::as_str`] use that key (`"op-mainnet"` is
@@ -129,16 +141,26 @@ fn generate_chains(
         )]
         #[non_exhaustive]
         pub enum ChainId { #(#variants),* }
+
+        impl ChainId {
+            /// Every supported EVM chain, in registry order.
+            pub const ALL: &'static [Self] = &[#(Self::#names),*];
+        }
+
+        pub(crate) static CHAIN_IDS: [u64; #count] = [#(#chain_ids),*];
     };
     Ok((code, chain_variants))
 }
 
 fn generate_tokens(
     tokens: &BTreeMap<String, Vec<Value>>,
-    chain_variants: &HashMap<u64, Option<syn::Ident>>,
+    chain_variants: &ChainVariants,
 ) -> Result<TokenStream> {
     let mut variants = Vec::new();
+    let mut names = Vec::new();
     let mut records = Vec::new();
+    let mut rows = Vec::new();
+    let chain_count = chain_variants.values().flatten().count();
     let mut keys = HashMap::new();
     // (chain ID, lowercase address), to reject addresses used by two tokens.
     let mut addresses = HashSet::new();
@@ -153,7 +175,7 @@ fn generate_tokens(
         }
 
         let mut seen_chains = HashSet::new();
-        // (ChainId variant, per-chain fields); the TokenId variant is only
+        // (ChainId ordinal, per-chain fields); the TokenId variant is only
         // made once the token is known to have an EVM deployment.
         let mut deployments = Vec::new();
 
@@ -209,23 +231,26 @@ fn generate_tokens(
         let variant = variant("TokenId", id, &mut keys)?;
         let doc = format!(" `{id}`: {name}.");
         variants.push(quote!(#[doc = #doc] #[strum(serialize = #id)] #variant));
+        names.push(variant.clone());
 
         let icon_url = format!("{TOKENLIST_BASE_URL}data/tokens/{id}/logo.{logo}");
-        let deployments = deployments.iter().map(|(chain_variant, fields)| {
-            quote! {
-                (ChainId::#chain_variant, TokenMetadata {
+        let mut row = vec![0_u16; chain_count];
+        for (chain_variant, fields) in deployments {
+            row[*chain_variant] = record_slot(records.len()).map_err(|e| format!("{id}: {e}"))?;
+            records.push(quote! {
+                TokenData {
                     id: TokenId::#variant,
                     #fields
                     coingecko_id: #coingecko_id,
                     icon_url: #icon_url,
-                })
-            }
-        });
-        records.push(quote! {
-            (TokenId::#variant, ::std::collections::HashMap::from([#(#deployments),*]))
-        });
+                }
+            });
+        }
+        rows.push(quote!([#(#row),*]));
     }
 
+    let token_count = names.len();
+    let record_count = records.len();
     Ok(quote! {
         /// A token with at least one EVM deployment, named after its
         /// `data/tokens/` directory: `FromStr`, `Display` and
@@ -238,12 +263,193 @@ fn generate_tokens(
         #[non_exhaustive]
         pub enum TokenId { #(#variants),* }
 
-        /// Every token, keyed by `TokenId`, then by `ChainId`.
-        pub(crate) fn tokens() -> ::std::collections::HashMap<
-            TokenId,
-            ::std::collections::HashMap<ChainId, TokenMetadata>,
-        > {
-            ::std::collections::HashMap::from([#(#records),*])
+        impl TokenId {
+            /// Every token with an EVM deployment, in registry order.
+            pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
+
+        pub(crate) static RECORDS: [TokenData; #record_count] = [#(#records),*];
+
+        // Zero means absent; other slots hold the record index plus one.
+        pub(crate) static INDEX: [[u16; #chain_count]; #token_count] = [#(#rows),*];
     })
+}
+
+fn record_slot(index: usize) -> Result<u16> {
+    index
+        .checked_add(1)
+        .and_then(|slot| u16::try_from(slot).ok())
+        .ok_or_else(|| "more than 65535 EVM deployments; widen the registry index".into())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn generate(chains: Value, tokens: Value) -> Result<String> {
+        let chains = serde_json::from_value(chains)?;
+        let tokens = serde_json::from_value(tokens)?;
+        let (chain_code, ordinals) = generate_chains(&chains)?;
+        let token_code = generate_tokens(&tokens, &ordinals)?;
+        Ok(prettyplease::unparse(&syn::parse2(
+            quote!(#chain_code #token_code),
+        )?))
+    }
+
+    fn chains() -> Value {
+        json!({
+            "ethereum": {"chainId": 1, "evm": true},
+            "solana": {"chainId": 1584368940, "evm": false}
+        })
+    }
+
+    fn entry() -> Value {
+        json!([
+            ["USD Coin", "USDC", "usd-coin", "svg"],
+            [1, "0x0000000000000000000000000000000000000001", 6, false]
+        ])
+    }
+
+    #[test]
+    fn rejects_duplicate_json_keys_and_trailing_data() {
+        for text in [r#"{"USDC": [], "USDC": []}"#, r#"{"USDC": []} {}"#] {
+            assert!(parse_map::<Vec<Value>>(text).is_err());
+        }
+        assert!(
+            parse_map::<SupportedChain>(
+                r#"{"ethereum":{"chainId":1,"evm":true},"ethereum":{"chainId":2,"evm":true}}"#
+            )
+            .is_err()
+        );
+    }
+
+    #[test]
+    fn rejects_duplicate_chain_ids_and_variant_collisions() {
+        for (chains, message) in [
+            (
+                json!({
+                    "ethereum": {"chainId": 1, "evm": true},
+                    "solana": {"chainId": 1, "evm": false}
+                }),
+                "chain ID 1 is listed twice",
+            ),
+            (
+                json!({
+                    "foo-bar": {"chainId": 1, "evm": true},
+                    "foo_bar": {"chainId": 2, "evm": true}
+                }),
+                "both map to ChainId::FooBar",
+            ),
+        ] {
+            let error = generate(chains, json!({})).unwrap_err().to_string();
+            assert!(error.contains(message), "{error}");
+        }
+        let mut other = entry();
+        other[1][1] = json!("0x0000000000000000000000000000000000000002");
+        let error = generate(chains(), json!({"BTC.b": entry(), "BTC_b": other}))
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("both map to TokenId::BtcB"), "{error}");
+    }
+
+    #[test]
+    fn rejects_invalid_enum_identifiers() {
+        let error = generate(chains(), json!({"123": entry()}))
+            .unwrap_err()
+            .to_string();
+        assert!(
+            error.contains("123: TokenId::123 is not a valid identifier"),
+            "{error}"
+        );
+    }
+
+    #[test]
+    fn rejects_duplicate_deployments_and_addresses() {
+        let mut duplicate_chain = entry();
+        let duplicate = duplicate_chain[1].clone();
+        duplicate_chain.as_array_mut().unwrap().push(duplicate);
+        let error = generate(chains(), json!({"USDC": duplicate_chain}))
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("USDC[2]: duplicate chain 1"), "{error}");
+
+        let mut first = entry();
+        first[1][1] = json!("0xabcdef0000000000000000000000000000000001");
+        let mut second = entry();
+        second[1][1] = json!("0xABCDEF0000000000000000000000000000000001");
+        let error = generate(chains(), json!({"FIRST": first, "SECOND": second}))
+            .unwrap_err()
+            .to_string();
+        assert!(error.contains("SECOND[1]: another token uses"), "{error}");
+    }
+
+    #[test]
+    fn rejects_unknown_chains_malformed_addresses_and_tuples() {
+        for (slot, value, message) in [
+            (0, json!(999), "chain 999 is not in supported-chains.json"),
+            (1, json!("0x123"), "invalid EVM address"),
+            (
+                1,
+                json!("0x000000000000000000000000000000000000000g"),
+                "invalid EVM address",
+            ),
+            (2, json!(256), "invalid value"),
+            (3, json!("false"), "invalid type"),
+        ] {
+            let mut malformed = entry();
+            malformed[1][slot] = value;
+            let error = generate(chains(), json!({"USDC": malformed}))
+                .unwrap_err()
+                .to_string();
+            assert!(error.contains("USDC[1]"), "{error}");
+            assert!(error.contains(message), "{error}");
+        }
+        let mut malformed = entry();
+        malformed[1].as_array_mut().unwrap().push(Value::Null);
+        malformed[1].as_array_mut().unwrap().push(Value::Null);
+        malformed[1].as_array_mut().unwrap().push(json!("extra"));
+        assert!(generate(chains(), json!({"USDC": malformed})).is_err());
+    }
+
+    #[test]
+    fn rejects_missing_shared_metadata() {
+        assert!(generate(chains(), json!({"USDC": []})).is_err());
+        for (slot, value, message) in [
+            (2, Value::Null, "missing coingeckoId"),
+            (3, json!("png"), "unknown logo format"),
+        ] {
+            let mut malformed = entry();
+            malformed[0][slot] = value;
+            let error = generate(chains(), json!({"USDC": malformed}))
+                .unwrap_err()
+                .to_string();
+            assert!(error.contains(message), "{error}");
+        }
+    }
+
+    #[test]
+    fn accepts_optional_overrides_and_non_evm_deployments() {
+        let mut token = entry();
+        token[1]
+            .as_array_mut()
+            .unwrap()
+            .extend([Value::Null, json!("USDC.e")]);
+        token
+            .as_array_mut()
+            .unwrap()
+            .push(json!([1584368940, "solana-mint", 6, false]));
+        assert!(generate(chains(), json!({"USDC": token})).is_ok());
+        assert!(generate(chains(), json!({
+            "SOL": [["Solana", "SOL", "solana", "svg"], [1584368940, "solana-mint", 9, true]]
+        })).is_ok());
+    }
+
+    #[test]
+    fn record_slots_reserve_zero_and_check_capacity() {
+        assert_eq!(record_slot(0).unwrap(), 1);
+        assert_eq!(record_slot(65534).unwrap(), u16::MAX);
+        assert!(record_slot(65535).is_err());
+        assert!(record_slot(usize::MAX).is_err());
+    }
 }

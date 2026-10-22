@@ -183,7 +183,7 @@ logoURI: getMirrorLogoURI(id as TokenId, logoext),
 
 ## Rust
 
-[`rust/`](./rust) holds the `gobob-tokenlist` crate. Its build script generates a `ChainId` enum from [`supported-chains.json`](#exports), and a `TokenId` enum plus the token data from [`compressedlist.json`](#compact-token-list), at compile time. Tokens are held in a `HashMap<TokenId, HashMap<ChainId, TokenMetadata>>`, built on first use: each token's metadata on every EVM chain it is deployed on. It is distributed as a Git dependency (not on crates.io) and needs Rust 1.88+; Cargo finds the crate in `rust/` on its own:
+[`rust/`](./rust) holds the `gobob-tokenlist` crate. Its build script generates `ChainId` from [`supported-chains.json`](#exports), and `TokenId`, static token records and a compact index from [`compressedlist.json`](#compact-token-list). Pair lookups are O(1), including the first call: no runtime initialization, allocations or hashing. Distributed as a Git dependency, the crate needs Rust 1.88+; Cargo finds it in `rust/` automatically:
 
 ```toml
 [dependencies]
@@ -191,41 +191,50 @@ gobob-tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "
 ```
 
 ```rust
-use gobob_tokenlist::{ChainId, TokenId, TokenRegistry};
+use gobob_tokenlist::{ChainId, TokenData, TokenId, TokenRegistry};
 
-// Metadata by chain, with that chain's decimals and UI overrides
-let usdc = TokenRegistry::get(TokenId::Usdc);
-let ethereum = &usdc[&ChainId::Ethereum];
+// All three entry points return Option<TokenData>.
+let ethereum: TokenData = TokenRegistry::get(TokenId::Usdc, ChainId::Ethereum).unwrap();
 assert_eq!((ethereum.chain_id, ethereum.decimals), (1, 6));
 assert_eq!((ethereum.symbol, ethereum.coingecko_id), ("USDC", "usd-coin"));
 
-let bsc = TokenRegistry::on_chain(TokenId::Usdc, ChainId::BnbSmartChain).unwrap();
+let bsc = TokenId::Usdc.on_chain(ChainId::BnbSmartChain).unwrap();
 assert_eq!(bsc.decimals, 18);
 
-let bob = TokenRegistry::on_chain(TokenId::Usdc, ChainId::Bob).unwrap();
+let bob = ChainId::Bob.get(TokenId::Usdc).unwrap();
 assert_eq!(bob.symbol, "USDC.e");
+assert_eq!(ChainId::Bob.chain_id(), 60808);
+assert_eq!(TokenId::Pol.on_chain(ChainId::Bob), None);
 
-// IDs parse from and print as their original strings
+// Borrow static metadata when copying the record is unnecessary.
+let borrowed = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum).unwrap();
+assert_eq!(*borrowed, ethereum);
+
+// IDs parse from and print as their original strings.
 let id: TokenId = "BTC+".parse().unwrap();
 assert_eq!(id, TokenId::BtcPlus);
 assert_eq!(id.as_str(), "BTC+");
 assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 ```
 
-| Item                                 | Description                                                                                                                                                                                                               |
-| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TokenId`                            | One variant per token with an EVM deployment: `+` becomes `_plus_`, then UpperCamelCase (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`). `FromStr`, `Display`, and `as_str` use the original ID                                    |
-| `ChainId`                            | One variant per EVM chain, named the same way after its `data.json` key (`op-mainnet` → `OpMainnet`); `FromStr`, `Display`, and `as_str` use the key                                                                      |
-| `TokenRegistry::all()`               | `HashMap<TokenId, HashMap<ChainId, TokenMetadata>>` of every token                                                                                                                                                        |
-| `TokenRegistry::get(id)`             | The token's `HashMap<ChainId, TokenMetadata>`                                                                                                                                                                             |
-| `TokenRegistry::on_chain(id, chain)` | `Option<&TokenMetadata>`, same as `get(id).get(&chain)`                                                                                                                                                                   |
-| `TokenMetadata`                      | One token on one chain, as in `tokenlist-overrides.json`: `id`, `chain_id`, `address` (`alloy_primitives::Address`), `decimals`, `native`, `name`/`symbol` (overrides applied), `coingecko_id`, `icon_url` (`getLogoURI`) |
+| Item | Description |
+| ---- | ----------- |
+| `TokenId` | One variant per token with an EVM deployment: `+` becomes `_plus_`, then UpperCamelCase (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`). `FromStr`, `Display`, and `as_str` use the original ID. `ALL` lists every variant. |
+| `ChainId` | One variant per EVM chain, named after its `data.json` key (`op-mainnet` → `OpMainnet`). `FromStr`, `Display`, and `as_str` use the key. `ALL` lists every variant; `chain_id()` returns the numeric network ID. |
+| `TokenRegistry::get(id, chain)` | `Option<TokenData>` for the token on that chain. |
+| `TokenId::on_chain(chain)` | Same lookup through a token enum value. |
+| `ChainId::get(id)` | Same lookup through a chain enum value. |
+| `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` without copying metadata. `TokenRegistry::on_chain(id, chain)` remains an equivalent borrowed lookup. |
+| `TokenRegistry::all()` | `&'static [TokenData]` containing every EVM deployment in registry order. |
+| `TokenData` | One token on one chain: `id`, `chain_id`, `address` (`alloy_primitives::Address`), `decimals`, `native`, `name`/`symbol` (overrides applied), `coingecko_id`, `icon_url`. Implements `Copy`; `TokenMetadata` remains a type alias. |
 
-The crate covers EVM chains only and, like `compressedlist.json`, carries no bridge addresses. Bitcoin, Solana, and Tron have no `ChainId`, and tokens that only exist there (`BTC`, `sBTC`, `TRX`) have no `TokenId`.
+The index stores one `u16` per token/chain pair: zero means absent; other values are record indices plus one. The build rejects more than 65,535 EVM deployments instead of truncating indices. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
 
-The build fails, naming the offending entry, if either file has duplicate keys or keys that map to the same variant, `supported-chains.json` lists a chain ID twice, or `compressedlist.json` has a chain listed twice for one token, an address used by two tokens on one chain, a malformed tuple or address, or a chain missing from `supported-chains.json`. A chain added to `typescript/config.ts` reaches `ChainId` through `pnpm build`.
+The crate covers EVM chains only and carries no bridge addresses. Bitcoin, Solana, and Tron have no `ChainId`; tokens that only exist there (`BTC`, `sBTC`, `TRX`) have no `TokenId`.
 
-Work on the crate from `rust/`: `cargo test` checks the generated tables against `supported-chains.json`, `compressedlist.json`, and `tokenlist-overrides.json`.
+The build fails, naming the offending entry, if either input has duplicate keys or keys that map to the same variant, `supported-chains.json` lists a chain ID twice, or `compressedlist.json` has duplicate chains within a token, an address reused on one EVM chain, a malformed tuple or EVM address, or a chain missing from `supported-chains.json`.
+
+Run `cargo test` from `rust/` to check JSON parity, every token/chain pair across all lookup APIs, and generator validation.
 
 ---
 

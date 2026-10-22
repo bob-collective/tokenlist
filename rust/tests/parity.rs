@@ -30,9 +30,11 @@ fn evm_chains() -> HashMap<u64, ChainId> {
         }
         let chain = parsed.unwrap_or_else(|_| panic!("{key} is missing from ChainId"));
         assert_eq!(chain.as_str(), key);
+        assert_eq!(chain.chain_id(), entry["chainId"].as_u64().unwrap());
         chains.insert(entry["chainId"].as_u64().unwrap(), chain);
     }
 
+    assert_eq!(chains.len(), ChainId::ALL.len());
     chains
 }
 
@@ -78,7 +80,7 @@ fn tokens_match_compressedlist() {
                 TokenRegistry::on_chain(token_id, chain).unwrap_or_else(|| panic!("no {context}"));
             // The name slot holds null when only the symbol is overridden.
             let name_override = chain_entry.get(4).filter(|name| !name.is_null());
-            let symbol_override = chain_entry.get(5);
+            let symbol_override = chain_entry.get(5).filter(|symbol| !symbol.is_null());
 
             assert_eq!(metadata.name, *name_override.unwrap_or(name), "{context}");
             assert_eq!(
@@ -90,10 +92,17 @@ fn tokens_match_compressedlist() {
             assert!(metadata.icon_url.ends_with(&logo), "{context}");
         }
 
-        assert_eq!(TokenRegistry::get(token_id).len(), evm_chain_count, "{id}");
+        assert_eq!(
+            TokenRegistry::all()
+                .iter()
+                .filter(|data| data.id == token_id)
+                .count(),
+            evm_chain_count,
+            "{id}"
+        );
     }
 
-    assert_eq!(ids.len(), TokenRegistry::all().len());
+    assert_eq!(ids.len(), TokenId::ALL.len());
 }
 
 #[test]
@@ -139,18 +148,16 @@ fn deployments_match_tokenlist_overrides() {
         assert!(seen.insert((id, chain)), "{context} is listed twice");
     }
 
-    let deployments: usize = TokenRegistry::all().values().map(HashMap::len).sum();
-    assert_eq!(deployments, seen.len());
+    assert_eq!(TokenRegistry::all().len(), seen.len());
 }
 
 #[test]
 fn deployments_are_keyed_by_their_chain() {
     let chains = evm_chains();
 
-    for (&id, by_chain) in TokenRegistry::all() {
-        for (&chain, metadata) in by_chain {
-            assert_eq!(chains[&metadata.chain_id], chain, "{id} on {chain}");
-        }
+    for metadata in TokenRegistry::all() {
+        let chain = chains[&metadata.chain_id];
+        assert_eq!(TokenRegistry::get(metadata.id, chain), Some(*metadata));
     }
 }
 
@@ -163,4 +170,9 @@ fn version_matches_tokenlist() {
     );
 
     assert_eq!(env!("CARGO_PKG_VERSION"), tokenlist_version);
+    let package = parse(include_str!("../../package.json"));
+    assert_eq!(
+        env!("CARGO_PKG_VERSION"),
+        package["version"].as_str().unwrap()
+    );
 }

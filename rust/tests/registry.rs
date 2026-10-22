@@ -1,8 +1,8 @@
-use gobob_tokenlist::{Address, ChainId, TokenId, TokenRegistry};
+use gobob_tokenlist::{Address, ChainId, TokenData, TokenId, TokenRegistry};
 
 #[test]
 fn token_ids_round_trip_through_strings() {
-    for &id in TokenRegistry::all().keys() {
+    for &id in TokenId::ALL {
         assert_eq!(id.as_str().parse::<TokenId>(), Ok(id));
         assert_eq!(id.to_string(), id.as_str());
     }
@@ -45,23 +45,46 @@ fn unknown_and_non_evm_ids_do_not_parse() {
 }
 
 #[test]
-fn get_and_on_chain_read_all() {
-    for (&id, by_chain) in TokenRegistry::all() {
-        assert!(!by_chain.is_empty(), "{id}");
-        assert!(std::ptr::eq(TokenRegistry::get(id), by_chain));
-        for (&chain, metadata) in by_chain {
-            assert_eq!(metadata.id, id);
-            let on_chain = TokenRegistry::on_chain(id, chain).unwrap();
-            assert!(std::ptr::eq(on_chain, metadata));
+fn every_pair_matches_the_static_records() {
+    for &id in TokenId::ALL {
+        for &chain in ChainId::ALL {
+            let expected = TokenRegistry::all()
+                .iter()
+                .find(|data| data.id == id && data.chain_id == chain.chain_id());
+            let owned: Option<TokenData> = expected.copied();
+            assert_eq!(TokenRegistry::get(id, chain), owned);
+            assert_eq!(id.on_chain(chain), owned);
+            assert_eq!(chain.get(id), owned);
+            assert_eq!(TokenRegistry::get_ref(id, chain), expected);
+            assert_eq!(TokenRegistry::on_chain(id, chain), expected);
+            if let Some(expected) = expected {
+                assert!(std::ptr::eq(
+                    TokenRegistry::get_ref(id, chain).unwrap(),
+                    expected
+                ));
+            }
         }
     }
 }
 
 #[test]
-fn metadata_resolves_per_chain_values() {
-    let usdc = TokenRegistry::get(TokenId::Usdc);
+fn every_enum_variant_has_a_unique_registry_entry() {
+    let tokens: std::collections::HashSet<_> =
+        TokenRegistry::all().iter().map(|data| data.id).collect();
+    assert_eq!(tokens.len(), TokenId::ALL.len());
+    assert!(TokenId::ALL.iter().all(|id| tokens.contains(id)));
 
-    let ethereum = &usdc[&ChainId::Ethereum];
+    let mut chain_ids = std::collections::HashSet::new();
+    for &chain in ChainId::ALL {
+        assert!(chain_ids.insert(chain.chain_id()));
+        assert_eq!(chain.as_str().parse::<ChainId>(), Ok(chain));
+        assert_eq!(chain.to_string(), chain.as_str());
+    }
+}
+
+#[test]
+fn metadata_resolves_per_chain_values() {
+    let ethereum = TokenId::Usdc.on_chain(ChainId::Ethereum).unwrap();
     assert_eq!(
         (
             ethereum.chain_id,
@@ -73,10 +96,10 @@ fn metadata_resolves_per_chain_values() {
     );
     assert_eq!(ethereum.coingecko_id, "usd-coin");
 
-    let bsc = &usdc[&ChainId::BnbSmartChain];
+    let bsc = TokenId::Usdc.on_chain(ChainId::BnbSmartChain).unwrap();
     assert_eq!((bsc.chain_id, bsc.decimals), (56, 18));
 
-    let bob = &usdc[&ChainId::Bob];
+    let bob = ChainId::Bob.get(TokenId::Usdc).unwrap();
     assert_eq!((bob.name, bob.symbol), ("Bridged USDC", "USDC.e"));
 
     assert_eq!(TokenRegistry::on_chain(TokenId::Pol, ChainId::Bob), None);
