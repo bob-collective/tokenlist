@@ -25,7 +25,7 @@ cargo clippy --all-targets --all-features -- -D warnings   # Lint Rust sources (
 
 ## Architecture
 
-This repository is the authoritative token registry for the BOB ecosystem. It ships two ways from the same data: the `@gobob/tokenlist` npm package (TypeScript + JSON) and the `gobob-tokenlist` Rust crate (installed as a Git dependency). The source of truth is the `/data` directory, which contains:
+This repository is the authoritative token registry for the BOB ecosystem. It ships two ways from the same data: the `@gobob/tokenlist` npm package (TypeScript + JSON) and the `tokenlist` Rust crate (installed as a Git dependency). The source of truth is the `/data` directory, which contains:
 
 - `data/tokens/` — one subdirectory per token (named by symbol), each containing a `data.json` and a logo asset
 - `data/chains/` — chain registry; `chains.json` maps each supported chain name to a logoURI
@@ -100,7 +100,7 @@ These are committed to the repo and consumed downstream via the npm package.
 
 **Rust crate (`rust/`):**
 
-`gobob-tokenlist` (`publish = false`; consumers depend on it with `git = "https://github.com/bob-collective/tokenlist"`, and Cargo finds it in `rust/`). It covers EVM, Bitcoin, Solana and Tron deployments; Signet remains unsupported. Bitcoin uses chain ID `90000` and the zero-address placeholder.
+`tokenlist` (`publish = false`; consumers depend on it with `git = "https://github.com/bob-collective/tokenlist"`, and Cargo finds it in `rust/`). It covers EVM, Bitcoin, Solana and Tron deployments; Signet remains unsupported. Bitcoin uses chain ID `90000` and the zero-address placeholder.
 
 - `rust/build.rs` — Reads `../supported-chains.json` and `../compressedlist.json` (nothing else), validates them, builds the code with `quote`, parses it with `syn`, formats it with `prettyplease`, and writes `$OUT_DIR/generated.rs`: the `ChainId` enum (EVM, Bitcoin, Solana and Tron chains), the `TokenId` enum (tokens with a supported deployment), a flat static `TokenData` array, a `u16` token/chain index (zero means absent, otherwise record index plus one), numeric chain IDs, and `ALL` variant lists. Enum ordinals are dense internal indices, separate from numeric network IDs. Index overflow fails the build. Both enums derive strum `EnumString`/`IntoStaticStr`/`Display`. Nothing generated is committed. The build fails, naming the entry, on duplicate keys (`serde_with::MapPreventDuplicates`), keys that map to the same variant or to no valid identifier, a chain ID listed twice, duplicate chains within a token, an address reused on a chain, malformed tuples or addresses, and chain IDs missing from `supported-chains.json`.
 - `rust/src/lib.rs` — `TokenData` (one token on one chain; `TokenMetadata` remains a type alias), `TokenAddress` (`Evm(Address)`, `Bitcoin(Address)`, `Solana(&'static str)`, `Tron(&'static str)`; `Copy` and `Display`; base58 validation uses `bs58` at build time), `TokenRegistry::get(id, chain)`, `TokenId::on_chain(chain)`, and `ChainId::get(id)` return `Option<TokenData>`. `get_ref` and the compatible registry `on_chain` return borrowed metadata; `all` returns a flat deployment slice. All pair lookups use the static index: worst-case O(1), no runtime initialization, allocations or hashing. Both enums expose `as_str`; `ChainId::chain_id` returns the numeric network ID. Behaviour belongs here; `build.rs` emits data and enum definitions only.

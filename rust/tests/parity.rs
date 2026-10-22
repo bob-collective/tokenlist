@@ -5,8 +5,8 @@
 
 use std::collections::{HashMap, HashSet};
 
-use gobob_tokenlist::{ChainId, TokenId, TokenRegistry};
 use serde_json::Value;
+use tokenlist::{ChainId, TokenId, TokenRegistry};
 
 fn parse(json: &str) -> Value {
     serde_json::from_str(json).unwrap()

@@ -336,23 +336,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "gobob-tokenlist"
-version = "1.0.0"
-dependencies = [
- "alloy-primitives",
- "bs58",
- "heck",
- "prettyplease",
- "proc-macro2",
- "quote",
- "serde",
- "serde_json",
- "serde_with",
- "strum",
- "syn 2.0.119",
-]
-
-[[package]]
 name = "hashbrown"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -969,6 +952,23 @@ name = "tinyvec"
 version = "1.13.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fd3ca314f692efd6c868f8408f53fe444634a845f96c028b97d35f6a1f79f0ee"
+
+[[package]]
+name = "tokenlist"
+version = "1.0.0"
+dependencies = [
+ "alloy-primitives",
+ "bs58",
+ "heck",
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "strum",
+ "syn 2.0.119",
+]
 
 [[package]]
 name = "typenum"

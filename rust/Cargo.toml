@@ -1,5 +1,5 @@
 [package]
-name = "gobob-tokenlist"
+name = "tokenlist"
 # Keep in sync with "version" in ../package.json (tests/parity.rs checks it
 # against ../tokenlist.json and ../package.json).
 version = "1.0.0"

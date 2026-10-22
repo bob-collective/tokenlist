@@ -8,7 +8,7 @@
 //! [`ChainId::chain_id`] for numeric network IDs.
 //!
 //! ```
-//! use gobob_tokenlist::{ChainId, TokenId, TokenRegistry};
+//! use tokenlist::{ChainId, TokenId, TokenRegistry};
 //!
 //! let ethereum = TokenRegistry::get(TokenId::Usdc, ChainId::Ethereum).unwrap();
 //! assert_eq!((ethereum.chain_id, ethereum.decimals), (1, 6));

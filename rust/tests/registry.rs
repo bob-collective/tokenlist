@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::ptr;
 
-use gobob_tokenlist::{Address, ChainId, TokenAddress, TokenId, TokenRegistry};
+use tokenlist::{Address, ChainId, TokenAddress, TokenId, TokenRegistry};
 
 #[test]
 fn ids_round_trip_through_strings() {

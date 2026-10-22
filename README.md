@@ -23,7 +23,7 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 | [`data/`](./data)                | Source of truth: token and chain data, logos                                                            |
 | `*.json` (root)                  | Generated token/chain lists and JSON schemas, shared by both packages                                   |
 | [`typescript/`](./typescript)    | npm package sources (`index.ts`, `config.ts`, `types.ts`, `utils.ts`, `token-ids.ts`) and build scripts |
-| [`rust/`](./rust)                | Rust crate `gobob-tokenlist`, generated from `supported-chains.json` and `compressedlist.json`         |
+| [`rust/`](./rust)                | Rust crate `tokenlist`, generated from `supported-chains.json` and `compressedlist.json`         |
 | [`package.json`](./package.json) | npm manifest; maps `@gobob/tokenlist` and its subpaths onto `typescript/` and the root JSON files       |
 
 Import paths are unchanged: `@gobob/tokenlist`, `@gobob/tokenlist/token-ids`, `@gobob/tokenlist/tokenlist.json`, and so on resolve as before. JSON files are imported with their `.json` extension.
@@ -183,15 +183,15 @@ logoURI: getMirrorLogoURI(id as TokenId, logoext),
 
 ## Rust
 
-[`rust/`](./rust) holds the `gobob-tokenlist` crate. Its build script generates `ChainId` from [`supported-chains.json`](#exports), and `TokenId`, static token records and a compact index from [`compressedlist.json`](#compact-token-list). Pair lookups are O(1), including the first call: no runtime initialization, allocations or hashing. Distributed as a Git dependency, the crate needs Rust 1.88+; Cargo finds it in `rust/` automatically:
+[`rust/`](./rust) holds the `tokenlist` crate. Its build script generates `ChainId` from [`supported-chains.json`](#exports), and `TokenId`, static token records and a compact index from [`compressedlist.json`](#compact-token-list). Pair lookups are O(1), including the first call: no runtime initialization, allocations or hashing. Distributed as a Git dependency, the crate needs Rust 1.88+; Cargo finds it in `rust/` automatically:
 
 ```toml
 [dependencies]
-gobob-tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "<commit_hash>" }
+tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "<commit_hash>" }
 ```
 
 ```rust
-use gobob_tokenlist::{ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
+use tokenlist::{ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
 
 // All three entry points return Option<TokenData>.
 let ethereum: TokenData = TokenRegistry::get(TokenId::Usdc, ChainId::Ethereum).unwrap();
