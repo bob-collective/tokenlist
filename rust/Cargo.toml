@@ -1,0 +1,44 @@
+[package]
+name = "tokenlist"
+# Keep in sync with "version" in ../package.json (tests/parity.rs checks it
+# against ../tokenlist.json and ../package.json).
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.88"
+description = "BOB token list data and utilities"
+license = "MIT"
+repository = "https://github.com/bob-collective/tokenlist"
+readme = "../README.md"
+# Distributed as a git dependency, not via crates.io: build.rs reads
+# ../supported-chains.json and ../compressedlist.json, outside this package.
+publish = false
+
+# Requirements are kept loose so the crate reuses the versions already in a
+# consumer's Cargo.lock instead of pulling in new ones.
+[dependencies]
+alloy-primitives = { version = "1", default-features = false }
+
+# build.rs turns the JSON files into the ChainId/TokenId enums and the token
+# tables. Only features without behavioural effect are enabled here:
+# build-dependency features are unified with every proc macro and build script
+# in a consumer's graph (e.g. serde_json/preserve_order would change other
+# crates' codegen).
+[build-dependencies]
+bs58 = { version = "0.5", features = ["check"] }
+proc-macro2 = "1"
+quote = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", default-features = false, features = ["std"] }
+syn = "2"
+
+[dev-dependencies]
+# The generator integration test imports build.rs, exercises its validation
+# and parses its output (syn/full).
+bs58 = { version = "0.5", features = ["check"] }
+proc-macro2 = "1"
+quote = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_with = { version = "3", default-features = false, features = ["std"] }
+syn = { version = "2", features = ["full"] }

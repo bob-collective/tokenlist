@@ -1,0 +1,94 @@
+{
+  "ethereum": {
+    "chainId": 1,
+    "evm": true
+  },
+  "bob": {
+    "chainId": 60808,
+    "evm": true
+  },
+  "bnb-smart-chain": {
+    "chainId": 56,
+    "evm": true
+  },
+  "base": {
+    "chainId": 8453,
+    "evm": true
+  },
+  "op-mainnet": {
+    "chainId": 10,
+    "evm": true
+  },
+  "arbitrum-one": {
+    "chainId": 42161,
+    "evm": true
+  },
+  "polygon": {
+    "chainId": 137,
+    "evm": true
+  },
+  "avalanche": {
+    "chainId": 43114,
+    "evm": true
+  },
+  "unichain": {
+    "chainId": 130,
+    "evm": true
+  },
+  "sei-network": {
+    "chainId": 1329,
+    "evm": true
+  },
+  "soneium-mainnet": {
+    "chainId": 1868,
+    "evm": true
+  },
+  "berachain": {
+    "chainId": 80094,
+    "evm": true
+  },
+  "sonic": {
+    "chainId": 146,
+    "evm": true
+  },
+  "telos": {
+    "chainId": 40,
+    "evm": true
+  },
+  "hyper-evm": {
+    "chainId": 999,
+    "evm": true
+  },
+  "plasma": {
+    "chainId": 9745,
+    "evm": true
+  },
+  "tron": {
+    "chainId": 728126428,
+    "evm": false
+  },
+  "robinhood-chain": {
+    "chainId": 4663,
+    "evm": true
+  },
+  "sepolia": {
+    "chainId": 11155111,
+    "evm": true
+  },
+  "bob-sepolia": {
+    "chainId": 808813,
+    "evm": true
+  },
+  "solana": {
+    "chainId": 1584368940,
+    "evm": false
+  },
+  "bitcoin": {
+    "chainId": 90000,
+    "evm": false
+  },
+  "signet": {
+    "chainId": 1598918400,
+    "evm": false
+  }
+}

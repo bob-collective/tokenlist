@@ -3,8 +3,10 @@ import path from 'node:path';
 import {
   CHAIN_DIR,
   NON_EVM_CHAIN_ID_BY_NAME,
+  NON_EVM_CHAIN_NAMES,
   OUTFILE_CHAIN,
   OUTFILE_CHAIN_MIRROR,
+  OUTFILE_SUPPORTED_CHAINS,
   SUPPORTED_CHAIN_MAP,
   TOKENLIST_BASE_URL,
   TOKENLIST_MIRROR_URL,
@@ -43,4 +45,22 @@ fs.writeFileSync(OUTFILE_CHAIN, JSON.stringify(chainlist, null, 2));
 fs.writeFileSync(
   OUTFILE_CHAIN_MIRROR,
   JSON.stringify(mirrorChainlist, null, 2),
+);
+
+// Every supported chain's ID and EVM flag, keyed by data.json chain name, for
+// the Rust crate (which cannot read config.ts).
+const supportedChains = Object.fromEntries([
+  ...Object.entries(SUPPORTED_CHAIN_MAP).map(([name, chain]) => [
+    name,
+    { chainId: chain.id, evm: !NON_EVM_CHAIN_NAMES.has(name) },
+  ]),
+  ...Object.entries(NON_EVM_CHAIN_ID_BY_NAME).map(([name, chainId]) => [
+    name,
+    { chainId, evm: false },
+  ]),
+]);
+
+fs.writeFileSync(
+  OUTFILE_SUPPORTED_CHAINS,
+  JSON.stringify(supportedChains, null, 2),
 );

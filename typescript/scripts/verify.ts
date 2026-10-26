@@ -20,7 +20,7 @@ import {
 import type { Token } from '../types';
 import { checksumAddress, toEvmAddress } from '../utils';
 
-const tokenlistPath = path.join(__dirname, '../tokenlist.json');
+const tokenlistPath = path.join(__dirname, '../../tokenlist.json');
 
 // Build chainId → Chain lookup from config
 const chainById = new Map<number, Chain>(
