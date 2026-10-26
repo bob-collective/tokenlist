@@ -145,3 +145,113 @@ fn addresses_and_native_flags_come_from_the_data() {
     assert_eq!((btc.chain_id, ChainId::Bitcoin.chain_id()), (90000, 90000));
     assert_eq!((btc.decimals, btc.coingecko_id), (8, "bitcoin"));
 }
+
+#[test]
+fn decimals_come_from_the_data() {
+    for (id, chain, decimals) in [
+        (TokenId::Wbtc, ChainId::Ethereum, 8),
+        (TokenId::Wbtcoft, ChainId::Bob, 8),
+        (TokenId::Usdt, ChainId::Ethereum, 6),
+        (TokenId::Usdc, ChainId::Ethereum, 6),
+        (TokenId::Usdc, ChainId::Base, 6),
+        (TokenId::OUsdt, ChainId::Base, 6),
+        (TokenId::Usdt, ChainId::Solana, 6),
+    ] {
+        let data = TokenRegistry::get(id, chain).unwrap();
+        assert_eq!(data.decimals, decimals, "{id} on {chain}");
+    }
+}
+
+#[test]
+fn robinhood_stocks_keep_their_coingecko_ids_and_decimals() {
+    let expected = [
+        (TokenId::Nvda, "nvidia-robinhood-tokenized-stock"),
+        (TokenId::Spcx, "spacex-robinhood-tokenized-stock"),
+        (
+            TokenId::Amc,
+            "amc-entertainment-holdings-inc-robinhood-token",
+        ),
+        (TokenId::Gme, "gamestop-robinhood-tokenized-stock"),
+        (TokenId::Googl, "alphabet-class-a-robinhood-tokenized-stock"),
+        (TokenId::Aapl, "apple-robinhood-tokenized-stock"),
+        (TokenId::Tsla, "tesla-robinhood-tokenized-stock"),
+        (
+            TokenId::Djt,
+            "trump-media-technology-group-corp-robinhood-token",
+        ),
+        (TokenId::Mstr, "strategy-inc-robinhood-tokenized-stock"),
+        (TokenId::Lly, "eli-lilly-robinhood-tokenized-stock"),
+        (TokenId::Hims, "hims-hers-health-inc-robinhood-token"),
+        (TokenId::Mu, "micron-technology-robinhood-tokenized-stock"),
+        (TokenId::Snap, "snap-inc-robinhood-token"),
+        (TokenId::Rivn, "rivian-automotive-robinhood-tokenized-stock"),
+        (TokenId::Amzn, "amazon-robinhood-tokenized-stock"),
+        (TokenId::Msft, "microsoft-robinhood-tokenized-stock"),
+        (TokenId::Rddt, "reddit-robinhood-tokenized-stock"),
+        (TokenId::Rblx, "roblox-robinhood-tokenized-stock"),
+        (TokenId::Meta, "meta-platforms-robinhood-tokenized-stock"),
+        (
+            TokenId::Spy,
+            "spdr-s-p-500-etf-trust-robinhood-tokenized-stock",
+        ),
+        (
+            TokenId::Sgov,
+            "ishares-0-3-month-treasury-bond-etf-robinhood-tokenized-stock",
+        ),
+        (TokenId::Qqq, "invesco-qqq-robinhood-tokenized-stock"),
+        (
+            TokenId::Slv,
+            "ishares-silver-trust-robinhood-tokenized-stock",
+        ),
+        (TokenId::Gld, "spdr-gold-shares-robinhood-token"),
+        (
+            TokenId::Ibm,
+            "international-business-machines-corporation-robinhood-token",
+        ),
+        (TokenId::Lulu, "lululemon-robinhood-tokenized-stock"),
+        (TokenId::Ups, "ups-robinhood-tokenized-stock"),
+        (TokenId::Cost, "costco-robinhood-tokenized-stock"),
+        (
+            TokenId::Crcl,
+            "circle-internet-group-robinhood-tokenized-stock",
+        ),
+        (
+            TokenId::Ttwo,
+            "take-two-interactive-software-robinhood-tokenized-stock",
+        ),
+        (TokenId::Baba, "alibaba-robinhood-tokenized-stock"),
+        (TokenId::Fig, "figma-inc-robinhood-token"),
+        (TokenId::Nflx, "netflix-robinhood-tokenized-stock"),
+        (
+            TokenId::Pltr,
+            "palantir-technologies-robinhood-tokenized-stock",
+        ),
+        (TokenId::Coin, "coinbase-robinhood-tokenized-stock"),
+        (
+            TokenId::Sndk,
+            "sandisk-corporation-robinhood-tokenized-stock",
+        ),
+        (TokenId::Amd, "amd-robinhood-tokenized-stock"),
+        (TokenId::Qubt, "quantum-computing-robinhood-tokenized-stock"),
+        (TokenId::Shop, "shopify-robinhood-tokenized-stock"),
+        (
+            TokenId::Tsm,
+            "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock",
+        ),
+        (TokenId::Glxy, "galaxy-digital-inc-robinhood-token"),
+        (TokenId::Intc, "intel-robinhood-tokenized-stock"),
+        (
+            TokenId::Uso,
+            "united-states-oil-fund-robinhood-tokenized-stock",
+        ),
+        (TokenId::Inda, "ishares-msci-india-etf-robinhood-token"),
+    ];
+    for (id, coingecko_id) in expected {
+        let data = TokenRegistry::get(id, ChainId::RobinhoodChain).unwrap();
+        assert_eq!(
+            (data.coingecko_id, data.decimals),
+            (coingecko_id, 18),
+            "{id}"
+        );
+    }
+}
