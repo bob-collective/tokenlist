@@ -96,17 +96,20 @@ impl TokenRegistry {
         Self::get_ref(id, chain).copied()
     }
 
-    /// Borrow the token's static data without copying it.
+    /// Borrow the token's static data without copying it. Usable in const
+    /// contexts, e.g. to define a token's address as a `const`.
     #[inline]
-    pub fn get_ref(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
+    pub const fn get_ref(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
         // Slots hold the record index plus one; zero means absent.
-        let slot = INDEX[id as usize][chain as usize].checked_sub(1)?;
-        Some(&RECORDS[usize::from(slot)])
+        match INDEX[id as usize][chain as usize].checked_sub(1) {
+            Some(slot) => Some(&RECORDS[slot as usize]),
+            None => None,
+        }
     }
 
     /// Equivalent to [`Self::get_ref`].
     #[inline]
-    pub fn on_chain(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
+    pub const fn on_chain(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
         Self::get_ref(id, chain)
     }
 }

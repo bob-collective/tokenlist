@@ -229,7 +229,7 @@ assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 | `TokenRegistry::get(id, chain)` | `Option<TokenData>` for the token on that chain. |
 | `TokenId::on_chain(chain)` | Same lookup through a token enum value. |
 | `ChainId::get(id)` | Same lookup through a chain enum value. |
-| `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` without copying metadata. `TokenRegistry::on_chain(id, chain)` remains an equivalent borrowed lookup. |
+| `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` without copying metadata. `TokenRegistry::on_chain(id, chain)` remains an equivalent borrowed lookup. Both are `const fn`, so addresses and decimals can be read into `const` items at compile time. |
 | `TokenRegistry::all()` | `&'static [TokenData]` containing every supported deployment in registry order. |
 | `TokenAddress` | `Evm(Address)`, `Bitcoin(Address)`, `Solana(&'static str)`, or `Tron(&'static str)`. Implements `Copy` and `Display`; match `Evm(address)` to access `alloy_primitives::Address` methods. |
 | `TokenData` | One token on one chain: `id`, `chain_id`, `address` (`TokenAddress`), `decimals`, `native`, `name`/`symbol` (overrides applied), `coingecko_id`, `icon_url`. Implements `Copy`; `TokenMetadata` remains a type alias. |

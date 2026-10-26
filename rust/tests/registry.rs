@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::ptr;
 
-use tokenlist::{Address, ChainId, TokenAddress, TokenId, TokenRegistry};
+use tokenlist::{Address, ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
 
 #[test]
 fn ids_round_trip_through_strings() {
@@ -68,6 +68,14 @@ fn every_pair_matches_the_static_records() {
             }
         }
     }
+}
+
+#[test]
+fn borrowed_lookups_are_const() {
+    const USDC: Option<&TokenData> = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum);
+    const POL: Option<&TokenData> = TokenRegistry::on_chain(TokenId::Pol, ChainId::Bob);
+    assert_eq!(USDC.map(|data| data.decimals), Some(6));
+    assert_eq!(POL, None);
 }
 
 #[test]
