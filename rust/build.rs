@@ -6,7 +6,6 @@
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::{env, error::Error, fs, path::PathBuf};
 
-use heck::ToUpperCamelCase;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use serde::{Deserialize, de::DeserializeOwned};
@@ -75,9 +74,28 @@ fn parse_map<T: DeserializeOwned>(text: &str) -> Result<BTreeMap<String, T>> {
 }
 
 /// The variant for a token ID or chain key: `+` becomes `_plus_`, then
-/// UpperCamelCase. Rejects invalid identifiers and keys sharing a variant.
+/// UpperCamelCase. Words break at non-alphanumerics and where an uppercase
+/// letter follows a lowercase letter or digit; an uppercase run stays one
+/// word (`XAUt` is `Xaut`, `cbBTC` is `CbBtc`). Rejects invalid identifiers
+/// and keys sharing a variant.
 fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Result<syn::Ident> {
-    let name = key.replace('+', "_plus_").to_upper_camel_case();
+    let mut name = String::new();
+    // The previous character of the current word; `None` at a word break.
+    let mut prev: Option<char> = None;
+    for c in key.replace('+', "_plus_").chars() {
+        if !c.is_alphanumeric() {
+            prev = None;
+            continue;
+        }
+        let starts_word =
+            prev.is_none_or(|p| c.is_uppercase() && (p.is_lowercase() || p.is_numeric()));
+        if starts_word {
+            name.extend(c.to_uppercase());
+        } else {
+            name.extend(c.to_lowercase());
+        }
+        prev = Some(c);
+    }
     let ident = syn::parse_str(&name)
         .map_err(|e| format!("{key}: {enum_name}::{name} is not a valid identifier: {e}"))?;
     if let Some(other) = keys.insert(name.clone(), key.to_owned()) {
@@ -335,6 +353,22 @@ mod tests {
         other[1][1] = json!("0x0000000000000000000000000000000000000002");
         let tokens = json!({"BTC.b": entry(), "BTC_b": other});
         assert_fails(chains(), tokens, "both map to TokenId::BtcB");
+    }
+
+    #[test]
+    fn keeps_uppercase_runs_in_one_word() {
+        let mut keys = HashMap::new();
+        for (key, expected) in [
+            ("XAUt", "Xaut"),
+            ("XAUt0", "Xaut0"),
+            ("satUSDv2", "SatUsdv2"),
+            ("cbBTC", "CbBtc"),
+            ("SolvBTC.JUP", "SolvBtcJup"),
+            ("BTC+", "BtcPlus"),
+            ("op-mainnet", "OpMainnet"),
+        ] {
+            assert_eq!(variant("TokenId", key, &mut keys).unwrap(), expected);
+        }
     }
 
     #[test]

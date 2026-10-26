@@ -959,7 +959,6 @@ version = "1.0.0"
 dependencies = [
  "alloy-primitives",
  "bs58",
- "heck",
  "prettyplease",
  "proc-macro2",
  "quote",

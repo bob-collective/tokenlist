@@ -109,7 +109,7 @@ These are committed to the repo and consumed downstream via the npm package.
 Rules:
 
 - TypeScript and Rust share nothing but JSON: the crate never reads `.ts` files or `data/`, and `typescript/scripts/` never writes Rust. Do not change the `compressedlist.json` tuple format for Rust's sake; npm consumers parse it too.
-- Variants: `key.replace('+', "_plus_").to_upper_camel_case()` for token IDs (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`) and chain keys (`op-mainnet` → `OpMainnet`); `FromStr`/`Display`/`as_str` use the original string.
+- Variants: `build.rs`'s `variant` replaces `+` with `_plus_`, then UpperCamelCases words that break at non-alphanumerics and where an uppercase letter follows a lowercase letter or digit, so an uppercase run stays one word (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`, `XAUt` → `Xaut`, `op-mainnet` → `OpMainnet`). Not heck's `to_upper_camel_case`, which splits `XAUt` into `XaUt`. `FromStr`/`Display`/`as_str` use the original string.
 - Bump `version` in `rust/Cargo.toml` and `package.json` together.
 - Keep dependency requirements loose (`"1"`, ranges where APIs allow) so consumers reuse the versions in their `Cargo.lock`. Build-dependency features are unified with every proc macro and build script in a consumer's graph, so enable none that change behaviour (e.g. `preserve_order` on `serde_json`).
 - The crate's MSRV is 1.88 (`rust-version`, set by `serde_with`); change it in `rust/Cargo.toml` and the `msrv` job of `.github/workflows/rust.yml` together.

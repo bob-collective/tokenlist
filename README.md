@@ -224,7 +224,7 @@ assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 
 | Item | Description |
 | ---- | ----------- |
-| `TokenId` | One variant per token with a supported deployment: `+` becomes `_plus_`, then UpperCamelCase (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`). `FromStr`, `Display`, and `as_str` use the original ID. `ALL` lists every variant. |
+| `TokenId` | One variant per token with a supported deployment: `+` becomes `_plus_`, then UpperCamelCase, keeping each uppercase run one word (`BTC+` → `BtcPlus`, `BTC.b` → `BtcB`, `XAUt` → `Xaut`). `FromStr`, `Display`, and `as_str` use the original ID. `ALL` lists every variant. |
 | `ChainId` | One variant per supported chain, named after its `data.json` key (`op-mainnet` → `OpMainnet`). `FromStr`, `Display`, and `as_str` use the key. `ALL` lists every variant; `chain_id()` returns the numeric network ID. |
 | `TokenRegistry::get(id, chain)` | `Option<TokenData>` for the token on that chain. |
 | `TokenId::on_chain(chain)` | Same lookup through a token enum value. |
