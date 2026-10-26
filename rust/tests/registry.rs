@@ -19,9 +19,9 @@ fn ids_round_trip_through_strings() {
 fn punctuated_ids_keep_their_strings() {
     let tokens = [
         TokenId::BtcPlus,
-        TokenId::BtcB,
-        TokenId::HybridBtcPendle,
-        TokenId::SolvBtcJup,
+        TokenId::BtcDotB,
+        TokenId::HybridbtcDotPendle,
+        TokenId::SolvbtcDotJup,
     ];
     let expected = ["BTC+", "BTC.b", "HybridBTC.pendle", "SolvBTC.JUP"];
     assert_eq!(tokens.map(TokenId::as_str), expected);
@@ -33,6 +33,46 @@ fn punctuated_ids_keep_their_strings() {
     ];
     let expected = ["op-mainnet", "bnb-smart-chain", "hyper-evm"];
     assert_eq!(chains.map(ChainId::as_str), expected);
+}
+
+/// bob-gateway's `TokenSymbol` variants share these names; renaming one
+/// breaks the gateway's mapping. Its Robinhood equities are pinned below.
+#[test]
+fn variants_match_gateway_token_symbols() {
+    let tokens = [
+        (TokenId::Eth, "ETH"),
+        (TokenId::Weth, "WETH"),
+        (TokenId::Wbtc, "WBTC"),
+        (TokenId::Usdt, "USDT"),
+        (TokenId::Usdc, "USDC"),
+        (TokenId::Bnb, "BNB"),
+        (TokenId::Wbnb, "WBNB"),
+        (TokenId::Avax, "AVAX"),
+        (TokenId::Wavax, "WAVAX"),
+        (TokenId::Btc, "BTC"),
+        (TokenId::Paxg, "PAXG"),
+        (TokenId::Xaut, "XAUt"),
+        (TokenId::Xaut0, "XAUt0"),
+        (TokenId::Cbbtc, "cbBTC"),
+        (TokenId::Btcb, "BTCB"),
+        (TokenId::Dai, "DAI"),
+        (TokenId::Eurc, "EURC"),
+        (TokenId::Link, "LINK"),
+        (TokenId::Pyusd, "PYUSD"),
+        (TokenId::Jpyc, "JPYC"),
+        (TokenId::Tbtc, "tBTC"),
+        (TokenId::Lbtc, "LBTC"),
+        (TokenId::BtcDotB, "BTC.b"),
+        (TokenId::Solvbtc, "SolvBTC"),
+        (TokenId::Usd1, "USD1"),
+        (TokenId::Rlusd, "RLUSD"),
+        (TokenId::Fidd, "FIDD"),
+        (TokenId::Usdg, "USDG"),
+        (TokenId::Bob, "BOB"),
+    ];
+    for (id, expected) in tokens {
+        assert_eq!(id.as_str(), expected);
+    }
 }
 
 #[test]
@@ -154,7 +194,7 @@ fn decimals_come_from_the_data() {
         (TokenId::Usdt, ChainId::Ethereum, 6),
         (TokenId::Usdc, ChainId::Ethereum, 6),
         (TokenId::Usdc, ChainId::Base, 6),
-        (TokenId::OUsdt, ChainId::Base, 6),
+        (TokenId::Ousdt, ChainId::Base, 6),
         (TokenId::Usdt, ChainId::Solana, 6),
     ] {
         let data = TokenRegistry::get(id, chain).unwrap();

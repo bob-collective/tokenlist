@@ -73,28 +73,20 @@ fn parse_map<T: DeserializeOwned>(text: &str) -> Result<BTreeMap<String, T>> {
     Ok(map)
 }
 
-/// The variant for a token ID or chain key: `+` becomes `_plus_`, then
-/// UpperCamelCase. Words break at non-alphanumerics and where an uppercase
-/// letter follows a lowercase letter or digit; an uppercase run stays one
-/// word (`XAUt` is `Xaut`, `cbBTC` is `CbBtc`). Rejects invalid identifiers
-/// and keys sharing a variant.
+/// The variant for a token ID or chain key, named as bob-gateway's
+/// `TokenSymbol`: `+` becomes `_plus_` and `.` `_dot_`, then each run of
+/// letters and digits is capitalized with the rest lowercased (`XAUt` is
+/// `Xaut`, `cbBTC` `Cbbtc`, `BTC.b` `BtcDotB`, `op-mainnet` `OpMainnet`).
+/// Rejects invalid identifiers and keys sharing a variant.
 fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Result<syn::Ident> {
     let mut name = String::new();
-    // The previous character of the current word; `None` at a word break.
-    let mut prev: Option<char> = None;
-    for c in key.replace('+', "_plus_").chars() {
-        if !c.is_alphanumeric() {
-            prev = None;
-            continue;
+    let key_words = key.replace('+', "_plus_").replace('.', "_dot_");
+    for word in key_words.split(|c: char| !c.is_alphanumeric()) {
+        let mut chars = word.chars();
+        if let Some(first) = chars.next() {
+            name.extend(first.to_uppercase());
+            name.extend(chars.flat_map(char::to_lowercase));
         }
-        let starts_word =
-            prev.is_none_or(|p| c.is_uppercase() && (p.is_lowercase() || p.is_numeric()));
-        if starts_word {
-            name.extend(c.to_uppercase());
-        } else {
-            name.extend(c.to_lowercase());
-        }
-        prev = Some(c);
     }
     let ident = syn::parse_str(&name)
         .map_err(|e| format!("{key}: {enum_name}::{name} is not a valid identifier: {e}"))?;
@@ -351,19 +343,20 @@ mod tests {
         }
         let mut other = entry();
         other[1][1] = json!("0x0000000000000000000000000000000000000002");
-        let tokens = json!({"BTC.b": entry(), "BTC_b": other});
-        assert_fails(chains(), tokens, "both map to TokenId::BtcB");
+        let tokens = json!({"XAUt": entry(), "XAUT": other});
+        assert_fails(chains(), tokens, "both map to TokenId::Xaut");
     }
 
     #[test]
-    fn keeps_uppercase_runs_in_one_word() {
+    fn capitalizes_each_word_and_lowercases_the_rest() {
         let mut keys = HashMap::new();
         for (key, expected) in [
             ("XAUt", "Xaut"),
             ("XAUt0", "Xaut0"),
-            ("satUSDv2", "SatUsdv2"),
-            ("cbBTC", "CbBtc"),
-            ("SolvBTC.JUP", "SolvBtcJup"),
+            ("cbBTC", "Cbbtc"),
+            ("tBTC", "Tbtc"),
+            ("BTC.b", "BtcDotB"),
+            ("SolvBTC.JUP", "SolvbtcDotJup"),
             ("BTC+", "BtcPlus"),
             ("op-mainnet", "OpMainnet"),
         ] {
