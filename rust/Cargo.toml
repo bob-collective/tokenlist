@@ -17,7 +17,6 @@ publish = false
 # consumer's Cargo.lock instead of pulling in new ones.
 [dependencies]
 alloy-primitives = { version = "1", default-features = false }
-strum = { version = ">=0.27, <0.29", features = ["derive"] }
 
 # build.rs turns the JSON files into the ChainId/TokenId enums and the token
 # tables. Only features without behavioural effect are enabled here:

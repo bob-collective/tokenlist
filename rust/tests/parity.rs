@@ -46,7 +46,7 @@ fn tokens_match_compressedlist() {
         let entry = entry.as_array().unwrap();
         let deployments: Vec<_> = entry[1..]
             .iter()
-            .filter_map(|chain| Some((*chains.get(&chain[0].as_u64().unwrap())?, chain)))
+            .filter_map(|chain| chains.get(&chain[0].as_u64().unwrap()).copied())
             .collect();
         let Ok(token_id) = id.parse::<TokenId>() else {
             assert!(
@@ -62,20 +62,11 @@ fn tokens_match_compressedlist() {
         assert_eq!(token_id.as_str(), id);
         ids.insert(token_id);
 
-        let [name, symbol, coingecko_id, logo] = entry[0].as_array().unwrap().as_slice() else {
-            panic!("{id}: malformed shared tuple");
-        };
-        let logo = format!("/{id}/logo.{}", logo.as_str().unwrap());
-        for (chain, chain_entry) in &deployments {
-            let context = format!("{id} on {chain}");
-            let data =
-                TokenRegistry::on_chain(token_id, *chain).unwrap_or_else(|| panic!("no {context}"));
-            // The name slot holds null when only the symbol is overridden.
-            let field = |index| chain_entry.get(index).filter(|value| !value.is_null());
-            assert_eq!(data.name, *field(4).unwrap_or(name), "{context}");
-            assert_eq!(data.symbol, *field(5).unwrap_or(symbol), "{context}");
-            assert_eq!(data.coingecko_id, *coingecko_id, "{context}");
-            assert!(data.icon_url.ends_with(&logo), "{context}");
+        // The rest is checked against tokenlist-overrides.json, which omits
+        // CoinGecko IDs over 42 characters.
+        for &chain in &deployments {
+            let data = TokenRegistry::get_ref(token_id, chain).unwrap();
+            assert_eq!(data.coingecko_id, entry[0][2], "{id} on {chain}");
         }
 
         let records = TokenRegistry::all()

@@ -80,11 +80,17 @@ fn every_pair_matches_the_static_records() {
 }
 
 #[test]
-fn borrowed_lookups_are_const() {
+fn lookups_are_const() {
     const USDC: Option<&TokenData> = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum);
     const POL: Option<&TokenData> = TokenRegistry::on_chain(TokenId::Pol, ChainId::Bob);
+    const KEYS: (&str, &str, u64) = (
+        TokenId::BtcPlus.as_str(),
+        ChainId::Bob.as_str(),
+        ChainId::Bob.chain_id(),
+    );
     assert_eq!(USDC.map(|data| data.decimals), Some(6));
     assert_eq!(POL, None);
+    assert_eq!(KEYS, ("BTC+", "bob", 60808));
 }
 
 #[test]

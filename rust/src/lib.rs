@@ -30,27 +30,67 @@
 
 #![warn(missing_docs)]
 
+use std::{fmt, str::FromStr};
+
 pub use alloy_primitives::Address;
 
-// ChainId, TokenId, CHAIN_IDS, RECORDS, DEPLOYED and FIRST.
+// ChainId, TokenId, CHAIN_IDS, CHAIN_KEYS, TOKEN_KEYS, RECORDS, DEPLOYED and FIRST.
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
 /// A chain-specific token address. Display preserves base58 strings.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, strum::Display)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum TokenAddress {
     /// A typed EVM address, displayed with its checksum.
-    #[strum(transparent)]
     Evm(Address),
     /// Bitcoin's native BTC placeholder: the zero address.
-    #[strum(transparent)]
     Bitcoin(Address),
     /// A base58 Solana mint.
-    #[strum(transparent)]
     Solana(&'static str),
     /// A base58check Tron address.
-    #[strum(transparent)]
     Tron(&'static str),
 }
+
+impl fmt::Display for TokenAddress {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Evm(address) | Self::Bitcoin(address) => fmt::Display::fmt(address, f),
+            Self::Solana(address) | Self::Tron(address) => f.pad(address),
+        }
+    }
+}
+
+/// An unknown [`TokenId`] or [`ChainId`] string.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ParseIdError;
+
+impl fmt::Display for ParseIdError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("unknown token or chain ID")
+    }
+}
+
+impl std::error::Error for ParseIdError {}
+
+/// `FromStr` and `Display` through each enum's sorted key table.
+macro_rules! impl_keys {
+    ($($id:ident $keys:ident),*) => {$(
+        impl FromStr for $id {
+            type Err = ParseIdError;
+
+            fn from_str(s: &str) -> Result<Self, ParseIdError> {
+                $keys.binary_search(&s).map(|i| Self::ALL[i]).map_err(|_| ParseIdError)
+            }
+        }
+
+        impl fmt::Display for $id {
+            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+                f.pad(self.as_str())
+            }
+        }
+    )*};
+}
+
+impl_keys!(TokenId TOKEN_KEYS, ChainId CHAIN_KEYS);
 
 /// A token on one chain: one `tokenlist-overrides.json` entry.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -119,8 +159,8 @@ impl TokenRegistry {
 
 impl TokenId {
     /// The token's ID string, i.e. its `data/tokens/` directory name.
-    pub fn as_str(self) -> &'static str {
-        self.into()
+    pub const fn as_str(self) -> &'static str {
+        TOKEN_KEYS[self as usize]
     }
 
     /// This token's data on the chain, if deployed there.
@@ -132,12 +172,12 @@ impl TokenId {
 
 impl ChainId {
     /// The chain's `data.json` key, e.g. `"op-mainnet"`.
-    pub fn as_str(self) -> &'static str {
-        self.into()
+    pub const fn as_str(self) -> &'static str {
+        CHAIN_KEYS[self as usize]
     }
 
     /// The numeric network ID, independent of this enum's ordinal.
-    pub fn chain_id(self) -> u64 {
+    pub const fn chain_id(self) -> u64 {
         CHAIN_IDS[self as usize]
     }
 

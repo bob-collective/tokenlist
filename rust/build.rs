@@ -98,7 +98,7 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
 
 /// The `ChainId` enum and each chain ID's ordinal.
 fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenStream, Ordinals)> {
-    let (mut variants, mut names, mut ids) = (vec![], vec![], vec![]);
+    let (mut variants, mut names, mut ids, mut strs) = (vec![], vec![], vec![], vec![]);
     let (mut ordinals, mut keys) = (HashMap::new(), HashMap::new());
 
     for (key, &SupportedChain { chain_id: id, evm }) in chains {
@@ -118,9 +118,10 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
         if kind.is_some() {
             let variant = variant("ChainId", key, &mut keys)?;
             let doc = format!(" `{key}` (chain ID {id}).");
-            variants.push(quote!(#[doc = #doc] #[strum(serialize = #key)] #variant));
+            variants.push(quote!(#[doc = #doc] #variant));
             names.push(variant);
             ids.push(id);
+            strs.push(key);
         }
     }
 
@@ -132,10 +133,7 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
         /// A supported chain, named after its `data.json` key: `FromStr`, `Display`
         /// and [`ChainId::as_str`] use that key (`"op-mainnet"` is
         /// `ChainId::OpMainnet`).
-        #[derive(
-            Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord,
-            ::strum::EnumString, ::strum::IntoStaticStr, ::strum::Display,
-        )]
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
         #[non_exhaustive]
         pub enum ChainId { #(#variants),* }
 
@@ -145,6 +143,9 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
         }
 
         static CHAIN_IDS: [u64; #count] = [#(#ids),*];
+
+        /// Each chain's key, in `ALL` order: sorted, for binary search.
+        static CHAIN_KEYS: [&str; #count] = [#(#strs),*];
     };
     Ok((code, ordinals))
 }
@@ -154,7 +155,7 @@ fn generate_tokens(
     tokens: &BTreeMap<String, Vec<Value>>,
     ordinals: &Ordinals,
 ) -> Result<TokenStream> {
-    let (mut variants, mut names, mut records) = (vec![], vec![], vec![]);
+    let (mut variants, mut names, mut strs, mut records) = (vec![], vec![], vec![], vec![]);
     let (mut deployed, mut first) = (vec![], vec![]);
     let mut keys = HashMap::new();
     // (chain ID, normalized address), to reject addresses shared by two tokens.
@@ -248,8 +249,9 @@ fn generate_tokens(
 
         let variant = variant("TokenId", id, &mut keys)?;
         let doc = format!(" `{id}`: {name}.");
-        variants.push(quote!(#[doc = #doc] #[strum(serialize = #id)] #variant));
+        variants.push(quote!(#[doc = #doc] #variant));
         names.push(variant.clone());
+        strs.push(id);
 
         // In ChainId order, so the record for a chain is the token's first
         // plus its deployments on lower ordinals.
@@ -272,10 +274,7 @@ fn generate_tokens(
         /// `data/tokens/` directory: `FromStr`, `Display` and
         /// [`TokenId::as_str`] use that exact ID string (`"BTC+"` is
         /// `TokenId::BtcPlus`).
-        #[derive(
-            Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord,
-            ::strum::EnumString, ::strum::IntoStaticStr, ::strum::Display,
-        )]
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
         #[non_exhaustive]
         pub enum TokenId { #(#variants),* }
 
@@ -283,6 +282,9 @@ fn generate_tokens(
             /// Every token with a supported deployment, in registry order.
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
+
+        /// Each token's ID string, in `ALL` order: sorted, for binary search.
+        static TOKEN_KEYS: [&str; #token_count] = [#(#strs),*];
 
         static RECORDS: [TokenData; #record_count] = [#(#records),*];
 
@@ -325,38 +327,60 @@ mod tests {
         })
     }
 
-    fn entry() -> Value {
-        json!([
-            ["USD Coin", "USDC", "usd-coin", "svg"],
-            [1, "0x0000000000000000000000000000000000000001", 6, false]
-        ])
-    }
-
     #[test]
-    fn rejects_duplicate_json_keys_and_trailing_data() {
+    fn rejects_invalid_data() {
         for text in [r#"{"USDC": [], "USDC": []}"#, r#"{"USDC": []} {}"#] {
             assert!(parse_map::<Vec<Value>>(text).is_err());
         }
+
+        let many: serde_json::Map<_, _> = (0..65)
+            .map(|id| (format!("c{id}"), json!({"chainId": id, "evm": true})))
+            .collect();
+        #[rustfmt::skip]
+        let chain_cases = [
+            (json!({"ethereum": {"chainId": 1, "evm": true}, "solana": {"chainId": 1, "evm": false}}), "chain ID 1 is listed twice"),
+            (json!({"foo-bar": {"chainId": 1, "evm": true}, "foo_bar": {"chainId": 2, "evm": true}}), "both map to ChainId::FooBar"),
+            (many.into(), "more than 64 supported chains"),
+        ];
+        for (chains, message) in chain_cases {
+            assert_fails(chains, json!({}), message);
+        }
+
+        let shared = json!(["USD Coin", "USDC", "usd-coin", "svg"]);
+        let evm = |address: &str| json!([1, address, 6, false]);
+        let ok = evm("0x0000000000000000000000000000000000000001");
+        #[rustfmt::skip]
+        let token_cases = [
+            (json!({"USDC": []}), "USDC: empty entry"),
+            (json!({"USDC": [["USD Coin", "USDC", null, "svg"], ok]}), "USDC: missing coingeckoId"),
+            (json!({"USDC": [["USD Coin", "USDC", "usd-coin", "png"], ok]}), "USDC[0]: unknown logo format"),
+            (json!({"USDC": [shared, ok, ok]}), "USDC[2]: duplicate chain 1"),
+            (json!({"USDC": [shared, [999, "0x0000000000000000000000000000000000000001", 6, false]]}), "USDC[1]: chain 999 is not in supported-chains.json"),
+            (json!({"USDC": [shared, evm("0x123")]}), "USDC[1]: invalid Evm address"),
+            (json!({"USDC": [shared, evm("0x000000000000000000000000000000000000000g")]}), "USDC[1]: invalid Evm address"),
+            (json!({"USDC": [shared, [1, "0x0000000000000000000000000000000000000001", 256, false]]}), "USDC[1]: invalid value"),
+            (json!({"USDC": [shared, [1, "0x0000000000000000000000000000000000000001", 6, "false"]]}), "USDC[1]: invalid type"),
+            (json!({"USDC": [shared, [1, "0x0000000000000000000000000000000000000001", 6, false, null, null, "extra"]]}), "USDC[1]: invalid length"),
+            (json!({"USDT": [shared, [1584368940, "0OIl", 6, false]]}), "USDT[1]: invalid Solana address"),
+            (json!({"USDT": [shared, [1584368940, "1111", 6, false]]}), "USDT[1]: invalid Solana address"),
+            (json!({"USDT": [shared, [728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6u", 6, false]]}), "USDT[1]: invalid Tron address"),
+            (json!({"A": [shared, evm("0xabcdef0000000000000000000000000000000001")], "B": [shared, evm("0xABCDEF0000000000000000000000000000000001")]}), "B[1]: another token uses"),
+            (json!({"123": [shared, ok]}), "123: TokenId::123 is not a valid identifier"),
+            (json!({"XAUt": [shared, ok], "XAUT": [shared, evm("0x0000000000000000000000000000000000000002")]}), "both map to TokenId::Xaut"),
+        ];
+        for (tokens, message) in token_cases {
+            assert_fails(chains(), tokens, message);
+        }
     }
 
     #[test]
-    fn rejects_duplicate_chain_ids_and_variant_collisions() {
-        for (chains, message) in [
-            (
-                json!({"ethereum": {"chainId": 1, "evm": true}, "solana": {"chainId": 1, "evm": false}}),
-                "chain ID 1 is listed twice",
-            ),
-            (
-                json!({"foo-bar": {"chainId": 1, "evm": true}, "foo_bar": {"chainId": 2, "evm": true}}),
-                "both map to ChainId::FooBar",
-            ),
-        ] {
-            assert_fails(chains, json!({}), message);
-        }
-        let mut other = entry();
-        other[1][1] = json!("0x0000000000000000000000000000000000000002");
-        let tokens = json!({"XAUt": entry(), "XAUT": other});
-        assert_fails(chains(), tokens, "both map to TokenId::Xaut");
+    fn accepts_overrides_and_non_evm_deployments() {
+        let tokens = json!({"USDC": [
+            ["USD Coin", "USDC", "usd-coin", "svg"],
+            [1, "0x0000000000000000000000000000000000000001", 6, false, null, "USDC.e"],
+            [1584368940, "So11111111111111111111111111111111111111112", 6, false],
+        ]});
+        generate(chains(), tokens).unwrap();
     }
 
     #[test]
@@ -377,103 +401,8 @@ mod tests {
     }
 
     #[test]
-    fn rejects_invalid_enum_identifiers() {
-        let message = "123: TokenId::123 is not a valid identifier";
-        assert_fails(chains(), json!({"123": entry()}), message);
-    }
-
-    #[test]
-    fn rejects_duplicate_deployments_and_addresses() {
-        let token = entry();
-        let tokens = json!({"USDC": [token[0], token[1], token[1]]});
-        assert_fails(chains(), tokens, "USDC[2]: duplicate chain 1");
-
-        let [mut first, mut second] = [entry(), entry()];
-        first[1][1] = json!("0xabcdef0000000000000000000000000000000001");
-        second[1][1] = json!("0xABCDEF0000000000000000000000000000000001");
-        let tokens = json!({"FIRST": first, "SECOND": second});
-        assert_fails(chains(), tokens, "SECOND[1]: another token uses");
-    }
-
-    #[test]
-    fn rejects_unknown_chains_malformed_addresses_and_tuples() {
-        for (slot, value, message) in [
-            (0, json!(999), "chain 999 is not in supported-chains.json"),
-            (1, json!("0x123"), "invalid Evm address"),
-            (
-                1,
-                json!("0x000000000000000000000000000000000000000g"),
-                "invalid Evm address",
-            ),
-            (2, json!(256), "invalid value"),
-            (3, json!("false"), "invalid type"),
-        ] {
-            let mut token = entry();
-            token[1][slot] = value;
-            assert_fails(
-                chains(),
-                json!({"USDC": token}),
-                &format!("USDC[1]: {message}"),
-            );
-        }
-        let mut token = entry();
-        token[1]
-            .as_array_mut()
-            .unwrap()
-            .extend([Value::Null, Value::Null, json!("extra")]);
-        assert!(generate(chains(), json!({"USDC": token})).is_err());
-    }
-
-    #[test]
-    fn rejects_missing_shared_metadata() {
-        assert!(generate(chains(), json!({"USDC": []})).is_err());
-        for (slot, value, message) in [
-            (2, Value::Null, "missing coingeckoId"),
-            (3, json!("png"), "unknown logo format"),
-        ] {
-            let mut token = entry();
-            token[0][slot] = value;
-            assert_fails(chains(), json!({"USDC": token}), message);
-        }
-    }
-
-    #[test]
-    fn accepts_optional_overrides_and_non_evm_deployments() {
-        let mut token = entry();
-        token[1]
-            .as_array_mut()
-            .unwrap()
-            .extend([Value::Null, json!("USDC.e")]);
-        let solana = json!([
-            1584368940,
-            "So11111111111111111111111111111111111111112",
-            6,
-            false
-        ]);
-        token.as_array_mut().unwrap().push(solana);
-        generate(chains(), json!({"USDC": token})).unwrap();
-    }
-
-    #[test]
-    fn rejects_invalid_non_evm_addresses() {
-        for (chain_id, address) in [
-            (1584368940, "0OIl"),
-            (1584368940, "1111"),
-            (728126428, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6u"),
-        ] {
-            let mut token = entry();
-            token[1] = json!([chain_id, address, 6, false]);
-            assert_fails(chains(), json!({"USDT": token}), "USDT[1]: invalid");
-        }
-    }
-
-    #[test]
-    fn index_checks_capacity() {
+    fn first_record_checks_capacity() {
         assert_eq!(first_record(65535).unwrap(), u16::MAX);
         assert!(first_record(65536).is_err() && first_record(usize::MAX).is_err());
-        let chains: serde_json::Map<_, _> = (0..65)
-            .map(|id| (format!("c{id}"), json!({"chainId": id, "evm": true})))
-            .collect();
-        assert_fails(chains.into(), json!({}), "more than 64 supported chains");
     }
 }
