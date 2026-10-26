@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use std::ptr;
 
 use tokenlist::{Address, ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
@@ -61,44 +60,48 @@ fn every_pair_matches_the_static_records() {
         for &chain in ChainId::ALL {
             let expected = TokenRegistry::all()
                 .iter()
-                .find(|data| data.id == id && data.chain_id == chain.chain_id());
-            for borrowed in [
-                TokenRegistry::get_ref(id, chain),
-                TokenRegistry::on_chain(id, chain),
-            ] {
-                assert_eq!(borrowed.map(ptr::from_ref), expected.map(ptr::from_ref));
-            }
-            for owned in [
-                TokenRegistry::get(id, chain),
-                id.on_chain(chain),
-                chain.get(id),
-            ] {
-                assert_eq!(owned, expected.copied());
-            }
+                .find(|data| data.id == id && data.chain == chain);
+            let found = TokenRegistry::get_ref(id, chain);
+            assert_eq!(found.map(ptr::from_ref), expected.map(ptr::from_ref));
         }
     }
 }
 
+/// bob-gateway's use, which must keep compiling: const lookups of EVM
+/// addresses and decimals, and `coingecko_id` as a field.
 #[test]
-fn lookups_are_const() {
-    const USDC: Option<&TokenData> = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum);
-    const POL: Option<&TokenData> = TokenRegistry::on_chain(TokenId::Pol, ChainId::Bob);
-    const KEYS: (&str, &str, u64) = (
+fn gateway_contract_is_const() {
+    const fn deployment(id: TokenId, chain: ChainId) -> &'static TokenData {
+        match TokenRegistry::get_ref(id, chain) {
+            Some(data) => data,
+            None => panic!("not deployed"),
+        }
+    }
+    const fn address(id: TokenId, chain: ChainId) -> Address {
+        match deployment(id, chain).address {
+            TokenAddress::Evm(address) => address,
+            _ => panic!("not an EVM token"),
+        }
+    }
+    const USDC: (Address, u8) = (
+        address(TokenId::Usdc, ChainId::Ethereum),
+        deployment(TokenId::Usdc, ChainId::Ethereum).decimals,
+    );
+    const STRINGS: [&str; 3] = [
         TokenId::BtcPlus.as_str(),
         ChainId::Bob.as_str(),
-        ChainId::Bob.chain_id(),
-    );
-    assert_eq!(USDC.map(|data| data.decimals), Some(6));
-    assert_eq!(POL, None);
-    assert_eq!(KEYS, ("BTC+", "bob", 60808));
-}
-
-#[test]
-fn every_token_is_deployed_and_every_chain_id_unique() {
-    let tokens: HashSet<_> = TokenRegistry::all().iter().map(|data| data.id).collect();
-    assert_eq!(tokens, TokenId::ALL.iter().copied().collect());
-    let chain_ids: HashSet<_> = ChainId::ALL.iter().map(|chain| chain.chain_id()).collect();
-    assert_eq!(chain_ids.len(), ChainId::ALL.len());
+        deployment(TokenId::Usdc, ChainId::Bob).symbol(),
+    ];
+    const BOB: u64 = ChainId::Bob.chain_id();
+    const POL: Option<&TokenData> = TokenRegistry::get_ref(TokenId::Pol, ChainId::Bob);
+    let usdc = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+        .parse()
+        .unwrap();
+    assert_eq!(USDC, (usdc, 6));
+    assert_eq!(STRINGS, ["BTC+", "bob", "USDC.e"]);
+    assert_eq!((BOB, POL), (60808, None));
+    let usdc = deployment(TokenId::Usdc, ChainId::Ethereum);
+    assert_eq!(usdc.coingecko_id, "usd-coin");
 }
 
 #[test]
@@ -115,7 +118,7 @@ fn addresses_and_native_flags_come_from_the_data() {
         (TokenId::Usdt, ChainId::Tron, TokenAddress::Tron("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"), false),
     ];
     for (id, chain, address, native) in cases {
-        let data = TokenRegistry::get(id, chain).unwrap();
+        let data = TokenRegistry::get_ref(id, chain).unwrap();
         assert_eq!(
             (data.address, data.native),
             (address, native),
@@ -123,8 +126,11 @@ fn addresses_and_native_flags_come_from_the_data() {
         );
     }
 
-    let btc = TokenId::Btc.on_chain(ChainId::Bitcoin).unwrap();
-    assert_eq!((btc.chain_id, ChainId::Bitcoin.chain_id()), (90000, 90000));
+    let btc = TokenRegistry::get_ref(TokenId::Btc, ChainId::Bitcoin).unwrap();
+    assert_eq!(
+        (btc.chain_id(), ChainId::Bitcoin.chain_id()),
+        (90000, 90000)
+    );
     assert_eq!((btc.decimals, btc.coingecko_id), (8, "bitcoin"));
 }
 
@@ -139,7 +145,7 @@ fn decimals_come_from_the_data() {
         (TokenId::Ousdt, ChainId::Base, 6),
         (TokenId::Usdt, ChainId::Solana, 6),
     ] {
-        let data = TokenRegistry::get(id, chain).unwrap();
+        let data = TokenRegistry::get_ref(id, chain).unwrap();
         assert_eq!(data.decimals, decimals, "{id} on {chain}");
     }
 }
@@ -194,7 +200,7 @@ fn robinhood_stocks_keep_their_coingecko_ids_and_decimals() {
         (TokenId::Inda, "ishares-msci-india-etf-robinhood-token"),
     ];
     for (id, coingecko_id) in expected {
-        let data = TokenRegistry::get(id, ChainId::RobinhoodChain).unwrap();
+        let data = TokenRegistry::get_ref(id, ChainId::RobinhoodChain).unwrap();
         assert_eq!(
             (data.coingecko_id, data.decimals),
             (coingecko_id, 18),

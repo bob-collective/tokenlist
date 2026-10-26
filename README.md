@@ -191,29 +191,31 @@ tokenlist = { git = "https://github.com/bob-collective/tokenlist", rev = "<commi
 ```
 
 ```rust
-use tokenlist::{ChainId, TokenAddress, TokenData, TokenId, TokenRegistry};
+use tokenlist::{ChainId, TokenAddress, TokenId, TokenRegistry};
 
-// All three entry points return Option<TokenData>.
-let ethereum: TokenData = TokenRegistry::get(TokenId::Usdc, ChainId::Ethereum).unwrap();
-assert_eq!((ethereum.chain_id, ethereum.decimals), (1, 6));
-assert_eq!((ethereum.symbol, ethereum.coingecko_id), ("USDC", "usd-coin"));
+// Lookups borrow the static record; `get_ref` is a `const fn`.
+let ethereum = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum).unwrap();
+assert_eq!((ethereum.chain_id(), ethereum.decimals), (1, 6));
+assert_eq!((ethereum.symbol(), ethereum.coingecko_id), ("USDC", "usd-coin"));
 
-let bsc = TokenId::Usdc.on_chain(ChainId::BnbSmartChain).unwrap();
+let bsc = TokenRegistry::get_ref(TokenId::Usdc, ChainId::BnbSmartChain).unwrap();
 assert_eq!(bsc.decimals, 18);
 
-let bob = ChainId::Bob.get(TokenId::Usdc).unwrap();
-assert_eq!(bob.symbol, "USDC.e");
+let bob = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Bob).unwrap();
+assert_eq!(bob.symbol(), "USDC.e");
 assert_eq!(ChainId::Bob.chain_id(), 60808);
-assert_eq!(TokenId::Pol.on_chain(ChainId::Bob), None);
+assert_eq!(TokenRegistry::get_ref(TokenId::Pol, ChainId::Bob), None);
 
-let sol = TokenId::Sol.on_chain(ChainId::Solana).unwrap();
+let sol = TokenRegistry::get_ref(TokenId::Sol, ChainId::Solana).unwrap();
 assert_eq!(sol.address, TokenAddress::Solana("So11111111111111111111111111111111111111112"));
-let usdt = TokenId::Usdt.on_chain(ChainId::Tron).unwrap();
+let usdt = TokenRegistry::get_ref(TokenId::Usdt, ChainId::Tron).unwrap();
 assert_eq!(usdt.address.to_string(), "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t");
 
-// Borrow static metadata when copying the record is unnecessary.
-let borrowed = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum).unwrap();
-assert_eq!(*borrowed, ethereum);
+// Addresses and decimals can be read into `const` items.
+const USDC_DECIMALS: u8 = match TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum) {
+    Some(data) => data.decimals,
+    None => panic!("USDC is not on Ethereum"),
+};
 
 // IDs parse from and print as their original strings.
 let id: TokenId = "BTC+".parse().unwrap();
@@ -224,23 +226,20 @@ assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 
 | Item | Description |
 | ---- | ----------- |
-| `TokenId` | One variant per token with a supported deployment: `+` becomes `_plus_` and `.` `_dot_`, then each word is capitalized with the rest lowercased (`BTC+` → `BtcPlus`, `BTC.b` → `BtcDotB`, `cbBTC` → `Cbbtc`, `XAUt` → `Xaut`). `FromStr`, `Display`, and `as_str` use the original ID. `ALL` lists every variant. |
-| `ChainId` | One variant per supported chain, named after its `data.json` key (`op-mainnet` → `OpMainnet`). `FromStr`, `Display`, and `as_str` use the key. `ALL` lists every variant; `chain_id()` returns the numeric network ID. |
-| `TokenRegistry::get(id, chain)` | `Option<TokenData>` for the token on that chain. |
-| `TokenId::on_chain(chain)` | Same lookup through a token enum value. |
-| `ChainId::get(id)` | Same lookup through a chain enum value. |
-| `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` without copying metadata. `TokenRegistry::on_chain(id, chain)` remains an equivalent borrowed lookup. Both are `const fn`, so addresses and decimals can be read into `const` items at compile time. |
-| `TokenRegistry::all()` | `&'static [TokenData]` containing every supported deployment in registry order. |
+| `TokenId` | One variant per token with a supported deployment: `+` becomes `_plus_` and `.` `_dot_`, then each word is capitalized with the rest lowercased (`BTC+` → `BtcPlus`, `BTC.b` → `BtcDotB`, `cbBTC` → `Cbbtc`, `XAUt` → `Xaut`). `FromStr` (error `ParseIdError`), `Display`, and the `const fn` `as_str` use the original ID. `ALL` lists every variant, sorted by ID. |
+| `ChainId` | One variant per supported chain, named after its `data.json` key (`op-mainnet` → `OpMainnet`). `FromStr`, `Display`, and `as_str` use the key. `ALL` lists every variant; the `const fn` `chain_id()` returns the numeric network ID. |
+| `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` for the token on that chain. A `const fn`, so addresses and decimals can be read into `const` items at compile time. |
+| `TokenRegistry::all()` | `&'static [TokenData]` containing every supported deployment, by token and then by chain. |
 | `TokenAddress` | `Evm(Address)`, `Bitcoin(Address)`, `Solana(&'static str)`, or `Tron(&'static str)`. Implements `Copy` and `Display`; match `Evm(address)` to access `alloy_primitives::Address` methods. |
-| `TokenData` | One token on one chain: `id`, `chain_id`, `address` (`TokenAddress`), `decimals`, `native`, `name`/`symbol` (overrides applied), `coingecko_id`, `icon_url`. Implements `Copy`; `TokenMetadata` remains a type alias. |
+| `TokenData` | One token on one chain. Fields: `id`, `chain` (`ChainId`), `address` (`TokenAddress`), `decimals`, `native`, `coingecko_id`. `const fn` methods: `chain_id()`, `name()` and `symbol()` (overrides applied); `icon_url()` builds the GitHub logo URL. Implements `Copy`. |
 
-Records are grouped by token in `ChainId` order. The index stores, per token, a `u64` with a bit per deployed chain and the `u16` index of its first record; a lookup adds the number of deployments on lower chains. The build rejects more than 64 chains or 65,536 deployments instead of truncating. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
+Records are grouped by token in `ChainId` order. The index stores, per token, a `u64` with a bit per deployed chain and the `u16` index of its first record; a lookup adds the number of deployments on lower chains. Chain keys, token IDs, names and symbols live once each in one string table, so records hold `u16` indices instead of pointers. The build rejects more than 64 chains, 65,536 deployments or 65,535 bytes of strings instead of truncating. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
 
 The crate covers EVM, Bitcoin, Solana and Tron deployments and carries no bridge addresses. Bitcoin uses chain ID `90000` and `TokenAddress::Bitcoin(Address::ZERO)` for native BTC. Signet remains unsupported; `sBTC` has no `TokenId`. Solana addresses are validated as 32-byte base58; Tron addresses require a valid base58check checksum and `0x41` prefix. Validation runs at build time; original base58 strings are preserved.
 
 The build fails, naming the offending entry, if either input has duplicate keys or keys that map to the same variant, `supported-chains.json` lists a chain ID twice, or `compressedlist.json` has duplicate chains within a token, an address reused on one supported chain, a malformed tuple or address, or a chain missing from `supported-chains.json`.
 
-Run `cargo test` from `rust/` to check JSON parity, every token/chain pair across all lookup APIs, and generator validation.
+Run `cargo test` from `rust/` to check JSON parity, every token/chain pair, the const lookups bob-gateway relies on, and generator validation.
 
 ---
 

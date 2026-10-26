@@ -97,15 +97,15 @@ fn deployments_match_tokenlist_overrides() {
             .parse()
             .unwrap_or_else(|_| panic!("{id_str} is missing from TokenId"));
         let context = format!("{id} on {chain}");
-        let data = TokenRegistry::on_chain(id, chain).unwrap_or_else(|| panic!("no {context}"));
+        let data = TokenRegistry::get_ref(id, chain).unwrap_or_else(|| panic!("no {context}"));
 
-        assert_eq!(data.chain_id, chain_id, "{context}");
+        assert_eq!(data.chain_id(), chain_id, "{context}");
         assert_eq!(data.address.to_string(), entry["address"], "{context}");
-        assert_eq!(data.name, entry["name"], "{context}");
-        assert_eq!(data.symbol, entry["symbol"], "{context}");
+        assert_eq!(data.name(), entry["name"], "{context}");
+        assert_eq!(data.symbol(), entry["symbol"], "{context}");
         assert_eq!(data.decimals, entry["decimals"], "{context}");
         assert_eq!(data.native, extensions["native"], "{context}");
-        assert_eq!(data.icon_url, entry["logoURI"], "{context}");
+        assert_eq!(data.icon_url(), entry["logoURI"], "{context}");
         // Omitted from the list when longer than the schema's 42-character cap.
         if let Some(coingecko_id) = extensions.get("coingeckoId") {
             assert_eq!(data.coingecko_id, *coingecko_id, "{context}");

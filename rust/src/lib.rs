@@ -10,15 +10,12 @@
 //! ```
 //! use tokenlist::{ChainId, TokenId, TokenRegistry};
 //!
-//! let ethereum = TokenRegistry::get(TokenId::Usdc, ChainId::Ethereum).unwrap();
-//! assert_eq!((ethereum.chain_id, ethereum.decimals), (1, 6));
+//! let ethereum = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Ethereum).unwrap();
+//! assert_eq!((ethereum.chain_id(), ethereum.decimals), (1, 6));
 //! assert_eq!(ethereum.coingecko_id, "usd-coin");
 //!
-//! let bsc = TokenId::Usdc.on_chain(ChainId::BnbSmartChain).unwrap();
-//! assert_eq!(bsc.decimals, 18);
-//!
-//! let bob = ChainId::Bob.get(TokenId::Usdc).unwrap();
-//! assert_eq!(bob.symbol, "USDC.e");
+//! let bob = TokenRegistry::get_ref(TokenId::Usdc, ChainId::Bob).unwrap();
+//! assert_eq!(bob.symbol(), "USDC.e");
 //!
 //! let id: TokenId = "BTC+".parse().unwrap();
 //! assert_eq!(id, TokenId::BtcPlus);
@@ -34,8 +31,33 @@ use std::{fmt, str::FromStr};
 
 pub use alloy_primitives::Address;
 
-// ChainId, TokenId, CHAIN_IDS, CHAIN_KEYS, TOKEN_KEYS, RECORDS, DEPLOYED and FIRST.
+// ChainId, TokenId, CHAIN_IDS, RECORDS, DEPLOYED, FIRST, LOGO_WEBP, TEXT and TEXT_ENDS.
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
+
+// `TOKENLIST_BASE_URL` in typescript/config.ts.
+const TOKENLIST_BASE_URL: &str =
+    "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/";
+
+/// String `index` of `TEXT`: chain keys in `ChainId` order, then token IDs in
+/// `TokenId` order, then names and symbols.
+const fn text(index: usize) -> &'static str {
+    let start = if index == 0 {
+        0
+    } else {
+        TEXT_ENDS[index - 1] as usize
+    };
+    TEXT.split_at(TEXT_ENDS[index] as usize).0.split_at(start).1
+}
+
+/// A `TEXT` index, debug-printed as its string.
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+struct Text(u16);
+
+impl fmt::Debug for Text {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        fmt::Debug::fmt(text(self.0 as usize), f)
+    }
+}
 
 /// A chain-specific token address. Display preserves base58 strings.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -71,14 +93,15 @@ impl fmt::Display for ParseIdError {
 
 impl std::error::Error for ParseIdError {}
 
-/// `FromStr` and `Display` through each enum's sorted key table.
-macro_rules! impl_keys {
-    ($($id:ident $keys:ident),*) => {$(
+/// `FromStr` and `Display` through `as_str`; `ALL` is sorted by it.
+macro_rules! impl_strings {
+    ($($id:ident),*) => {$(
         impl FromStr for $id {
             type Err = ParseIdError;
 
             fn from_str(s: &str) -> Result<Self, ParseIdError> {
-                $keys.binary_search(&s).map(|i| Self::ALL[i]).map_err(|_| ParseIdError)
+                let found = Self::ALL.binary_search_by(|id| id.as_str().cmp(s));
+                found.map(|i| Self::ALL[i]).map_err(|_| ParseIdError)
             }
         }
 
@@ -90,7 +113,7 @@ macro_rules! impl_keys {
     )*};
 }
 
-impl_keys!(TokenId TOKEN_KEYS, ChainId CHAIN_KEYS);
+impl_strings!(TokenId, ChainId);
 
 /// A token on one chain: one `tokenlist-overrides.json` entry.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -98,8 +121,8 @@ impl_keys!(TokenId TOKEN_KEYS, ChainId CHAIN_KEYS);
 pub struct TokenData {
     /// The token's ID.
     pub id: TokenId,
-    /// Numeric chain ID.
-    pub chain_id: u64,
+    /// The chain it is deployed on.
+    pub chain: ChainId,
     /// Contract address or Solana mint. Native assets use `data.json`'s:
     /// the zero address, or a system contract such as POL's `0x…1010`.
     pub address: TokenAddress,
@@ -107,18 +130,38 @@ pub struct TokenData {
     pub decimals: u8,
     /// Whether the token is this chain's native asset.
     pub native: bool,
-    /// Name on this chain, UI overrides applied.
-    pub name: &'static str,
-    /// Symbol on this chain, UI overrides applied (e.g. `USDC.e` on BOB).
-    pub symbol: &'static str,
     /// CoinGecko API ID used for price feeds.
     pub coingecko_id: &'static str,
-    /// Logo URL on GitHub (`getLogoURI` in the npm package).
-    pub icon_url: &'static str,
+    name: Text,
+    symbol: Text,
 }
 
-/// Compatibility name for [`TokenData`].
-pub type TokenMetadata = TokenData;
+impl TokenData {
+    /// Numeric chain ID.
+    pub const fn chain_id(&self) -> u64 {
+        self.chain.chain_id()
+    }
+
+    /// Name on this chain, UI overrides applied.
+    pub const fn name(&self) -> &'static str {
+        text(self.name.0 as usize)
+    }
+
+    /// Symbol on this chain, UI overrides applied (e.g. `USDC.e` on BOB).
+    pub const fn symbol(&self) -> &'static str {
+        text(self.symbol.0 as usize)
+    }
+
+    /// Logo URL on GitHub (`getLogoURI` in the npm package).
+    pub fn icon_url(&self) -> String {
+        let ext = if LOGO_WEBP[self.id as usize] {
+            "webp"
+        } else {
+            "svg"
+        };
+        format!("{TOKENLIST_BASE_URL}data/tokens/{}/logo.{ext}", self.id)
+    }
+}
 
 /// Constant-time lookups into the generated token data.
 #[derive(Debug)]
@@ -130,14 +173,8 @@ impl TokenRegistry {
         &RECORDS
     }
 
-    /// The token on this chain, if deployed there.
-    #[inline]
-    pub fn get(id: TokenId, chain: ChainId) -> Option<TokenData> {
-        Self::get_ref(id, chain).copied()
-    }
-
-    /// Borrow the token's static data without copying it. Usable in const
-    /// contexts, e.g. to define a token's address as a `const`.
+    /// The token on this chain, if deployed there. Usable in const contexts,
+    /// e.g. to define a token's address as a `const`.
     #[inline]
     pub const fn get_ref(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
         // A token's records follow ChainId order from FIRST, so skip one per
@@ -149,41 +186,23 @@ impl TokenRegistry {
         let before = (deployed & (bit - 1)).count_ones() as usize;
         Some(&RECORDS[FIRST[id as usize] as usize + before])
     }
-
-    /// Equivalent to [`Self::get_ref`].
-    #[inline]
-    pub const fn on_chain(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
-        Self::get_ref(id, chain)
-    }
 }
 
 impl TokenId {
     /// The token's ID string, i.e. its `data/tokens/` directory name.
     pub const fn as_str(self) -> &'static str {
-        TOKEN_KEYS[self as usize]
-    }
-
-    /// This token's data on the chain, if deployed there.
-    #[inline]
-    pub fn on_chain(self, chain: ChainId) -> Option<TokenData> {
-        TokenRegistry::get(self, chain)
+        text(ChainId::ALL.len() + self as usize)
     }
 }
 
 impl ChainId {
     /// The chain's `data.json` key, e.g. `"op-mainnet"`.
     pub const fn as_str(self) -> &'static str {
-        CHAIN_KEYS[self as usize]
+        text(self as usize)
     }
 
     /// The numeric network ID, independent of this enum's ordinal.
     pub const fn chain_id(self) -> u64 {
         CHAIN_IDS[self as usize]
-    }
-
-    /// The token's data on this chain, if deployed there.
-    #[inline]
-    pub fn get(self, id: TokenId) -> Option<TokenData> {
-        TokenRegistry::get(id, self)
     }
 }

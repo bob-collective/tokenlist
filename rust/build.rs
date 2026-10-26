@@ -1,7 +1,7 @@
 //! Generates `$OUT_DIR/generated.rs` from two files the npm build writes:
 //! `../supported-chains.json` (`ChainId`) and `../compressedlist.json`
-//! (`TokenId`, a flat `TokenData` array and an enum-indexed slot table).
-//! Malformed or inconsistent data fails the build, naming the entry.
+//! (`TokenId`, a flat `TokenData` array, a per-token index and one string
+//! table). Malformed or inconsistent data fails the build, naming the entry.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::{env, error::Error, fs, path::PathBuf};
@@ -13,10 +13,6 @@ use serde_json::Value;
 use serde_with::{As, MapPreventDuplicates, Same};
 
 type Result<T, E = Box<dyn Error>> = std::result::Result<T, E>;
-
-// `TOKENLIST_BASE_URL` in typescript/config.ts.
-const TOKENLIST_BASE_URL: &str =
-    "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/";
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -41,19 +37,58 @@ struct ChainEntry(
     #[serde(default)] Option<String>,
 );
 
-/// Numeric chain ID → (`ChainId` ordinal, address kind), `None` if unsupported.
-type Ordinals = HashMap<u64, Option<(usize, &'static str)>>;
+/// Numeric chain ID → (`ChainId` ordinal and variant, address kind), `None`
+/// if unsupported.
+type Ordinals = HashMap<u64, Option<(usize, syn::Ident, &'static str)>>;
+
+/// The generated `TEXT` table: every string concatenated, split at `TEXT_ENDS`.
+#[derive(Default)]
+struct Texts {
+    text: String,
+    ends: Vec<u16>,
+    index: HashMap<String, u16>,
+}
+
+impl Texts {
+    /// Appends `s` even if present, so keys stay contiguous.
+    fn push(&mut self, s: &str) -> Result<u16> {
+        self.text.push_str(s);
+        let (Ok(index), Ok(end)) = (self.ends.len().try_into(), self.text.len().try_into()) else {
+            return Err("more than 65535 bytes of strings; widen TEXT_ENDS".into());
+        };
+        self.ends.push(end);
+        self.index.entry(s.to_owned()).or_insert(index);
+        Ok(index)
+    }
+
+    /// `s`'s index, appending it if new.
+    fn intern(&mut self, s: &str) -> Result<u16> {
+        match self.index.get(s) {
+            Some(&index) => Ok(index),
+            None => self.push(s),
+        }
+    }
+
+    fn generate(&self) -> TokenStream {
+        let (text, ends, count) = (&self.text, &self.ends, self.ends.len());
+        quote! {
+            static TEXT: &str = #text;
+            static TEXT_ENDS: [u16; #count] = [#(#ends),*];
+        }
+    }
+}
 
 fn main() -> Result<()> {
+    let mut texts = Texts::default();
     let (chains, ordinals) = read_map("supported-chains.json")
-        .and_then(|chains| generate_chains(&chains))
+        .and_then(|chains| generate_chains(&chains, &mut texts))
         .map_err(|e| format!("supported-chains.json: {e}"))?;
     let tokens = read_map("compressedlist.json")
-        .and_then(|tokens| generate_tokens(&tokens, &ordinals))
+        .and_then(|tokens| generate_tokens(&tokens, &ordinals, &mut texts))
         .map_err(|e| format!("compressedlist.json: {e}"))?;
-    let file = syn::parse2(quote!(#chains #tokens))?;
+    let text = texts.generate();
     let out = PathBuf::from(env::var("OUT_DIR")?).join("generated.rs");
-    Ok(fs::write(out, prettyplease::unparse(&file))?)
+    Ok(fs::write(out, quote!(#chains #tokens #text).to_string())?)
 }
 
 /// A JSON object at the repo root.
@@ -96,9 +131,13 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
     Ok(ident)
 }
 
-/// The `ChainId` enum and each chain ID's ordinal.
-fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenStream, Ordinals)> {
-    let (mut variants, mut names, mut ids, mut strs) = (vec![], vec![], vec![], vec![]);
+/// The `ChainId` enum and each chain ID's ordinal. Chain keys open `TEXT`,
+/// at their ordinals.
+fn generate_chains(
+    chains: &BTreeMap<String, SupportedChain>,
+    texts: &mut Texts,
+) -> Result<(TokenStream, Ordinals)> {
+    let (mut variants, mut names, mut ids) = (vec![], vec![], vec![]);
     let (mut ordinals, mut keys) = (HashMap::new(), HashMap::new());
 
     for (key, &SupportedChain { chain_id: id, evm }) in chains {
@@ -109,19 +148,20 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
             (_, "tron") => Some("Tron"),
             _ => None,
         };
-        if ordinals
-            .insert(id, kind.map(|kind| (names.len(), kind)))
-            .is_some()
-        {
+        let entry = match kind {
+            Some(kind) => {
+                let variant = variant("ChainId", key, &mut keys)?;
+                let doc = format!(" `{key}` (chain ID {id}).");
+                variants.push(quote!(#[doc = #doc] #variant));
+                texts.push(key)?;
+                ids.push(id);
+                names.push(variant.clone());
+                Some((names.len() - 1, variant, kind))
+            }
+            None => None,
+        };
+        if ordinals.insert(id, entry).is_some() {
             return Err(format!("{key}: chain ID {id} is listed twice").into());
-        }
-        if kind.is_some() {
-            let variant = variant("ChainId", key, &mut keys)?;
-            let doc = format!(" `{key}` (chain ID {id}).");
-            variants.push(quote!(#[doc = #doc] #variant));
-            names.push(variant);
-            ids.push(id);
-            strs.push(key);
         }
     }
 
@@ -138,25 +178,24 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
         pub enum ChainId { #(#variants),* }
 
         impl ChainId {
-            /// Every supported chain, in registry order.
+            /// Every supported chain, sorted by key.
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
         static CHAIN_IDS: [u64; #count] = [#(#ids),*];
-
-        /// Each chain's key, in `ALL` order: sorted, for binary search.
-        static CHAIN_KEYS: [&str; #count] = [#(#strs),*];
     };
     Ok((code, ordinals))
 }
 
 /// The `TokenId` enum, the `TokenData` records and the per-token index.
+/// Token IDs follow the chain keys in `TEXT`, then names and symbols.
 fn generate_tokens(
     tokens: &BTreeMap<String, Vec<Value>>,
     ordinals: &Ordinals,
+    texts: &mut Texts,
 ) -> Result<TokenStream> {
-    let (mut variants, mut names, mut strs, mut records) = (vec![], vec![], vec![], vec![]);
-    let (mut deployed, mut first) = (vec![], vec![]);
+    let (mut variants, mut names, mut kept) = (vec![], vec![], vec![]);
+    let (mut deployed, mut first, mut webp, mut record_count) = (vec![], vec![], vec![], 0);
     let mut keys = HashMap::new();
     // (chain ID, normalized address), to reject addresses shared by two tokens.
     let mut addresses = HashSet::new();
@@ -169,11 +208,10 @@ fn generate_tokens(
         if !matches!(logo.as_str(), "svg" | "webp") {
             return Err(format!("{id}[0]: unknown logo format {logo:?}").into());
         }
-        let icon_url = format!("{TOKENLIST_BASE_URL}data/tokens/{id}/logo.{logo}");
 
         let mut seen_chains = HashSet::new();
-        // (ChainId ordinal, record fields); the TokenId variant is only made
-        // once the token is known to have a supported deployment.
+        // (ChainId ordinal, record fields, name, symbol); the TokenId variant
+        // is only made once the token is known to have a supported deployment.
         let mut deployments = vec![];
 
         for (index, chain) in chains.iter().enumerate() {
@@ -183,7 +221,7 @@ fn generate_tokens(
             if !seen_chains.insert(chain_id) {
                 return Err(format!("{at}: duplicate chain {chain_id}").into());
             }
-            let &Some((ordinal, kind)) = ordinals.get(&chain_id).ok_or_else(|| {
+            let Some((ordinal, chain, kind)) = ordinals.get(&chain_id).ok_or_else(|| {
                 format!(
                     "{at}: chain {chain_id} is not in supported-chains.json; add it to typescript/config.ts and run `pnpm build`"
                 )
@@ -192,12 +230,12 @@ fn generate_tokens(
                 continue;
             };
 
-            let hex = matches!(kind, "Evm" | "Bitcoin");
+            let hex = matches!(*kind, "Evm" | "Bitcoin");
             let valid = if hex {
                 address.strip_prefix("0x").is_some_and(|hex| {
                     hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit())
                 })
-            } else if kind == "Tron" {
+            } else if *kind == "Tron" {
                 let decoded = bs58::decode(&address).with_check(Some(0x41)).into_vec();
                 decoded.is_ok_and(|bytes| bytes.len() == 21)
             } else {
@@ -225,21 +263,16 @@ fn generate_tokens(
             } else {
                 quote!(#address)
             };
-            let name = name_override.as_deref().unwrap_or(&name);
-            let symbol = symbol_override.as_deref().unwrap_or(&symbol);
-            deployments.push((
-                ordinal,
-                quote! {
-                    chain_id: #chain_id,
-                    address: crate::TokenAddress::#kind(#address),
-                    decimals: #decimals,
-                    native: #native,
-                    name: #name,
-                    symbol: #symbol,
-                    coingecko_id: #coingecko_id,
-                    icon_url: #icon_url,
-                },
-            ));
+            let fields = quote! {
+                chain: ChainId::#chain,
+                address: TokenAddress::#kind(#address),
+                decimals: #decimals,
+                native: #native,
+                coingecko_id: #coingecko_id,
+            };
+            let name = name_override.unwrap_or_else(|| name.clone());
+            let symbol = symbol_override.unwrap_or_else(|| symbol.clone());
+            deployments.push((*ordinal, fields, name, symbol));
         }
 
         // Only deployed on unsupported chains.
@@ -251,24 +284,36 @@ fn generate_tokens(
         let doc = format!(" `{id}`: {name}.");
         variants.push(quote!(#[doc = #doc] #variant));
         names.push(variant.clone());
-        strs.push(id);
+        webp.push(logo == "webp");
 
         // In ChainId order, so the record for a chain is the token's first
         // plus its deployments on lower ordinals.
-        deployments.sort_by_key(|&(ordinal, _)| ordinal);
-        first.push(first_record(records.len()).map_err(|e| format!("{id}: {e}"))?);
+        deployments.sort_by_key(|deployment| deployment.0);
+        first.push(first_record(record_count).map_err(|e| format!("{id}: {e}"))?);
+        record_count += deployments.len();
         deployed.push(
             deployments
                 .iter()
-                .fold(0_u64, |mask, &(ordinal, _)| mask | 1 << ordinal),
+                .fold(0_u64, |mask, deployment| mask | 1 << deployment.0),
         );
-        for (_, fields) in deployments {
-            records.push(quote!(TokenData { id: TokenId::#variant, #fields }));
+        kept.push((id, variant, deployments));
+    }
+
+    // Token IDs first, contiguous, so `TokenId::as_str` indexes them directly.
+    for (id, _, _) in &kept {
+        texts.push(id)?;
+    }
+    let mut records = vec![];
+    for (_, variant, deployments) in kept {
+        for (_, fields, name, symbol) in deployments {
+            let (name, symbol) = (texts.intern(&name)?, texts.intern(&symbol)?);
+            records.push(quote! {
+                TokenData { id: TokenId::#variant, #fields name: Text(#name), symbol: Text(#symbol) }
+            });
         }
     }
 
     let token_count = names.len();
-    let record_count = records.len();
     Ok(quote! {
         /// A token with at least one supported deployment, named after its
         /// `data/tokens/` directory: `FromStr`, `Display` and
@@ -279,12 +324,9 @@ fn generate_tokens(
         pub enum TokenId { #(#variants),* }
 
         impl TokenId {
-            /// Every token with a supported deployment, in registry order.
+            /// Every token with a supported deployment, sorted by ID.
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
-
-        /// Each token's ID string, in `ALL` order: sorted, for binary search.
-        static TOKEN_KEYS: [&str; #token_count] = [#(#strs),*];
 
         static RECORDS: [TokenData; #record_count] = [#(#records),*];
 
@@ -293,6 +335,9 @@ fn generate_tokens(
 
         /// Per token, the `RECORDS` index of its first deployment.
         static FIRST: [u16; #token_count] = [#(#first),*];
+
+        /// Per token, whether its logo is `logo.webp` rather than `logo.svg`.
+        static LOGO_WEBP: [bool; #token_count] = [#(#webp),*];
     })
 }
 
@@ -306,12 +351,14 @@ mod tests {
     use super::*;
     use serde_json::json;
 
-    fn generate(chains: Value, tokens: Value) -> Result<String> {
-        let (chains, ordinals) = generate_chains(&serde_json::from_value(chains)?)?;
-        let tokens = generate_tokens(&serde_json::from_value(tokens)?, &ordinals)?;
-        Ok(prettyplease::unparse(&syn::parse2(
-            quote!(#chains #tokens),
-        )?))
+    /// Generates code from the inputs and checks that it parses.
+    fn generate(chains: Value, tokens: Value) -> Result<()> {
+        let mut texts = Texts::default();
+        let (chains, ordinals) = generate_chains(&serde_json::from_value(chains)?, &mut texts)?;
+        let tokens = generate_tokens(&serde_json::from_value(tokens)?, &ordinals, &mut texts)?;
+        let text = texts.generate();
+        syn::parse2::<syn::File>(quote!(#chains #tokens #text))?;
+        Ok(())
     }
 
     fn assert_fails(chains: Value, tokens: Value, message: &str) {
