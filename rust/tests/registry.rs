@@ -15,63 +15,32 @@ fn ids_round_trip_through_strings() {
     }
 }
 
+/// Variants keep their original strings. Besides the first row of punctuated
+/// IDs, the tokens are bob-gateway's `TokenSymbol` names: renaming one breaks
+/// its mapping. Its Robinhood equities are pinned below.
 #[test]
-fn punctuated_ids_keep_their_strings() {
+fn variants_keep_their_strings() {
+    #[rustfmt::skip]
     let tokens = [
-        TokenId::BtcPlus,
-        TokenId::BtcDotB,
-        TokenId::HybridbtcDotPendle,
-        TokenId::SolvbtcDotJup,
-    ];
-    let expected = ["BTC+", "BTC.b", "HybridBTC.pendle", "SolvBTC.JUP"];
-    assert_eq!(tokens.map(TokenId::as_str), expected);
-
-    let chains = [
-        ChainId::OpMainnet,
-        ChainId::BnbSmartChain,
-        ChainId::HyperEvm,
-    ];
-    let expected = ["op-mainnet", "bnb-smart-chain", "hyper-evm"];
-    assert_eq!(chains.map(ChainId::as_str), expected);
-}
-
-/// bob-gateway's `TokenSymbol` variants share these names; renaming one
-/// breaks the gateway's mapping. Its Robinhood equities are pinned below.
-#[test]
-fn variants_match_gateway_token_symbols() {
-    let tokens = [
-        (TokenId::Eth, "ETH"),
-        (TokenId::Weth, "WETH"),
-        (TokenId::Wbtc, "WBTC"),
-        (TokenId::Usdt, "USDT"),
-        (TokenId::Usdc, "USDC"),
-        (TokenId::Bnb, "BNB"),
-        (TokenId::Wbnb, "WBNB"),
-        (TokenId::Avax, "AVAX"),
-        (TokenId::Wavax, "WAVAX"),
-        (TokenId::Btc, "BTC"),
-        (TokenId::Paxg, "PAXG"),
-        (TokenId::Xaut, "XAUt"),
-        (TokenId::Xaut0, "XAUt0"),
-        (TokenId::Cbbtc, "cbBTC"),
-        (TokenId::Btcb, "BTCB"),
-        (TokenId::Dai, "DAI"),
-        (TokenId::Eurc, "EURC"),
-        (TokenId::Link, "LINK"),
-        (TokenId::Pyusd, "PYUSD"),
-        (TokenId::Jpyc, "JPYC"),
-        (TokenId::Tbtc, "tBTC"),
-        (TokenId::Lbtc, "LBTC"),
-        (TokenId::BtcDotB, "BTC.b"),
-        (TokenId::Solvbtc, "SolvBTC"),
-        (TokenId::Usd1, "USD1"),
-        (TokenId::Rlusd, "RLUSD"),
-        (TokenId::Fidd, "FIDD"),
-        (TokenId::Usdg, "USDG"),
+        (TokenId::BtcPlus, "BTC+"), (TokenId::HybridbtcDotPendle, "HybridBTC.pendle"), (TokenId::SolvbtcDotJup, "SolvBTC.JUP"),
+        (TokenId::Eth, "ETH"), (TokenId::Weth, "WETH"), (TokenId::Wbtc, "WBTC"), (TokenId::Usdt, "USDT"),
+        (TokenId::Usdc, "USDC"), (TokenId::Bnb, "BNB"), (TokenId::Wbnb, "WBNB"), (TokenId::Avax, "AVAX"),
+        (TokenId::Wavax, "WAVAX"), (TokenId::Btc, "BTC"), (TokenId::Paxg, "PAXG"), (TokenId::Xaut, "XAUt"),
+        (TokenId::Xaut0, "XAUt0"), (TokenId::Cbbtc, "cbBTC"), (TokenId::Btcb, "BTCB"), (TokenId::Dai, "DAI"),
+        (TokenId::Eurc, "EURC"), (TokenId::Link, "LINK"), (TokenId::Pyusd, "PYUSD"), (TokenId::Jpyc, "JPYC"),
+        (TokenId::Tbtc, "tBTC"), (TokenId::Lbtc, "LBTC"), (TokenId::BtcDotB, "BTC.b"), (TokenId::Solvbtc, "SolvBTC"),
+        (TokenId::Usd1, "USD1"), (TokenId::Rlusd, "RLUSD"), (TokenId::Fidd, "FIDD"), (TokenId::Usdg, "USDG"),
         (TokenId::Bob, "BOB"),
     ];
     for (id, expected) in tokens {
         assert_eq!(id.as_str(), expected);
+    }
+    #[rustfmt::skip]
+    let chains = [
+        (ChainId::OpMainnet, "op-mainnet"), (ChainId::BnbSmartChain, "bnb-smart-chain"), (ChainId::HyperEvm, "hyper-evm"),
+    ];
+    for (chain, expected) in chains {
+        assert_eq!(chain.as_str(), expected);
     }
 }
 
@@ -129,50 +98,17 @@ fn every_token_is_deployed_and_every_chain_id_unique() {
 #[test]
 fn addresses_and_native_flags_come_from_the_data() {
     let evm = |address: &str| TokenAddress::Evm(address.parse().unwrap());
-    for (id, chain, address, native) in [
-        (
-            TokenId::Btc,
-            ChainId::Bitcoin,
-            TokenAddress::Bitcoin(Address::ZERO),
-            true,
-        ),
-        (
-            TokenId::Eth,
-            ChainId::Ethereum,
-            TokenAddress::Evm(Address::ZERO),
-            true,
-        ),
-        (
-            TokenId::Pol,
-            ChainId::Polygon,
-            evm("0x0000000000000000000000000000000000001010"),
-            true,
-        ),
-        (
-            TokenId::Usdc,
-            ChainId::Ethereum,
-            evm("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"),
-            false,
-        ),
-        (
-            TokenId::Sol,
-            ChainId::Solana,
-            TokenAddress::Solana("So11111111111111111111111111111111111111112"),
-            true,
-        ),
-        (
-            TokenId::Trx,
-            ChainId::Tron,
-            TokenAddress::Tron("T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"),
-            true,
-        ),
-        (
-            TokenId::Usdt,
-            ChainId::Tron,
-            TokenAddress::Tron("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"),
-            false,
-        ),
-    ] {
+    #[rustfmt::skip]
+    let cases = [
+        (TokenId::Btc, ChainId::Bitcoin, TokenAddress::Bitcoin(Address::ZERO), true),
+        (TokenId::Eth, ChainId::Ethereum, TokenAddress::Evm(Address::ZERO), true),
+        (TokenId::Pol, ChainId::Polygon, evm("0x0000000000000000000000000000000000001010"), true),
+        (TokenId::Usdc, ChainId::Ethereum, evm("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"), false),
+        (TokenId::Sol, ChainId::Solana, TokenAddress::Solana("So11111111111111111111111111111111111111112"), true),
+        (TokenId::Trx, ChainId::Tron, TokenAddress::Tron("T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"), true),
+        (TokenId::Usdt, ChainId::Tron, TokenAddress::Tron("TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"), false),
+    ];
+    for (id, chain, address, native) in cases {
         let data = TokenRegistry::get(id, chain).unwrap();
         assert_eq!(
             (data.address, data.native),
@@ -204,21 +140,16 @@ fn decimals_come_from_the_data() {
 
 #[test]
 fn robinhood_stocks_keep_their_coingecko_ids_and_decimals() {
+    #[rustfmt::skip]
     let expected = [
         (TokenId::Nvda, "nvidia-robinhood-tokenized-stock"),
         (TokenId::Spcx, "spacex-robinhood-tokenized-stock"),
-        (
-            TokenId::Amc,
-            "amc-entertainment-holdings-inc-robinhood-token",
-        ),
+        (TokenId::Amc, "amc-entertainment-holdings-inc-robinhood-token"),
         (TokenId::Gme, "gamestop-robinhood-tokenized-stock"),
         (TokenId::Googl, "alphabet-class-a-robinhood-tokenized-stock"),
         (TokenId::Aapl, "apple-robinhood-tokenized-stock"),
         (TokenId::Tsla, "tesla-robinhood-tokenized-stock"),
-        (
-            TokenId::Djt,
-            "trump-media-technology-group-corp-robinhood-token",
-        ),
+        (TokenId::Djt, "trump-media-technology-group-corp-robinhood-token"),
         (TokenId::Mstr, "strategy-inc-robinhood-tokenized-stock"),
         (TokenId::Lly, "eli-lilly-robinhood-tokenized-stock"),
         (TokenId::Hims, "hims-hers-health-inc-robinhood-token"),
@@ -230,60 +161,30 @@ fn robinhood_stocks_keep_their_coingecko_ids_and_decimals() {
         (TokenId::Rddt, "reddit-robinhood-tokenized-stock"),
         (TokenId::Rblx, "roblox-robinhood-tokenized-stock"),
         (TokenId::Meta, "meta-platforms-robinhood-tokenized-stock"),
-        (
-            TokenId::Spy,
-            "spdr-s-p-500-etf-trust-robinhood-tokenized-stock",
-        ),
-        (
-            TokenId::Sgov,
-            "ishares-0-3-month-treasury-bond-etf-robinhood-tokenized-stock",
-        ),
+        (TokenId::Spy, "spdr-s-p-500-etf-trust-robinhood-tokenized-stock"),
+        (TokenId::Sgov, "ishares-0-3-month-treasury-bond-etf-robinhood-tokenized-stock"),
         (TokenId::Qqq, "invesco-qqq-robinhood-tokenized-stock"),
-        (
-            TokenId::Slv,
-            "ishares-silver-trust-robinhood-tokenized-stock",
-        ),
+        (TokenId::Slv, "ishares-silver-trust-robinhood-tokenized-stock"),
         (TokenId::Gld, "spdr-gold-shares-robinhood-token"),
-        (
-            TokenId::Ibm,
-            "international-business-machines-corporation-robinhood-token",
-        ),
+        (TokenId::Ibm, "international-business-machines-corporation-robinhood-token"),
         (TokenId::Lulu, "lululemon-robinhood-tokenized-stock"),
         (TokenId::Ups, "ups-robinhood-tokenized-stock"),
         (TokenId::Cost, "costco-robinhood-tokenized-stock"),
-        (
-            TokenId::Crcl,
-            "circle-internet-group-robinhood-tokenized-stock",
-        ),
-        (
-            TokenId::Ttwo,
-            "take-two-interactive-software-robinhood-tokenized-stock",
-        ),
+        (TokenId::Crcl, "circle-internet-group-robinhood-tokenized-stock"),
+        (TokenId::Ttwo, "take-two-interactive-software-robinhood-tokenized-stock"),
         (TokenId::Baba, "alibaba-robinhood-tokenized-stock"),
         (TokenId::Fig, "figma-inc-robinhood-token"),
         (TokenId::Nflx, "netflix-robinhood-tokenized-stock"),
-        (
-            TokenId::Pltr,
-            "palantir-technologies-robinhood-tokenized-stock",
-        ),
+        (TokenId::Pltr, "palantir-technologies-robinhood-tokenized-stock"),
         (TokenId::Coin, "coinbase-robinhood-tokenized-stock"),
-        (
-            TokenId::Sndk,
-            "sandisk-corporation-robinhood-tokenized-stock",
-        ),
+        (TokenId::Sndk, "sandisk-corporation-robinhood-tokenized-stock"),
         (TokenId::Amd, "amd-robinhood-tokenized-stock"),
         (TokenId::Qubt, "quantum-computing-robinhood-tokenized-stock"),
         (TokenId::Shop, "shopify-robinhood-tokenized-stock"),
-        (
-            TokenId::Tsm,
-            "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock",
-        ),
+        (TokenId::Tsm, "taiwan-semiconductor-manufacturing-robinhood-tokenized-stock"),
         (TokenId::Glxy, "galaxy-digital-inc-robinhood-token"),
         (TokenId::Intc, "intel-robinhood-tokenized-stock"),
-        (
-            TokenId::Uso,
-            "united-states-oil-fund-robinhood-tokenized-stock",
-        ),
+        (TokenId::Uso, "united-states-oil-fund-robinhood-tokenized-stock"),
         (TokenId::Inda, "ishares-msci-india-etf-robinhood-token"),
     ];
     for (id, coingecko_id) in expected {

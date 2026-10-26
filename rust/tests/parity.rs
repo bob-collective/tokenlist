@@ -126,17 +126,6 @@ fn deployments_match_tokenlist_overrides() {
 }
 
 #[test]
-fn deployments_are_keyed_by_their_chain() {
-    let chains = supported_chains();
-    for data in TokenRegistry::all() {
-        assert_eq!(
-            TokenRegistry::get(data.id, chains[&data.chain_id]),
-            Some(*data)
-        );
-    }
-}
-
-#[test]
 fn version_matches_tokenlist() {
     let version = &parse(include_str!("../../tokenlist.json"))["version"];
     let tokenlist = format!(

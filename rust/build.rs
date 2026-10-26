@@ -125,6 +125,9 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
     }
 
     let count = names.len();
+    if count > 64 {
+        return Err("more than 64 supported chains; widen DEPLOYED".into());
+    }
     let code = quote! {
         /// A supported chain, named after its `data.json` key: `FromStr`, `Display`
         /// and [`ChainId::as_str`] use that key (`"op-mainnet"` is
@@ -146,13 +149,13 @@ fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenSt
     Ok((code, ordinals))
 }
 
-/// The `TokenId` enum, the `TokenData` records and the token × chain index.
+/// The `TokenId` enum, the `TokenData` records and the per-token index.
 fn generate_tokens(
     tokens: &BTreeMap<String, Vec<Value>>,
     ordinals: &Ordinals,
 ) -> Result<TokenStream> {
-    let (mut variants, mut names, mut records, mut rows) = (vec![], vec![], vec![], vec![]);
-    let chain_count = ordinals.values().flatten().count();
+    let (mut variants, mut names, mut records) = (vec![], vec![], vec![]);
+    let (mut deployed, mut first) = (vec![], vec![]);
     let mut keys = HashMap::new();
     // (chain ID, normalized address), to reject addresses shared by two tokens.
     let mut addresses = HashSet::new();
@@ -248,12 +251,18 @@ fn generate_tokens(
         variants.push(quote!(#[doc = #doc] #[strum(serialize = #id)] #variant));
         names.push(variant.clone());
 
-        let mut row = vec![0_u16; chain_count];
-        for (ordinal, fields) in deployments {
-            row[ordinal] = record_slot(records.len()).map_err(|e| format!("{id}: {e}"))?;
+        // In ChainId order, so the record for a chain is the token's first
+        // plus its deployments on lower ordinals.
+        deployments.sort_by_key(|&(ordinal, _)| ordinal);
+        first.push(first_record(records.len()).map_err(|e| format!("{id}: {e}"))?);
+        deployed.push(
+            deployments
+                .iter()
+                .fold(0_u64, |mask, &(ordinal, _)| mask | 1 << ordinal),
+        );
+        for (_, fields) in deployments {
             records.push(quote!(TokenData { id: TokenId::#variant, #fields }));
         }
-        rows.push(quote!([#(#row),*]));
     }
 
     let token_count = names.len();
@@ -277,14 +286,17 @@ fn generate_tokens(
 
         static RECORDS: [TokenData; #record_count] = [#(#records),*];
 
-        static INDEX: [[u16; #chain_count]; #token_count] = [#(#rows),*];
+        /// Per token, a bit for each `ChainId` ordinal it is deployed on.
+        static DEPLOYED: [u64; #token_count] = [#(#deployed),*];
+
+        /// Per token, the `RECORDS` index of its first deployment.
+        static FIRST: [u16; #token_count] = [#(#first),*];
     })
 }
 
-/// `INDEX` slot for a record: its index plus one, as zero means absent.
-fn record_slot(index: usize) -> Result<u16> {
-    u16::try_from(index.saturating_add(1))
-        .map_err(|_| "more than 65535 deployments; widen the registry index".into())
+/// `FIRST` entry for a token whose records start at `index`.
+fn first_record(index: usize) -> Result<u16> {
+    u16::try_from(index).map_err(|_| "more than 65535 deployments; widen FIRST".into())
 }
 
 #[cfg(test)]
@@ -456,9 +468,12 @@ mod tests {
     }
 
     #[test]
-    fn record_slots_reserve_zero_and_check_capacity() {
-        assert_eq!(record_slot(0).unwrap(), 1);
-        assert_eq!(record_slot(65534).unwrap(), u16::MAX);
-        assert!(record_slot(65535).is_err() && record_slot(usize::MAX).is_err());
+    fn index_checks_capacity() {
+        assert_eq!(first_record(65535).unwrap(), u16::MAX);
+        assert!(first_record(65536).is_err() && first_record(usize::MAX).is_err());
+        let chains: serde_json::Map<_, _> = (0..65)
+            .map(|id| (format!("c{id}"), json!({"chainId": id, "evm": true})))
+            .collect();
+        assert_fails(chains.into(), json!({}), "more than 64 supported chains");
     }
 }

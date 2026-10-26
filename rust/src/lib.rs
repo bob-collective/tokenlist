@@ -32,7 +32,7 @@
 
 pub use alloy_primitives::Address;
 
-// ChainId, TokenId, CHAIN_IDS, RECORDS and INDEX.
+// ChainId, TokenId, CHAIN_IDS, RECORDS, DEPLOYED and FIRST.
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
 /// A chain-specific token address. Display preserves base58 strings.
@@ -85,7 +85,7 @@ pub type TokenMetadata = TokenData;
 pub struct TokenRegistry;
 
 impl TokenRegistry {
-    /// Every supported deployment, in registry order.
+    /// Every supported deployment, by token and then by chain, in `ALL` order.
     pub fn all() -> &'static [TokenData] {
         &RECORDS
     }
@@ -100,11 +100,14 @@ impl TokenRegistry {
     /// contexts, e.g. to define a token's address as a `const`.
     #[inline]
     pub const fn get_ref(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
-        // Slots hold the record index plus one; zero means absent.
-        match INDEX[id as usize][chain as usize].checked_sub(1) {
-            Some(slot) => Some(&RECORDS[slot as usize]),
-            None => None,
+        // A token's records follow ChainId order from FIRST, so skip one per
+        // deployment on a lower ordinal.
+        let (deployed, bit) = (DEPLOYED[id as usize], 1 << chain as u64);
+        if deployed & bit == 0 {
+            return None;
         }
+        let before = (deployed & (bit - 1)).count_ones() as usize;
+        Some(&RECORDS[FIRST[id as usize] as usize + before])
     }
 
     /// Equivalent to [`Self::get_ref`].
