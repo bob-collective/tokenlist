@@ -93,6 +93,7 @@ fn gateway_contract_is_const() {
         deployment(TokenId::Usdc, ChainId::Bob).symbol(),
     ];
     const BOB: u64 = ChainId::Bob.chain_id();
+    const ALL: &[TokenData] = TokenRegistry::all();
     const POL: Option<&TokenData> = TokenRegistry::get_ref(TokenId::Pol, ChainId::Bob);
     let usdc = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
         .parse()
@@ -100,6 +101,7 @@ fn gateway_contract_is_const() {
     assert_eq!(USDC, (usdc, 6));
     assert_eq!(STRINGS, ["BTC+", "bob", "USDC.e"]);
     assert_eq!((BOB, POL), (60808, None));
+    assert!(ptr::eq(ALL, TokenRegistry::all()));
     let usdc = deployment(TokenId::Usdc, ChainId::Ethereum);
     assert_eq!(usdc.coingecko_id, "usd-coin");
 }

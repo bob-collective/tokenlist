@@ -1,18 +1,23 @@
 //! Generates `$OUT_DIR/generated.rs` from two files the npm build writes:
 //! `../supported-chains.json` (`ChainId`) and `../compressedlist.json`
-//! (`TokenId`, a flat `TokenData` array, a per-token index and one string
-//! table). Malformed or inconsistent data fails the build, naming the entry.
+//! (`TokenId`, static `TokenData` records and metadata). Malformed or
+//! inconsistent data fails the build, naming the entry.
 
-use std::collections::{BTreeMap, HashMap, HashSet};
-use std::{env, error::Error, fs, path::PathBuf};
+use std::{
+    collections::{BTreeMap, HashMap, HashSet},
+    env,
+    error::Error,
+    fs,
+    path::PathBuf,
+};
 
 use proc_macro2::TokenStream;
-use quote::{format_ident, quote};
+use quote::quote;
 use serde::{Deserialize, de::DeserializeOwned};
 use serde_json::Value;
 use serde_with::{As, MapPreventDuplicates, Same};
 
-type Result<T, E = Box<dyn Error>> = std::result::Result<T, E>;
+type Result<T> = std::result::Result<T, Box<dyn Error>>;
 
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -37,58 +42,82 @@ struct ChainEntry(
     #[serde(default)] Option<String>,
 );
 
-/// Numeric chain ID → (`ChainId` ordinal and variant, address kind), `None`
-/// if unsupported.
-type Ordinals = HashMap<u64, Option<(usize, syn::Ident, &'static str)>>;
-
-/// The generated `TEXT` table: every string concatenated, split at `TEXT_ENDS`.
-#[derive(Default)]
-struct Texts {
-    text: String,
-    ends: Vec<u16>,
-    index: HashMap<String, u16>,
+/// Address validation and code generation depend on the chain's address family.
+#[derive(Debug, Clone, Copy)]
+enum AddressKind {
+    Evm,
+    Bitcoin,
+    Solana,
+    Tron,
 }
 
-impl Texts {
-    /// Appends `s` even if present, so keys stay contiguous.
-    fn push(&mut self, s: &str) -> Result<u16> {
-        self.text.push_str(s);
-        let (Ok(index), Ok(end)) = (self.ends.len().try_into(), self.text.len().try_into()) else {
-            return Err("more than 65535 bytes of strings; widen TEXT_ENDS".into());
-        };
-        self.ends.push(end);
-        self.index.entry(s.to_owned()).or_insert(index);
-        Ok(index)
-    }
-
-    /// `s`'s index, appending it if new.
-    fn intern(&mut self, s: &str) -> Result<u16> {
-        match self.index.get(s) {
-            Some(&index) => Ok(index),
-            None => self.push(s),
+impl AddressKind {
+    fn for_chain(key: &str, evm: bool) -> Option<Self> {
+        match (evm, key) {
+            (true, _) => Some(Self::Evm),
+            (_, "bitcoin") => Some(Self::Bitcoin),
+            (_, "solana") => Some(Self::Solana),
+            (_, "tron") => Some(Self::Tron),
+            _ => None,
         }
     }
 
-    fn generate(&self) -> TokenStream {
-        let (text, ends, count) = (&self.text, &self.ends, self.ends.len());
-        quote! {
-            static TEXT: &str = #text;
-            static TEXT_ENDS: [u16; #count] = [#(#ends),*];
+    fn is_hex(self) -> bool {
+        matches!(self, Self::Evm | Self::Bitcoin)
+    }
+
+    fn validate(self, address: &str) -> bool {
+        match self {
+            Self::Evm | Self::Bitcoin => address.strip_prefix("0x").is_some_and(|hex| {
+                hex.len() == 40 && hex.bytes().all(|byte| byte.is_ascii_hexdigit())
+            }),
+            Self::Solana => bs58::decode(address)
+                .into_vec()
+                .is_ok_and(|bytes| bytes.len() == 32),
+            Self::Tron => bs58::decode(address)
+                .with_check(Some(0x41))
+                .into_vec()
+                .is_ok_and(|bytes| bytes.len() == 21),
         }
     }
+
+    fn generate_address(self, address: &str) -> TokenStream {
+        match self {
+            Self::Evm => quote!(TokenAddress::Evm(::alloy_primitives::address!(#address))),
+            Self::Bitcoin => quote!(TokenAddress::Bitcoin(
+                ::alloy_primitives::address!(#address)
+            )),
+            Self::Solana => quote!(TokenAddress::Solana(#address)),
+            Self::Tron => quote!(TokenAddress::Tron(#address)),
+        }
+    }
+}
+
+struct Chain {
+    index: usize,
+    variant: syn::Ident,
+    address_kind: AddressKind,
+}
+
+/// Includes unsupported chains so unknown IDs can be distinguished from them.
+type Chains = HashMap<u64, Option<Chain>>;
+
+struct Deployment {
+    chain_index: usize,
+    fields: TokenStream,
 }
 
 fn main() -> Result<()> {
-    let mut texts = Texts::default();
-    let (chains, ordinals) = read_map("supported-chains.json")
-        .and_then(|chains| generate_chains(&chains, &mut texts))
-        .map_err(|e| format!("supported-chains.json: {e}"))?;
+    let (chains, chain_lookup) = read_map("supported-chains.json")
+        .and_then(|chains| generate_chains(&chains))
+        .map_err(|error| format!("supported-chains.json: {error}"))?;
     let tokens = read_map("compressedlist.json")
-        .and_then(|tokens| generate_tokens(&tokens, &ordinals, &mut texts))
-        .map_err(|e| format!("compressedlist.json: {e}"))?;
-    let text = texts.generate();
-    let out = PathBuf::from(env::var("OUT_DIR")?).join("generated.rs");
-    Ok(fs::write(out, quote!(#chains #tokens #text).to_string())?)
+        .and_then(|tokens| generate_tokens(&tokens, &chain_lookup))
+        .map_err(|error| format!("compressedlist.json: {error}"))?;
+    let out =
+        PathBuf::from(env::var_os("OUT_DIR").ok_or("OUT_DIR is not set")?).join("generated.rs");
+    fs::write(out, quote!(#chains #tokens).to_string())?;
+    Ok(())
 }
 
 /// A JSON object at the repo root.
@@ -131,44 +160,35 @@ fn variant(enum_name: &str, key: &str, keys: &mut HashMap<String, String>) -> Re
     Ok(ident)
 }
 
-/// The `ChainId` enum and each chain ID's ordinal. Chain keys open `TEXT`,
-/// at their ordinals.
-fn generate_chains(
-    chains: &BTreeMap<String, SupportedChain>,
-    texts: &mut Texts,
-) -> Result<(TokenStream, Ordinals)> {
-    let (mut variants, mut names, mut ids) = (vec![], vec![], vec![]);
-    let (mut ordinals, mut keys) = (HashMap::new(), HashMap::new());
+/// The `ChainId` enum, metadata and build-time lookup by numeric ID.
+fn generate_chains(chains: &BTreeMap<String, SupportedChain>) -> Result<(TokenStream, Chains)> {
+    let mut variants = Vec::new();
+    let mut names = Vec::new();
+    let mut metadata = Vec::new();
+    let mut lookup = HashMap::new();
+    let mut keys = HashMap::new();
 
-    for (key, &SupportedChain { chain_id: id, evm }) in chains {
-        let kind = match (evm, key.as_str()) {
-            (true, _) => Some("Evm"),
-            (_, "bitcoin") => Some("Bitcoin"),
-            (_, "solana") => Some("Solana"),
-            (_, "tron") => Some("Tron"),
-            _ => None,
+    for (key, &SupportedChain { chain_id, evm }) in chains {
+        let chain = if let Some(address_kind) = AddressKind::for_chain(key, evm) {
+            let variant = variant("ChainId", key, &mut keys)?;
+            let doc = format!(" `{key}` (chain ID {chain_id}).");
+            let index = names.len();
+            variants.push(quote!(#[doc = #doc] #variant));
+            names.push(variant.clone());
+            metadata.push(quote!(ChainMetadata { key: #key, chain_id: #chain_id }));
+            Some(Chain {
+                index,
+                variant,
+                address_kind,
+            })
+        } else {
+            None
         };
-        let entry = match kind {
-            Some(kind) => {
-                let variant = variant("ChainId", key, &mut keys)?;
-                let doc = format!(" `{key}` (chain ID {id}).");
-                variants.push(quote!(#[doc = #doc] #variant));
-                texts.push(key)?;
-                ids.push(id);
-                names.push(variant.clone());
-                Some((names.len() - 1, variant, kind))
-            }
-            None => None,
-        };
-        if ordinals.insert(id, entry).is_some() {
-            return Err(format!("{key}: chain ID {id} is listed twice").into());
+        if lookup.insert(chain_id, chain).is_some() {
+            return Err(format!("{key}: chain ID {chain_id} is listed twice").into());
         }
     }
 
-    let count = names.len();
-    if count > 64 {
-        return Err("more than 64 supported chains; widen DEPLOYED".into());
-    }
     let code = quote! {
         /// A supported chain, named after its `data.json` key: `FromStr`, `Display`
         /// and [`ChainId::as_str`] use that key (`"op-mainnet"` is
@@ -182,71 +202,55 @@ fn generate_chains(
             pub const ALL: &'static [Self] = &[#(Self::#names),*];
         }
 
-        static CHAIN_IDS: [u64; #count] = [#(#ids),*];
+        static CHAINS: &[ChainMetadata] = &[#(#metadata),*];
     };
-    Ok((code, ordinals))
+    Ok((code, lookup))
 }
 
-/// The `TokenId` enum, the `TokenData` records and the per-token index.
-/// Token IDs follow the chain keys in `TEXT`, then names and symbols.
-fn generate_tokens(
-    tokens: &BTreeMap<String, Vec<Value>>,
-    ordinals: &Ordinals,
-    texts: &mut Texts,
-) -> Result<TokenStream> {
-    let (mut variants, mut names, mut kept) = (vec![], vec![], vec![]);
-    let (mut deployed, mut first, mut webp, mut record_count) = (vec![], vec![], vec![], 0);
+/// The `TokenId` enum, records and metadata with each token's deployment range.
+fn generate_tokens(tokens: &BTreeMap<String, Vec<Value>>, chains: &Chains) -> Result<TokenStream> {
+    let mut variants = Vec::new();
+    let mut names = Vec::new();
+    let mut metadata = Vec::new();
+    let mut records = Vec::new();
     let mut keys = HashMap::new();
     // (chain ID, normalized address), to reject addresses shared by two tokens.
     let mut addresses = HashSet::new();
 
     for (id, entry) in tokens {
-        let (shared, chains) = entry.split_first().ok_or(format!("{id}: empty entry"))?;
+        let (shared, entries) = entry
+            .split_first()
+            .ok_or_else(|| format!("{id}: empty entry"))?;
         let Shared(name, symbol, coingecko_id, logo) =
-            Shared::deserialize(shared).map_err(|e| format!("{id}[0]: {e}"))?;
-        let coingecko_id = coingecko_id.ok_or(format!("{id}: missing coingeckoId"))?;
+            Shared::deserialize(shared).map_err(|error| format!("{id}[0]: {error}"))?;
+        let coingecko_id = coingecko_id.ok_or_else(|| format!("{id}: missing coingeckoId"))?;
         if !matches!(logo.as_str(), "svg" | "webp") {
             return Err(format!("{id}[0]: unknown logo format {logo:?}").into());
         }
 
         let mut seen_chains = HashSet::new();
-        // (ChainId ordinal, record fields, name, symbol); the TokenId variant
-        // is only made once the token is known to have a supported deployment.
-        let mut deployments = vec![];
+        let mut deployments = Vec::new();
 
-        for (index, chain) in chains.iter().enumerate() {
+        for (index, entry) in entries.iter().enumerate() {
             let at = format!("{id}[{}]", index + 1);
             let ChainEntry(chain_id, address, decimals, native, name_override, symbol_override) =
-                ChainEntry::deserialize(chain).map_err(|e| format!("{at}: {e}"))?;
+                ChainEntry::deserialize(entry).map_err(|error| format!("{at}: {error}"))?;
             if !seen_chains.insert(chain_id) {
                 return Err(format!("{at}: duplicate chain {chain_id}").into());
             }
-            let Some((ordinal, chain, kind)) = ordinals.get(&chain_id).ok_or_else(|| {
+            let Some(chain) = chains.get(&chain_id).ok_or_else(|| {
                 format!(
                     "{at}: chain {chain_id} is not in supported-chains.json; add it to typescript/config.ts and run `pnpm build`"
                 )
-            })?
-            else {
+            })? else {
                 continue;
             };
 
-            let hex = matches!(*kind, "Evm" | "Bitcoin");
-            let valid = if hex {
-                address.strip_prefix("0x").is_some_and(|hex| {
-                    hex.len() == 40 && hex.bytes().all(|b| b.is_ascii_hexdigit())
-                })
-            } else if *kind == "Tron" {
-                let decoded = bs58::decode(&address).with_check(Some(0x41)).into_vec();
-                decoded.is_ok_and(|bytes| bytes.len() == 21)
-            } else {
-                bs58::decode(&address)
-                    .into_vec()
-                    .is_ok_and(|bytes| bytes.len() == 32)
-            };
-            if !valid {
-                return Err(format!("{at}: invalid {kind} address {address:?}").into());
+            let kind = chain.address_kind;
+            if !kind.validate(&address) {
+                return Err(format!("{at}: invalid {kind:?} address {address:?}").into());
             }
-            let address_key = if hex {
+            let address_key = if kind.is_hex() {
                 address.to_ascii_lowercase()
             } else {
                 address.clone()
@@ -257,25 +261,25 @@ fn generate_tokens(
                 );
             }
 
-            let kind = format_ident!("{kind}");
-            let address = if hex {
-                quote!(::alloy_primitives::address!(#address))
-            } else {
-                quote!(#address)
-            };
-            let fields = quote! {
-                chain: ChainId::#chain,
-                address: TokenAddress::#kind(#address),
-                decimals: #decimals,
-                native: #native,
-                coingecko_id: #coingecko_id,
-            };
-            let name = name_override.unwrap_or_else(|| name.clone());
-            let symbol = symbol_override.unwrap_or_else(|| symbol.clone());
-            deployments.push((*ordinal, fields, name, symbol));
+            let chain_variant = &chain.variant;
+            let address = kind.generate_address(&address);
+            let name = name_override.as_deref().unwrap_or(&name);
+            let symbol = symbol_override.as_deref().unwrap_or(&symbol);
+            deployments.push(Deployment {
+                chain_index: chain.index,
+                fields: quote! {
+                    chain: ChainId::#chain_variant,
+                    address: #address,
+                    decimals: #decimals,
+                    native: #native,
+                    coingecko_id: #coingecko_id,
+                    name: #name,
+                    symbol: #symbol,
+                },
+            });
         }
 
-        // Only deployed on unsupported chains.
+        // Tokens deployed only on unsupported chains have no TokenId.
         if deployments.is_empty() {
             continue;
         }
@@ -284,36 +288,20 @@ fn generate_tokens(
         let doc = format!(" `{id}`: {name}.");
         variants.push(quote!(#[doc = #doc] #variant));
         names.push(variant.clone());
-        webp.push(logo == "webp");
 
-        // In ChainId order, so the record for a chain is the token's first
-        // plus its deployments on lower ordinals.
-        deployments.sort_by_key(|deployment| deployment.0);
-        first.push(first_record(record_count).map_err(|e| format!("{id}: {e}"))?);
-        record_count += deployments.len();
-        deployed.push(
-            deployments
-                .iter()
-                .fold(0_u64, |mask, deployment| mask | 1 << deployment.0),
-        );
-        kept.push((id, variant, deployments));
-    }
-
-    // Token IDs first, contiguous, so `TokenId::as_str` indexes them directly.
-    for (id, _, _) in &kept {
-        texts.push(id)?;
-    }
-    let mut records = vec![];
-    for (_, variant, deployments) in kept {
-        for (_, fields, name, symbol) in deployments {
-            let (name, symbol) = (texts.intern(&name)?, texts.intern(&symbol)?);
-            records.push(quote! {
-                TokenData { id: TokenId::#variant, #fields name: Text(#name), symbol: Text(#symbol) }
-            });
+        deployments.sort_by_key(|deployment| deployment.chain_index);
+        let start = records.len();
+        for deployment in deployments {
+            let fields = deployment.fields;
+            records.push(quote!(TokenData { id: TokenId::#variant, #fields }));
         }
+        let end = records.len();
+        metadata.push(quote! {
+            TokenMetadata { id: #id, logo_extension: #logo, deployments: #start..#end }
+        });
     }
 
-    let token_count = names.len();
+    let record_count = records.len();
     Ok(quote! {
         /// A token with at least one supported deployment, named after its
         /// `data/tokens/` directory: `FromStr`, `Display` and
@@ -329,21 +317,8 @@ fn generate_tokens(
         }
 
         static RECORDS: [TokenData; #record_count] = [#(#records),*];
-
-        /// Per token, a bit for each `ChainId` ordinal it is deployed on.
-        static DEPLOYED: [u64; #token_count] = [#(#deployed),*];
-
-        /// Per token, the `RECORDS` index of its first deployment.
-        static FIRST: [u16; #token_count] = [#(#first),*];
-
-        /// Per token, whether its logo is `logo.webp` rather than `logo.svg`.
-        static LOGO_WEBP: [bool; #token_count] = [#(#webp),*];
+        static TOKENS: &[TokenMetadata] = &[#(#metadata),*];
     })
-}
-
-/// `FIRST` entry for a token whose records start at `index`.
-fn first_record(index: usize) -> Result<u16> {
-    u16::try_from(index).map_err(|_| "more than 65535 deployments; widen FIRST".into())
 }
 
 #[cfg(test)]
@@ -353,11 +328,9 @@ mod tests {
 
     /// Generates code from the inputs and checks that it parses.
     fn generate(chains: Value, tokens: Value) -> Result<()> {
-        let mut texts = Texts::default();
-        let (chains, ordinals) = generate_chains(&serde_json::from_value(chains)?, &mut texts)?;
-        let tokens = generate_tokens(&serde_json::from_value(tokens)?, &ordinals, &mut texts)?;
-        let text = texts.generate();
-        syn::parse2::<syn::File>(quote!(#chains #tokens #text))?;
+        let (chains, chain_lookup) = generate_chains(&serde_json::from_value(chains)?)?;
+        let tokens = generate_tokens(&serde_json::from_value(tokens)?, &chain_lookup)?;
+        syn::parse2::<syn::File>(quote!(#chains #tokens))?;
         Ok(())
     }
 
@@ -380,14 +353,10 @@ mod tests {
             assert!(parse_map::<Vec<Value>>(text).is_err());
         }
 
-        let many: serde_json::Map<_, _> = (0..65)
-            .map(|id| (format!("c{id}"), json!({"chainId": id, "evm": true})))
-            .collect();
         #[rustfmt::skip]
         let chain_cases = [
             (json!({"ethereum": {"chainId": 1, "evm": true}, "solana": {"chainId": 1, "evm": false}}), "chain ID 1 is listed twice"),
             (json!({"foo-bar": {"chainId": 1, "evm": true}, "foo_bar": {"chainId": 2, "evm": true}}), "both map to ChainId::FooBar"),
-            (many.into(), "more than 64 supported chains"),
         ];
         for (chains, message) in chain_cases {
             assert_fails(chains, json!({}), message);
@@ -448,8 +417,15 @@ mod tests {
     }
 
     #[test]
-    fn first_record_checks_capacity() {
-        assert_eq!(first_record(65535).unwrap(), u16::MAX);
-        assert!(first_record(65536).is_err() && first_record(usize::MAX).is_err());
+    fn accepts_more_than_64_chains_and_large_strings() {
+        let chains: serde_json::Map<_, _> = (0..65)
+            .map(|id| (format!("c{id}"), json!({"chainId": id, "evm": true})))
+            .collect();
+        let deployments: Vec<_> = (0..65)
+            .map(|id| json!([id, "0x0000000000000000000000000000000000000001", 6, false]))
+            .collect();
+        let mut entry = vec![json!(["x".repeat(65536), "USDC", "usd-coin", "svg"])];
+        entry.extend(deployments);
+        generate(chains.into(), json!({"USDC": entry})).unwrap();
     }
 }

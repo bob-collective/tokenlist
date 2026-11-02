@@ -2,8 +2,8 @@
 //! of the `@gobob/tokenlist` npm package, for EVM, Bitcoin, Solana and Tron tokens.
 //!
 //! `build.rs` generates [`ChainId`], [`TokenId`] and static token tables from
-//! `supported-chains.json` and `compressedlist.json`, so lookups are
-//! constant-time, without runtime initialization, allocation or hashing. Enum
+//! `supported-chains.json` and `compressedlist.json`. Lookups scan only the
+//! selected token's deployments, without initialization or allocation. Enum
 //! ordinals are internal indices, not stable IDs; use strings for storage and
 //! [`ChainId::chain_id`] for numeric network IDs.
 //!
@@ -27,36 +27,28 @@
 
 #![warn(missing_docs)]
 
-use std::{fmt, str::FromStr};
+use std::{fmt, ops::Range, str::FromStr};
 
 pub use alloy_primitives::Address;
 
-// ChainId, TokenId, CHAIN_IDS, RECORDS, DEPLOYED, FIRST, LOGO_WEBP, TEXT and TEXT_ENDS.
+// ChainId, TokenId, CHAINS, TOKENS and RECORDS.
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
 // `TOKENLIST_BASE_URL` in typescript/config.ts.
 const TOKENLIST_BASE_URL: &str =
     "https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/";
 
-/// String `index` of `TEXT`: chain keys in `ChainId` order, then token IDs in
-/// `TokenId` order, then names and symbols.
-const fn text(index: usize) -> &'static str {
-    let start = if index == 0 {
-        0
-    } else {
-        TEXT_ENDS[index - 1] as usize
-    };
-    TEXT.split_at(TEXT_ENDS[index] as usize).0.split_at(start).1
+/// Metadata indexed by the corresponding `ChainId` ordinal.
+struct ChainMetadata {
+    key: &'static str,
+    chain_id: u64,
 }
 
-/// A `TEXT` index, debug-printed as its string.
-#[derive(Clone, Copy, PartialEq, Eq, Hash)]
-struct Text(u16);
-
-impl fmt::Debug for Text {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(text(self.0 as usize), f)
-    }
+/// Metadata indexed by the corresponding `TokenId` ordinal.
+struct TokenMetadata {
+    id: &'static str,
+    logo_extension: &'static str,
+    deployments: Range<usize>,
 }
 
 /// A chain-specific token address. Display preserves base58 strings.
@@ -95,22 +87,26 @@ impl std::error::Error for ParseIdError {}
 
 /// `FromStr` and `Display` through `as_str`; `ALL` is sorted by it.
 macro_rules! impl_strings {
-    ($($id:ident),*) => {$(
-        impl FromStr for $id {
-            type Err = ParseIdError;
+    ($($id:ident),+ $(,)?) => {
+        $(
+            impl FromStr for $id {
+                type Err = ParseIdError;
 
-            fn from_str(s: &str) -> Result<Self, ParseIdError> {
-                let found = Self::ALL.binary_search_by(|id| id.as_str().cmp(s));
-                found.map(|i| Self::ALL[i]).map_err(|_| ParseIdError)
+                fn from_str(value: &str) -> Result<Self, Self::Err> {
+                    Self::ALL
+                        .binary_search_by(|id| id.as_str().cmp(value))
+                        .map(|index| Self::ALL[index])
+                        .map_err(|_| ParseIdError)
+                }
             }
-        }
 
-        impl fmt::Display for $id {
-            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-                f.pad(self.as_str())
+            impl fmt::Display for $id {
+                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+                    f.pad(self.as_str())
+                }
             }
-        }
-    )*};
+        )+
+    };
 }
 
 impl_strings!(TokenId, ChainId);
@@ -132,8 +128,10 @@ pub struct TokenData {
     pub native: bool,
     /// CoinGecko API ID used for price feeds.
     pub coingecko_id: &'static str,
-    name: Text,
-    symbol: Text,
+    /// Name on this chain, with any UI override applied.
+    pub name: &'static str,
+    /// Symbol on this chain, with any UI override applied.
+    pub symbol: &'static str,
 }
 
 impl TokenData {
@@ -144,65 +142,65 @@ impl TokenData {
 
     /// Name on this chain, UI overrides applied.
     pub const fn name(&self) -> &'static str {
-        text(self.name.0 as usize)
+        self.name
     }
 
     /// Symbol on this chain, UI overrides applied (e.g. `USDC.e` on BOB).
     pub const fn symbol(&self) -> &'static str {
-        text(self.symbol.0 as usize)
+        self.symbol
     }
 
     /// Logo URL on GitHub (`getLogoURI` in the npm package).
     pub fn icon_url(&self) -> String {
-        let ext = if LOGO_WEBP[self.id as usize] {
-            "webp"
-        } else {
-            "svg"
-        };
+        let ext = TOKENS[self.id as usize].logo_extension;
         format!("{TOKENLIST_BASE_URL}data/tokens/{}/logo.{ext}", self.id)
     }
 }
 
-/// Constant-time lookups into the generated token data.
+/// Const-compatible lookups into the generated token data.
 #[derive(Debug)]
 pub struct TokenRegistry;
 
 impl TokenRegistry {
     /// Every supported deployment, by token and then by chain, in `ALL` order.
-    pub fn all() -> &'static [TokenData] {
+    pub const fn all() -> &'static [TokenData] {
         &RECORDS
     }
 
     /// The token on this chain, if deployed there. Usable in const contexts,
-    /// e.g. to define a token's address as a `const`.
+    /// e.g. to define a token's address as a `const`. Scans only this token's
+    /// deployments, without allocation or runtime initialization.
     #[inline]
     pub const fn get_ref(id: TokenId, chain: ChainId) -> Option<&'static TokenData> {
-        // A token's records follow ChainId order from FIRST, so skip one per
-        // deployment on a lower ordinal.
-        let (deployed, bit) = (DEPLOYED[id as usize], 1 << chain as u64);
-        if deployed & bit == 0 {
-            return None;
+        let deployments = &TOKENS[id as usize].deployments;
+        let mut index = deployments.start;
+        // Iterators and derived PartialEq are not const-compatible on the MSRV.
+        while index < deployments.end {
+            let data = &RECORDS[index];
+            if data.chain as usize == chain as usize {
+                return Some(data);
+            }
+            index += 1;
         }
-        let before = (deployed & (bit - 1)).count_ones() as usize;
-        Some(&RECORDS[FIRST[id as usize] as usize + before])
+        None
     }
 }
 
 impl TokenId {
     /// The token's ID string, i.e. its `data/tokens/` directory name.
     pub const fn as_str(self) -> &'static str {
-        text(ChainId::ALL.len() + self as usize)
+        TOKENS[self as usize].id
     }
 }
 
 impl ChainId {
     /// The chain's `data.json` key, e.g. `"op-mainnet"`.
     pub const fn as_str(self) -> &'static str {
-        text(self as usize)
+        CHAINS[self as usize].key
     }
 
     /// The numeric network ID, independent of this enum's ordinal.
     pub const fn chain_id(self) -> u64 {
-        CHAIN_IDS[self as usize]
+        CHAINS[self as usize].chain_id
     }
 }

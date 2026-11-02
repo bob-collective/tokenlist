@@ -183,7 +183,7 @@ logoURI: getMirrorLogoURI(id as TokenId, logoext),
 
 ## Rust
 
-[`rust/`](./rust) holds the `tokenlist` crate. Its build script generates `ChainId` from [`supported-chains.json`](#exports), and `TokenId`, static token records and a compact index from [`compressedlist.json`](#compact-token-list). Pair lookups are O(1), including the first call: no runtime initialization, allocations or hashing. Distributed as a Git dependency, the crate needs Rust 1.88+; Cargo finds it in `rust/` automatically:
+[`rust/`](./rust) holds the `tokenlist` crate. Its build script generates `ChainId` from [`supported-chains.json`](#exports), and `TokenId`, static token records and typed metadata from [`compressedlist.json`](#compact-token-list). Pair lookups scan only the selected token’s deployments and support const evaluation, with no runtime initialization, allocations or hashing. Distributed as a Git dependency, the crate needs Rust 1.88+; Cargo finds it in `rust/` automatically:
 
 ```toml
 [dependencies]
@@ -229,11 +229,11 @@ assert_eq!("op-mainnet".parse(), Ok(ChainId::OpMainnet));
 | `TokenId` | One variant per token with a supported deployment: `+` becomes `_plus_` and `.` `_dot_`, then each word is capitalized with the rest lowercased (`BTC+` → `BtcPlus`, `BTC.b` → `BtcDotB`, `cbBTC` → `Cbbtc`, `XAUt` → `Xaut`). `FromStr` (error `ParseIdError`), `Display`, and the `const fn` `as_str` use the original ID. `ALL` lists every variant, sorted by ID. |
 | `ChainId` | One variant per supported chain, named after its `data.json` key (`op-mainnet` → `OpMainnet`). `FromStr`, `Display`, and `as_str` use the key. `ALL` lists every variant; the `const fn` `chain_id()` returns the numeric network ID. |
 | `TokenRegistry::get_ref(id, chain)` | `Option<&'static TokenData>` for the token on that chain. A `const fn`, so addresses and decimals can be read into `const` items at compile time. |
-| `TokenRegistry::all()` | `&'static [TokenData]` containing every supported deployment, by token and then by chain. |
+| `TokenRegistry::all()` | `const fn` returning `&'static [TokenData]` containing every supported deployment, by token and then by chain. |
 | `TokenAddress` | `Evm(Address)`, `Bitcoin(Address)`, `Solana(&'static str)`, or `Tron(&'static str)`. Implements `Copy` and `Display`; match `Evm(address)` to access `alloy_primitives::Address` methods. |
 | `TokenData` | One token on one chain. Fields: `id`, `chain` (`ChainId`), `address` (`TokenAddress`), `decimals`, `native`, `coingecko_id`. `const fn` methods: `chain_id()`, `name()` and `symbol()` (overrides applied); `icon_url()` builds the GitHub logo URL. Implements `Copy`. |
 
-Records are grouped by token in `ChainId` order. The index stores, per token, a `u64` with a bit per deployed chain and the `u16` index of its first record; a lookup adds the number of deployments on lower chains. Chain keys, token IDs, names and symbols live once each in one string table, so records hold `u16` indices instead of pointers. The build rejects more than 64 chains, 65,536 deployments or 65,535 bytes of strings instead of truncating. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
+Records are grouped by token in `ChainId` order. Each token’s metadata stores its ID, logo extension and deployment range; lookups scan that range. Names and symbols are plain `&'static str` fields. Ranges use `usize`, with no packed string table or bitmask capacity limits. Enum ordinals are internal indices and can change when the registry changes: persist string IDs, and use `ChainId::chain_id()` for network IDs.
 
 The crate covers EVM, Bitcoin, Solana and Tron deployments and carries no bridge addresses. Bitcoin uses chain ID `90000` and `TokenAddress::Bitcoin(Address::ZERO)` for native BTC. Signet remains unsupported; `sBTC` has no `TokenId`. Solana addresses are validated as 32-byte base58; Tron addresses require a valid base58check checksum and `0x41` prefix. Validation runs at build time; original base58 strings are preserved.
 
