@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { base58check } from '@scure/base';
-import camelCase from 'lodash/fp/camelCase';
-import kebabCase from 'lodash/fp/kebabCase';
+import camelCase from 'lodash/camelCase';
+import kebabCase from 'lodash/kebabCase';
 import { bytesToHex, getAddress, hexToBytes, isAddress, sha256 } from 'viem';
 import { TOKEN_DIR, TOKENLIST_BASE_URL, TOKENLIST_MIRROR_URL } from './config';
 import type { TokenId } from './token-ids';
