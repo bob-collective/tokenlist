@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { glob } from 'glob';
 import { bob } from 'viem/chains';
+import { version } from '../package.json';
 import {
   NON_EVM_CHAIN_ID_BY_NAME,
   OUTFILE_BOB,
@@ -13,11 +14,10 @@ import {
   SUPPORTED_CHAIN_MAP,
   TOKEN_DIR,
   TOKENLIST_SCHEMA_URL,
-} from '../config';
-import { version } from '../package.json';
-import type { TokenId } from '../token-ids';
-import type { Entries, Token, TokenData } from '../types';
-import { checksumAddress, getLogoURI, getMirrorLogoURI } from '../utils';
+} from '../src/config';
+import type { TokenId } from '../src/token-ids';
+import type { Entries, Token, TokenData } from '../src/types';
+import { checksumAddress, getLogoURI, getMirrorLogoURI } from '../src/utils';
 
 const [major, minor, patch] = version.split('.');
 

@@ -9,7 +9,7 @@
     "ignoreUnknown": true,
     "includes": [
       "**",
-      "!token-ids.ts",
+      "!src/token-ids.ts",
       "!tokenlist.json",
       "!tokenlist*.json",
       "!chainlist.json",

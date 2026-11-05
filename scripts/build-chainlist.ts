@@ -8,7 +8,7 @@ import {
   SUPPORTED_CHAIN_MAP,
   TOKENLIST_BASE_URL,
   TOKENLIST_MIRROR_URL,
-} from '../config';
+} from '../src/config';
 
 const chainsData: Record<string, string> = JSON.parse(
   fs.readFileSync(path.join(CHAIN_DIR, 'chains.json'), 'utf8'),

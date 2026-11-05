@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 pnpm build              # Full build: generates types, tokenlist JSONs, then verifies
 pnpm build:tokenlist    # Generate tokenlist JSON files (+ -mirror variants) from /data
 pnpm build:chainlist    # Generate chainlist.json + chainlist-mirror.json from /data/chains
-pnpm build:types        # Regenerate token-ids.ts from current /data entries
+pnpm build:types        # Regenerate src/token-ids.ts from current /data entries
 pnpm check              # Run Biome formatting, import organization, and lint checks
 pnpm check:write        # Apply safe Biome formatting/import/lint fixes
 pnpm format             # Check formatting with Biome
@@ -24,6 +24,15 @@ This package is the authoritative token registry for the BOB ecosystem. The sour
 - `data/tokens/` — one subdirectory per token (named by symbol), each containing a `data.json` and a logo asset
 - `data/chains/` — chain registry; `chains.json` maps each supported chain name to a logoURI
 
+**Repository layout:**
+
+- `src/` — the npm package sources (`index.ts`, `config.ts`, `types.ts`, `utils.ts`, `token-ids.ts`).
+- `scripts/` — build, verification, and asset publishing scripts; not shipped in the npm package.
+- `data/`, the generated JSON files, and the JSON schemas stay at the root. Raw GitHub URLs (every `logoURI`) and npm subpath imports (`@gobob/tokenlist/tokenlist.json`) depend on these paths; never move them.
+- `package.json` stays at the root: installs from a GitHub URL need it there. Its `main`/`exports` map `@gobob/tokenlist` and `@gobob/tokenlist/<module>` onto `src/`; everything in `src/` is published. JSON subpaths resolve only with their `.json` extension.
+
+Scripts run with the repo root as working directory, so the path constants in `src/config.ts` (`TOKEN_DIR`, `OUTFILE_*`) are root-relative.
+
 **Data flow:**
 
 ```
@@ -33,17 +42,17 @@ data/tokens/[TOKEN]/data.json  →  scripts/build-tokenlist.ts  →  tokenlist.j
                                                                →  tokenlist-mirror.json
                                                                →  tokenlist-bob-mirror.json
                                                                →  tokenlist-overrides-mirror.json
-data/tokens/*/                 →  scripts/build-types.ts      →  token-ids.ts (auto-generated)
+data/tokens/*/                 →  scripts/build-types.ts      →  src/token-ids.ts (auto-generated)
 data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.json
                                                                →  chainlist-mirror.json
 ```
 
 **Key files:**
 
-- `config.ts` — Chain definitions, supported chain list, file path constants, and GitHub logo URI base. All chain-to-chainId mappings live here.
-- `types.ts` — `TokenData` (raw input shape from data.json), `Token` (output shape for tokenlist JSONs), `SupportedChain` type.
-- `index.ts` — Public API surface; re-exports from config, types, token-ids, utils.
-- `token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
+- `src/config.ts` — Chain definitions, supported chain list, file path constants, and GitHub logo URI base. All chain-to-chainId mappings live here.
+- `src/types.ts` — `TokenData` (raw input shape from data.json), `Token` (output shape for tokenlist JSONs), `SupportedChain` type.
+- `src/index.ts` — Public API surface; re-exports from config, types, token-ids, utils.
+- `src/token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
 - `token.schema.json` — JSON Schema attached to `data/tokens/[TOKEN]/data.json` files for IDE autocompletion.
 - `chain.schema.json` — JSON Schema attached to `data/chains/chains.json` for IDE autocompletion.
 
@@ -59,11 +68,11 @@ Each token directory's `data.json` specifies:
 - `tokens[chain].overrides` — per-chain UI overrides (e.g. rename symbol to `"USDC.e"` on BOB)
 - Optional metadata: `website`, `twitter`, `description`
 
-Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the supported chain keys in `config.ts`/`token.schema.json`. Chain IDs are only used in the output JSONs.
+Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the supported chain keys in `src/config.ts`/`token.schema.json`. Chain IDs are only used in the output JSONs.
 
 Non-EVM handling:
 
-- Solana has no viem chain definition; `config.ts` maps `solana` to chain ID `1399811149`, and Solana mint addresses are passed through without EVM checksum formatting.
+- Solana has no viem chain definition; `src/config.ts` maps `solana` to chain ID `1584368940`, and Solana mint addresses are passed through without EVM checksum formatting.
 
 **Output JSONs:**
 
@@ -80,7 +89,7 @@ These are committed to the repo and consumed downstream via the npm package.
 
 1. Create `data/tokens/[SYMBOL]/data.json` (use `token.schema.json` for structure)
 2. Add a logo asset (`logo.svg` or `logo.webp`)
-3. Run `pnpm build` — this regenerates `token-ids.ts`, all JSON outputs, and runs on-chain verification
+3. Run `pnpm build` — this regenerates `src/token-ids.ts`, all JSON outputs, and runs on-chain verification
 
 **Sourcing logos (tokens and chains):**
 
