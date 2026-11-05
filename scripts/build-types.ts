@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../config';
-import type { TokenData } from '../types';
+import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../src/config';
+import type { TokenData } from '../src/types';
 
 const tokenlistDirectories = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
   return a.toLowerCase().localeCompare(b.toLowerCase());
@@ -57,8 +57,4 @@ export type NativeTokenId = ${toUnionType(nativeTokenIds)};
 export type NonEvmTokenId = ${toUnionType(nonEvmTokenIds)};
 export type NonEvmNativeTokenId = ${toUnionType(nonEvmNativeTokenIds)};\n`;
 
-// token-ids.ts lives next to config.ts, in typescript/.
-fs.writeFileSync(
-  path.join(__dirname, '..', OUTFILE_TYPES),
-  fileDisclaimer + content,
-);
+fs.writeFileSync(OUTFILE_TYPES, fileDisclaimer + content);

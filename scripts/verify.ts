@@ -16,11 +16,11 @@ import {
   NON_EVM_CHAIN_IDS,
   SUPPORTED_CHAINS,
   TOKENLIST_SCHEMA_URL,
-} from '../config';
-import type { Token } from '../types';
-import { checksumAddress, toEvmAddress } from '../utils';
+} from '../src/config';
+import type { Token } from '../src/types';
+import { checksumAddress, toEvmAddress } from '../src/utils';
 
-const tokenlistPath = path.join(__dirname, '../../tokenlist.json');
+const tokenlistPath = path.join(__dirname, '../tokenlist.json');
 
 // Build chainId → Chain lookup from config
 const chainById = new Map<number, Chain>(

@@ -9,12 +9,11 @@
     "ignoreUnknown": true,
     "includes": [
       "**",
-      "!typescript/token-ids.ts",
+      "!src/token-ids.ts",
       "!tokenlist.json",
       "!tokenlist*.json",
       "!chainlist.json",
       "!chainlist*.json",
-      "!supported-chains.json",
       "!**/*.svg"
     ]
   },

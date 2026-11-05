@@ -27,6 +27,3 @@ pnpm-debug.log*
 
 # Worktrees
 .worktrees/
-
-# Rust build output
-target/
