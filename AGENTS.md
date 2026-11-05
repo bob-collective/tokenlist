@@ -29,7 +29,7 @@ This package is the authoritative token registry for the BOB ecosystem. The sour
 - `src/` — the npm package sources (`index.ts`, `config.ts`, `types.ts`, `utils.ts`, `token-ids.ts`).
 - `scripts/` — build, verification, and asset publishing scripts; not shipped in the npm package.
 - `data/`, the generated JSON files, and the JSON schemas stay at the root. Raw GitHub URLs (every `logoURI`) and npm subpath imports (`@gobob/tokenlist/tokenlist.json`) depend on these paths; never move them.
-- `package.json` stays at the root: installs from a GitHub URL need it there. Its `main`/`exports` point into `src/`, so `@gobob/tokenlist` and `@gobob/tokenlist/<module>` resolve as before. A new public module needs an entry in `files`. JSON subpaths resolve only with their `.json` extension.
+- `package.json` stays at the root: installs from a GitHub URL need it there. Its `main`/`exports` map `@gobob/tokenlist` and `@gobob/tokenlist/<module>` onto `src/`; everything in `src/` is published. JSON subpaths resolve only with their `.json` extension.
 
 Scripts run with the repo root as working directory, so the path constants in `src/config.ts` (`TOKEN_DIR`, `OUTFILE_*`) are root-relative.
 

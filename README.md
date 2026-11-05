@@ -25,7 +25,7 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 | [`scripts/`](./scripts)          | Build, verification, and asset publishing scripts                                          |
 | [`package.json`](./package.json) | npm manifest; maps `@gobob/tokenlist` and its subpaths onto `src/` and the root JSON files |
 
-Import paths are unchanged: `@gobob/tokenlist`, `@gobob/tokenlist/token-ids`, `@gobob/tokenlist/tokenlist.json`, and so on resolve as before. JSON files are imported with their `.json` extension.
+JSON files are imported with their `.json` extension.
 
 ---
 
