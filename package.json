@@ -11,14 +11,6 @@
     "./*.ts": "./src/*.ts",
     "./*": "./src/*.ts"
   },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "src/*",
-        "*"
-      ]
-    }
-  },
   "packageManager": "pnpm@11.24.0",
   "files": [
     "src/index.ts",
