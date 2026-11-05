@@ -72,7 +72,7 @@ Chain names used as keys in `tokens`, `bridge`, and `overrides` must match the s
 
 Non-EVM handling:
 
-- Solana has no viem chain definition; `src/config.ts` maps `solana` to chain ID `1399811149`, and Solana mint addresses are passed through without EVM checksum formatting.
+- Solana has no viem chain definition; `src/config.ts` maps `solana` to chain ID `1584368940`, and Solana mint addresses are passed through without EVM checksum formatting.
 
 **Output JSONs:**
 

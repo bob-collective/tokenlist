@@ -258,7 +258,7 @@ Per-chain `tokens` entries:
 
 Chain keys must match the supported chain names in [`src/config.ts`](./src/config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
 
-Solana uses base58 token mint addresses and is emitted with chain ID `1399811149`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
+Solana uses base58 token mint addresses and is emitted with chain ID `1584368940`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
 
 ---
 
