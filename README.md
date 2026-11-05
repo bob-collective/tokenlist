@@ -4,6 +4,7 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 
 ## Contents
 
+- [Repository Layout](#repository-layout)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Logo URLs](#logo-urls)
@@ -11,6 +12,20 @@ Authoritative token registry for the BOB ecosystem. The package publishes token 
 - [Data Model](#data-model)
 - [Adding New Tokens](#adding-new-tokens)
 - [Scripts](#scripts)
+
+---
+
+## Repository Layout
+
+| Path                             | Contents                                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------ |
+| [`data/`](./data)                | Source of truth: token and chain data, logos                                               |
+| `*.json` (root)                  | Generated token/chain lists and JSON schemas                                               |
+| [`src/`](./src)                  | npm package sources (`index.ts`, `config.ts`, `types.ts`, `utils.ts`, `token-ids.ts`)      |
+| [`scripts/`](./scripts)          | Build, verification, and asset publishing scripts                                          |
+| [`package.json`](./package.json) | npm manifest; maps `@gobob/tokenlist` and its subpaths onto `src/` and the root JSON files |
+
+Import paths are unchanged: `@gobob/tokenlist`, `@gobob/tokenlist/token-ids`, `@gobob/tokenlist/tokenlist.json`, and so on resolve as before. JSON files are imported with their `.json` extension.
 
 ---
 
@@ -51,7 +66,7 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `chainlist.json`                  | Chain ID to logo URI map (GitHub-hosted logos)                                                                                    |
 | `chainlist-mirror.json`           | Chain ID to logo URI map (R2 mirror logos)                                                                                        |
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
-| `token-ids.ts`                    | Generated token identifier types                                                                                                  |
+| `token-ids.ts`                    | Generated token identifier types (`src/token-ids.ts`, imported as `@gobob/tokenlist/token-ids`)                                   |
 
 ### TypeScript Types
 
@@ -241,7 +256,7 @@ Per-chain `tokens` entries:
 | `bridge`    | No       | Map of related chain name to bridge token address                                                     |
 | `overrides` | No       | UI-facing `name`, `symbol`, or `decimals` used only in `tokenlist-overrides.json`                     |
 
-Chain keys must match the supported chain names in [`config.ts`](./config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
+Chain keys must match the supported chain names in [`src/config.ts`](./src/config.ts). Update [`token.schema.json`](./token.schema.json) when adding a new supported chain so editors keep autocompletion and validation.
 
 Solana uses base58 token mint addresses and is emitted with chain ID `1399811149`. Solana addresses are passed through unchanged because they do not have EVM checksum semantics.
 
@@ -312,7 +327,7 @@ pnpm build
 
 This updates:
 
-- `token-ids.ts` — generated `TokenId` and `NativeTokenId` unions
+- `src/token-ids.ts` — generated `TokenId` and `NativeTokenId` unions
 - `tokenlist.json` — all tokens using base names, symbols, and decimals
 - `tokenlist-bob.json` — BOB chain tokens
 - `tokenlist-overrides.json` — tokens with overrides applied
@@ -379,7 +394,7 @@ browser cache lifetime. Publishing is idempotent and does not delete assets that
 
 **CoinGecko IDs:** Each token's `coingeckoId` is emitted as `extensions.coingeckoId` in the generated token lists, making the tokenlist the single source of truth for price feed IDs.
 
-**Generated files:** Do not edit `token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, or `chainlist-mirror.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
+**Generated files:** Do not edit `src/token-ids.ts`, `tokenlist.json`, `tokenlist-bob.json`, `tokenlist-overrides.json`, any `-mirror.json` list, `chainlist.json`, or `chainlist-mirror.json` by hand. Update `data/tokens/[TOKEN]/data.json` and run `pnpm build`.
 
 ---
 

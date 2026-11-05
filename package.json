@@ -3,14 +3,29 @@
   "version": "1.0.0",
   "description": "BOB token list data and utilities",
   "license": "MIT",
-  "main": "index.ts",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json",
+    "./*.json": "./*.json",
+    "./*.ts": "./src/*.ts",
+    "./*": "./src/*.ts"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*",
+        "*"
+      ]
+    }
+  },
   "packageManager": "pnpm@11.24.0",
   "files": [
-    "index.ts",
-    "config.ts",
-    "types.ts",
-    "utils.ts",
-    "token-ids.ts",
+    "src/index.ts",
+    "src/config.ts",
+    "src/types.ts",
+    "src/utils.ts",
+    "src/token-ids.ts",
     "tokenlist.json",
     "tokenlist*.json",
     "chainlist.json",

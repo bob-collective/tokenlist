@@ -6,15 +6,15 @@ import {
   OUTFILE_COMPRESSED,
   SUPPORTED_CHAIN_MAP,
   TOKEN_DIR,
-} from '../config';
-import type { TokenId } from '../token-ids';
+} from '../src/config';
+import type { TokenId } from '../src/token-ids';
 import type {
   CompressedChainEntry,
   CompressedEntry,
   Entries,
   TokenData,
-} from '../types';
-import { checksumAddress } from '../utils';
+} from '../src/types';
+import { checksumAddress } from '../src/utils';
 
 const compressedlist: Record<TokenId, CompressedEntry> = {} as Record<
   TokenId,

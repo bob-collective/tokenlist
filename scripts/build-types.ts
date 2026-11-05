@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../config';
-import type { TokenData } from '../types';
+import { NON_EVM_CHAIN_NAMES, OUTFILE_TYPES, TOKEN_DIR } from '../src/config';
+import type { TokenData } from '../src/types';
 
 const tokenlistDirectories = fs.readdirSync(TOKEN_DIR).sort((a, b) => {
   return a.toLowerCase().localeCompare(b.toLowerCase());
