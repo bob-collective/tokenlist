@@ -62,12 +62,8 @@ function normalizeAddress(address: string): string {
 // issue only ever show origin + path. fetch() refuses URLs with userinfo and
 // echoes the full URL in that error, so reject them before fetching.
 function displayUrl(url: string): string {
-  let parsed: URL;
-  try {
-    parsed = new URL(url);
-  } catch {
-    throw new Error('ROUTES_URL is not a valid URL');
-  }
+  const parsed = URL.parse(url);
+  if (!parsed) throw new Error('ROUTES_URL is not a valid URL');
   if (parsed.username || parsed.password) {
     throw new Error(
       'ROUTES_URL must not contain credentials (user:password@host)',
