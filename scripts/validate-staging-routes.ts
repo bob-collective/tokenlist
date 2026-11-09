@@ -58,7 +58,26 @@ function normalizeAddress(address: string): string {
   return /^0x[0-9a-fA-F]{40}$/.test(address) ? address.toLowerCase() : address;
 }
 
-async function fetchText(url: string): Promise<string> {
+// ROUTES_URL may carry an API key in its query string, so logs, errors and the
+// issue only ever show origin + path. fetch() refuses URLs with userinfo and
+// echoes the full URL in that error, so reject them before fetching.
+function displayUrl(url: string): string {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error('ROUTES_URL is not a valid URL');
+  }
+  if (parsed.username || parsed.password) {
+    throw new Error(
+      'ROUTES_URL must not contain credentials (user:password@host)',
+    );
+  }
+  return `${parsed.origin}${parsed.pathname}`;
+}
+
+// `label` is the redacted URL; the real one is only passed to fetch().
+async function fetchText(url: string, label: string): Promise<string> {
   let lastError = '';
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
@@ -78,13 +97,13 @@ async function fetchText(url: string): Promise<string> {
       status = response.status;
       body = await response.text();
     } catch (error) {
-      lastError = `GET ${url} failed: ${errorMessage(error)}`;
+      lastError = `GET ${label} failed: ${errorMessage(error)}`;
       continue;
     }
 
     if (status >= 200 && status < 300) return body;
 
-    lastError = `GET ${url} returned HTTP ${status}: ${snippet(body)}`;
+    lastError = `GET ${label} returned HTTP ${status}: ${snippet(body)}`;
     if (status < 500) throw new Error(lastError);
   }
 
@@ -219,11 +238,19 @@ function workflowRunUrl(): string | undefined {
   return `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`;
 }
 
-// Each [apiChain, address] pair is JSON-encoded, so a ':' or newline inside a
-// value can't make two different missing sets hash to the same marker.
+// Each [apiChain, tokenlistChain, address] tuple is JSON-encoded, so a ':' or
+// newline inside a value can't make two different missing sets hash to the
+// same marker. tokenlistChain is included so that adding a chain alias while
+// the token is still missing opens a new issue with the corrected chain.
 function issueMarker(missing: MissingToken[]): string {
   const pairs = missing
-    .map((token) => JSON.stringify([token.apiChain, token.normalizedAddress]))
+    .map((token) =>
+      JSON.stringify([
+        token.apiChain,
+        token.tokenlistChain,
+        token.normalizedAddress,
+      ]),
+    )
     .sort();
   const hash = createHash('sha256')
     .update(`[${pairs.join(',')}]`)
@@ -392,10 +419,13 @@ async function main() {
 
   const routesFile = values['routes-file'];
   const routesUrl = process.env.ROUTES_URL?.trim() || DEFAULT_ROUTES_URL;
-  const source = routesFile ? `file \`${routesFile}\`` : routesUrl;
+  // Only the file name is shown, so a local path doesn't end up in the issue.
+  const source = routesFile
+    ? `file \`${path.basename(routesFile)}\``
+    : displayUrl(routesUrl);
   const body = routesFile
     ? fs.readFileSync(routesFile, 'utf8')
-    : await fetchText(routesUrl);
+    : await fetchText(routesUrl, source);
 
   const routes = parseRoutes(body, source);
   const tokens = collectRouteTokens(routes);
