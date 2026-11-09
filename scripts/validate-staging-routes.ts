@@ -13,6 +13,10 @@ import type { TokenData } from '../types';
 const DEFAULT_ROUTES_URL =
   'https://gateway-api-staging.gobob.xyz/v4/get-routes';
 const ISSUE_LABEL = 'staging-routes-monitor';
+// The workflow opens issues with GITHUB_TOKEN, so they are authored by this
+// account. Only its issues count as "already reported": anyone can open an
+// issue and copy the marker, which is a hash of public data.
+const ISSUE_AUTHOR = 'github-actions[bot]';
 const UNKNOWN_CHAIN = 'unknown chain';
 const FETCH_TIMEOUT_MS = 30_000;
 const MAX_RETRIES = 2;
@@ -35,6 +39,7 @@ type GitHubIssue = {
   number: number;
   body?: string | null;
   pull_request?: unknown;
+  user?: { login?: string } | null;
 };
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -336,7 +341,10 @@ async function findOpenIssueWithMarker(
     }
 
     const match = data.find(
-      (issue) => !issue.pull_request && lastLine(issue.body ?? '') === marker,
+      (issue) =>
+        !issue.pull_request &&
+        issue.user?.login === ISSUE_AUTHOR &&
+        lastLine(issue.body ?? '') === marker,
     );
     if (match) return match.number;
     if (data.length < 100) return;
