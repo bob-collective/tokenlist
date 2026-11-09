@@ -331,20 +331,21 @@ pnpm verify
 
 ## Scripts
 
-| Command                     | Description                                                                 |
-| --------------------------- | --------------------------------------------------------------------------- |
-| `pnpm build`                | Generate types, build token lists, then run verification                    |
-| `pnpm build:tokenlist`      | Generate tokenlist JSON files (GitHub-hosted and `-mirror` variants)        |
-| `pnpm build:compressedlist` | Generate `compressedlist.json` (compact shared + per-chain tuples)          |
-| `pnpm build:chainlist`      | Generate `chainlist.json` and `chainlist-mirror.json`                       |
-| `pnpm build:types`          | Generate `TokenId` and `NativeTokenId` TypeScript unions                    |
-| `pnpm check`                | Run Biome formatting, import organization, and lint checks                  |
-| `pnpm check:write`          | Apply safe Biome formatting/import/lint fixes                               |
-| `pnpm format`               | Check formatting with Biome                                                 |
-| `pnpm format:write`         | Apply Biome formatting                                                      |
-| `pnpm lint`                 | Run Biome lint rules                                                        |
-| `pnpm publish:assets`       | Publish token and chain logos to Cloudflare R2 and verify the public copies |
-| `pnpm verify`               | Validate tokenlist schema and on-chain token data                           |
+| Command                        | Description                                                                 |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| `pnpm build`                   | Generate types, build token lists, then run verification                    |
+| `pnpm build:tokenlist`         | Generate tokenlist JSON files (GitHub-hosted and `-mirror` variants)        |
+| `pnpm build:compressedlist`    | Generate `compressedlist.json` (compact shared + per-chain tuples)          |
+| `pnpm build:chainlist`         | Generate `chainlist.json` and `chainlist-mirror.json`                       |
+| `pnpm build:types`             | Generate `TokenId` and `NativeTokenId` TypeScript unions                    |
+| `pnpm check`                   | Run Biome formatting, import organization, and lint checks                  |
+| `pnpm check:write`             | Apply safe Biome formatting/import/lint fixes                               |
+| `pnpm format`                  | Check formatting with Biome                                                 |
+| `pnpm format:write`            | Apply Biome formatting                                                      |
+| `pnpm lint`                    | Run Biome lint rules                                                        |
+| `pnpm publish:assets`          | Publish token and chain logos to Cloudflare R2 and verify the public copies |
+| `pnpm validate:staging-routes` | Check staging Gateway route tokens against `data/` and report missing ones  |
+| `pnpm verify`                  | Validate tokenlist schema and on-chain token data                           |
 
 ---
 
@@ -370,6 +371,32 @@ behind `static.gobob.xyz`:
 
 R2 objects are stored below the `tokenlist/` prefix and retain the existing mutable-path behavior with a five-minute
 browser cache lifetime. Publishing is idempotent and does not delete assets that are no longer referenced.
+
+---
+
+## Staging routes validation
+
+The `Validate staging routes` workflow keeps this list in step with the tokens Gateway actually routes. After each
+staging Gateway deploy, the internal deployments repo sends a `staging-updated` `repository_dispatch` here. The
+workflow waits 120 seconds for the rollout, calls `GET https://gateway-api-staging.gobob.xyz/v4/get-routes`, and
+checks every `src` and `dst` token against `data/tokens/*/data.json`. Chain and address must both match (EVM
+addresses case-insensitively, Tron and Solana base58 addresses exactly). Anything missing is reported in one GitHub
+issue labelled `staging-routes-monitor`; a run that finds the same set as an open issue doesn't open another. An
+empty or malformed API response fails the run instead of counting as "nothing missing".
+
+Gateway names some chains differently from this repo. `GATEWAY_CHAIN_ALIASES` in `config.ts` maps them
+(`arbitrum` → `arbitrum-one`, `bsc` → `bnb-smart-chain`, `hyperevm` → `hyper-evm`, `robinhood` → `robinhood-chain`).
+If an issue lists a token under `unknown chain`, add an alias when the chain already exists here under another
+name, or add the chain.
+
+Run it locally without creating an issue:
+
+```bash
+pnpm validate:staging-routes --dry-run
+pnpm validate:staging-routes --dry-run --routes-file routes.json  # check a saved response instead of the live API
+```
+
+`ROUTES_URL` overrides the endpoint. The workflow can also be started by hand with a custom delay and a dry-run switch.
 
 ---
 
