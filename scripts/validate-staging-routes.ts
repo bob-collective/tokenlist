@@ -197,10 +197,11 @@ function findMissingTokens(
   );
 }
 
-// Values come from the Gateway API, so keep them inside inline code: no
-// table breaks, links or @-mentions in the issue.
+// Values come from the Gateway API. Chain names and addresses only use
+// [A-Za-z0-9._-], so anything else is replaced: a value can't break the
+// table, add markup or @-mentions, or forge the dedup marker.
 function code(value: string): string {
-  return `\`${value.replace(/[`\r\n]/g, '').replace(/\|/g, '\\|')}\``;
+  return `\`${value.replace(/[^A-Za-z0-9._-]/g, '�')}\``;
 }
 
 function seenAsLabel(seenAs: Set<Side>): string {
@@ -213,12 +214,23 @@ function workflowRunUrl(): string | undefined {
   return `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`;
 }
 
+// Each [apiChain, address] pair is JSON-encoded, so a ':' or newline inside a
+// value can't make two different missing sets hash to the same marker.
 function issueMarker(missing: MissingToken[]): string {
-  const lines = missing
-    .map((token) => `${token.apiChain}:${token.normalizedAddress}`)
+  const pairs = missing
+    .map((token) => JSON.stringify([token.apiChain, token.normalizedAddress]))
     .sort();
-  const hash = createHash('sha256').update(lines.join('\n')).digest('hex');
+  const hash = createHash('sha256')
+    .update(`[${pairs.join(',')}]`)
+    .digest('hex');
   return `<!-- ${ISSUE_LABEL}:${hash} -->`;
+}
+
+// The marker is always the last line of the issue body. Matching only that
+// line keeps a marker-shaped string elsewhere in the body from matching.
+function lastLine(body: string): string {
+  const lines = body.trimEnd().split(/\r?\n/);
+  return lines[lines.length - 1].trim();
 }
 
 function buildIssue(missing: MissingToken[], source: string) {
@@ -324,7 +336,7 @@ async function findOpenIssueWithMarker(
     }
 
     const match = data.find(
-      (issue) => !issue.pull_request && issue.body?.includes(marker),
+      (issue) => !issue.pull_request && lastLine(issue.body ?? '') === marker,
     );
     if (match) return match.number;
     if (data.length < 100) return;
