@@ -27,7 +27,7 @@ concurrency:
 jobs:
   check:
     name: Validate staging routes
-    runs-on: ubuntu-latest
+    runs-on: bob-ubuntu-latest
     # Covers the longest manual delay (600s) plus setup and the check itself.
     timeout-minutes: 15
     permissions:
