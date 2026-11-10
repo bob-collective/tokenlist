@@ -1,6 +1,7 @@
 // Checks that every token the staging Gateway API routes exists in data/ on
-// the same chain and address, and opens one GitHub issue listing any that
-// are missing. See "Staging routes validation" in AGENTS.md.
+// the same chain and address, opens one GitHub issue listing any that are
+// missing, and pings Discord about it. See "Staging routes validation" in
+// AGENTS.md.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
@@ -374,8 +375,66 @@ async function findOpenIssueWithMarker(
   }
 }
 
+type DiscordConfig = { webhookUrl: string; roleId?: string };
+
+// DISCORD_WEBHOOK_URL is a credential (anyone holding it can post), so it is
+// only passed to fetch() and scrubbed from any error text. DISCORD_ROLE_ID is
+// the numeric ID of the role to ping; without it the message is sent unpinged.
+// Read before anything else runs: a bad value found only after the issue is
+// opened would be lost, since the next run sees that issue and stays quiet.
+function discordConfig(): DiscordConfig | undefined {
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL?.trim();
+  if (!webhookUrl) return;
+
+  const roleId = process.env.DISCORD_ROLE_ID?.trim() || undefined;
+  if (roleId && !/^\d+$/.test(roleId)) {
+    throw new Error('DISCORD_ROLE_ID must be a numeric Discord role ID');
+  }
+  return { webhookUrl, roleId };
+}
+
+async function notifyDiscord(
+  discord: DiscordConfig | undefined,
+  issueUrl: string,
+): Promise<void> {
+  if (!discord) {
+    console.log('DISCORD_WEBHOOK_URL is not set; skipping Discord message');
+    return;
+  }
+
+  const { webhookUrl, roleId } = discord;
+  const mention = roleId ? `<@&${roleId}> ` : '';
+  const redact = (text: string) => text.split(webhookUrl).join('<webhook>');
+
+  let response: Response;
+  try {
+    response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        content: `${mention}New tokens have been added to the staging Gateway routes and are missing from the tokenlist. Here's the GitHub issue to address: ${issueUrl}`,
+        allowed_mentions: { roles: roleId ? [roleId] : [] },
+      }),
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+  } catch (error) {
+    throw new Error(
+      `Discord webhook request failed: ${redact(errorMessage(error))}`,
+    );
+  }
+
+  if (!response.ok) {
+    const body = redact(snippet(await response.text()));
+    throw new Error(
+      `Discord webhook returned HTTP ${response.status}: ${body}`,
+    );
+  }
+  console.log('Sent Discord message');
+}
+
 async function reportMissing(
   issue: ReturnType<typeof buildIssue>,
+  discord: DiscordConfig | undefined,
 ): Promise<void> {
   const request = gitHubClient();
 
@@ -400,6 +459,11 @@ async function reportMissing(
     );
   }
   console.log(`Opened #${data.number}: ${data.html_url}`);
+
+  // Only a newly opened issue pings Discord; an already-reported set stays
+  // quiet. A failed ping fails the job, but the next run sees the open issue
+  // and won't retry it.
+  await notifyDiscord(discord, data.html_url ?? `issue #${data.number}`);
 }
 
 async function main() {
@@ -412,6 +476,7 @@ async function main() {
   const dryRun =
     values['dry-run'] ||
     ['1', 'true'].includes(process.env.DRY_RUN?.toLowerCase() ?? '');
+  const discord = discordConfig();
 
   const routesFile = values['routes-file'];
   const routesUrl = process.env.ROUTES_URL?.trim() || DEFAULT_ROUTES_URL;
@@ -439,7 +504,7 @@ async function main() {
     );
     return;
   }
-  await reportMissing(issue);
+  await reportMissing(issue, discord);
 }
 
 main().catch((error) => {

@@ -69,6 +69,8 @@ jobs:
       - name: Validate staging routes against tokenlist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_ROLE_ID: ${{ vars.DISCORD_ROLE_ID }}
           DRY_RUN_INPUT: ${{ inputs.dry_run }}
         run: |
           if [ "$DRY_RUN_INPUT" = "true" ]; then

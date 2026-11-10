@@ -381,8 +381,10 @@ staging Gateway deploy, the internal deployments repo sends a `staging-updated` 
 workflow waits 120 seconds for the rollout, calls `GET https://gateway-api-staging.gobob.xyz/v4/get-routes`, and
 checks every `src` and `dst` token against `data/tokens/*/data.json`. Chain and address must both match (EVM
 addresses case-insensitively, Tron and Solana base58 addresses exactly). Anything missing is reported in one GitHub
-issue labelled `staging-routes-monitor`; a run that finds the same set as an open issue doesn't open another. An
-empty or malformed API response fails the run instead of counting as "nothing missing".
+issue labelled `staging-routes-monitor`; a run that finds the same set as an open issue doesn't open another. Each
+new issue is also posted to Discord (webhook in the `DISCORD_WEBHOOK_URL` secret, role to ping in the
+`DISCORD_ROLE_ID` variable). An empty or malformed API response fails the run instead of counting as "nothing
+missing".
 
 Gateway names some chains differently from this repo. `GATEWAY_CHAIN_ALIASES` in `config.ts` maps them
 (`arbitrum` → `arbitrum-one`, `bsc` → `bnb-smart-chain`, `hyperevm` → `hyper-evm`, `robinhood` → `robinhood-chain`).
