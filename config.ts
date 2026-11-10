@@ -135,6 +135,16 @@ export const NON_EVM_CHAIN_NAMES = new Set<string>([
   'tron',
 ]);
 
+// Gateway API chain name → data.json chain key, for the chains the Gateway API
+// names differently. Used by scripts/validate-staging-routes.ts; every other
+// Gateway chain name is expected to match a data.json key directly.
+export const GATEWAY_CHAIN_ALIASES: Partial<Record<string, string>> = {
+  arbitrum: 'arbitrum-one',
+  bsc: 'bnb-smart-chain',
+  hyperevm: 'hyper-evm',
+  robinhood: 'robinhood-chain',
+};
+
 export const SUPPORTED_CHAIN_IDS = [
   ...SUPPORTED_CHAINS.map((chain) => chain.id),
   SOLANA_CHAIN_ID,

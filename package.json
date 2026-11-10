@@ -30,6 +30,7 @@
     "lint": "biome lint .",
     "postbuild": "npm run verify",
     "publish:assets": "tsx ./scripts/publish-assets.ts",
+    "validate:staging-routes": "tsx ./scripts/validate-staging-routes.ts",
     "verify": "tsx ./scripts/verify.ts"
   },
   "devDependencies": {

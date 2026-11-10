@@ -15,6 +15,7 @@ pnpm format             # Check formatting with Biome
 pnpm format:write       # Apply Biome formatting
 pnpm lint               # Run Biome lint rules
 pnpm verify             # Validate schema + on-chain data (runs automatically after build)
+pnpm validate:staging-routes --dry-run  # Compare staging Gateway route tokens with /data, print the issue it would open
 ```
 
 ## Architecture
@@ -98,3 +99,14 @@ Guidelines:
 - Avoid aggregators (CoinGecko, CoinMarketCap, Trust Wallet assets, etc.) as the primary source; use them only when the issuer site has nothing usable, and note it in the PR.
 - Remove `width` and `height` attributes from the root `<svg>` and keep `viewBox` (add one if missing, e.g. `viewBox="0 0 W H"` from the removed width/height) so logos scale correctly to any size.
 - Token logos go in `data/tokens/[SYMBOL]/logo.svg`; chain logos go in `data/chains/[name].svg` and are referenced from `data/chains/chains.json`.
+
+**Staging routes validation:**
+
+`.github/workflows/validate-staging-routes.yml` runs `scripts/validate-staging-routes.ts` to catch tokens that Gateway routes but this repo is missing.
+
+- Trigger: a `staging-updated` `repository_dispatch` that the internal deployments repo sends after a staging deploy is merged. The workflow waits 120s for the rollout, then checks. It can also be run by hand (`workflow_dispatch`) with a custom delay and a dry-run switch.
+- Check: every `(chain, address)` from the `src` and `dst` side of `GET https://gateway-api-staging.gobob.xyz/v4/get-routes` must exist in `data/tokens/*/data.json` → `tokens[chain].address`. EVM addresses match case-insensitively; Tron and Solana base58 addresses match exactly. An empty or malformed API response fails the job.
+- Report: one issue per run, labelled `staging-routes-monitor`, listing every missing chain + address. It is skipped when an open issue opened by `github-actions[bot]` already reports the same set; issues from other authors are ignored, so a copied marker can't suppress an alert.
+- Discord: each newly opened issue is posted to Discord via the `DISCORD_WEBHOOK_URL` repo secret, pinging the role whose numeric ID is in the `DISCORD_ROLE_ID` repo variable. No secret → no message; no variable → message without a ping. Skipped issues (same set already open) send nothing. Never commit the webhook URL: anyone holding it can post to the channel.
+- Chain aliases: Gateway names some chains differently from the `data.json` keys. `GATEWAY_CHAIN_ALIASES` in `config.ts` maps them (e.g. `bsc` → `bnb-smart-chain`). When an issue lists a token under `unknown chain`, add an alias if the chain already exists here under another name, or add the chain itself.
+- Run locally: `pnpm validate:staging-routes --dry-run` prints the issue instead of creating it and needs no `GITHUB_TOKEN`. Add `--routes-file <path>` to check a saved routes JSON instead of the live API, or set `ROUTES_URL` to point at another endpoint. Output and the issue show only its origin and path (no query string), and a URL with `user:password@` is rejected.
