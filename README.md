@@ -419,3 +419,5 @@ Open a PR against `bob-collective/tokenlist` with your changes.
 ## License
 
 MIT
+
+<!-- review bot rollout check, 2026-11-23 -->
