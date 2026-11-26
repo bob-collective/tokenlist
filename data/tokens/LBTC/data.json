@@ -21,9 +21,11 @@
       }
     },
     "bnb-smart-chain": {
+      "name": "Lombard BTC",
       "address": "0xecac9c5f704e954931349da37f60e39f515c11c1"
     },
     "base": {
+      "name": "Lombard BTC",
       "address": "0xecac9c5f704e954931349da37f60e39f515c11c1"
     }
   }
