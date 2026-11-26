@@ -379,8 +379,14 @@
     ["Lombard Staked Bitcoin", "LBTC", "lombard-staked-btc", "svg"],
     [1, "0x8236a87084f8B84306f72007F36F2618A5634494", 8, false],
     [60808, "0xA45d4121b3D47719FF57a947A9d961539Ba33204", 8, false],
-    [56, "0xecAc9C5F704e954931349Da37F60E39f515c11c1", 8, false],
-    [8453, "0xecAc9C5F704e954931349Da37F60E39f515c11c1", 8, false]
+    [56, "0xecAc9C5F704e954931349Da37F60E39f515c11c1", 8, false, "Lombard BTC"],
+    [
+      8453,
+      "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+      8,
+      false,
+      "Lombard BTC"
+    ]
   ],
   "LINK": [
     ["ChainLink Token", "LINK", "chainlink", "svg"],
