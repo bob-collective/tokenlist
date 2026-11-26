@@ -53,18 +53,14 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts`                    | Generated token identifier types                                                                                                  |
 
-### Entry points
+### Importing one file
 
-The package is marked `"sideEffects": false` and only the paths in its `exports` map can be imported. Besides the root and the JSON files above, these subpaths import neither `config.ts` (which builds every viem chain definition) nor lodash, so a browser bundle can take one value without the rest:
+The package root also loads `config.ts`, which builds every viem chain definition. To take a constant or a helper without it, import its file directly:
 
-| Subpath                        | Exports                                                       | Imports                        |
-| ------------------------------ | ------------------------------------------------------------- | ------------------------------ |
-| `@gobob/tokenlist/chain-ids`   | `SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`      | nothing                        |
-| `@gobob/tokenlist/paths`       | `TOKEN_DIR`, `TOKENLIST_BASE_URL`, `TOKENLIST_MIRROR_URL`     | nothing                        |
-| `@gobob/tokenlist/logo`        | `getLogoURI`, `getMirrorLogoURI`                              | `paths`                        |
-| `@gobob/tokenlist/address`     | `checksumAddress`, `toEvmAddress`, `toTronAddress`            | `@scure/base`, viem helpers    |
-
-`@gobob/tokenlist/config`, `@gobob/tokenlist/utils`, `@gobob/tokenlist/types` and `@gobob/tokenlist/token-ids` remain importable, and everything is still exported from the package root.
+```typescript
+import { BITCOIN_CHAIN_ID } from "@gobob/tokenlist/constants"; // imports nothing
+import { getMirrorLogoURI, toEvmAddress } from "@gobob/tokenlist/utils"; // imports viem and @scure/base
+```
 
 ### TypeScript Types
 
@@ -87,7 +83,7 @@ import type { Token, TokenData, SupportedChain } from "@gobob/tokenlist/types";
 
 ## Logo URLs
 
-Token logos are served from two hosts. Both helpers are exported from the package root and from `@gobob/tokenlist/logo`, take the same arguments, and return the same path — only the host differs:
+Token logos are served from two hosts. Both helpers are exported from the package root, take the same arguments, and return the same path — only the host differs:
 
 | Helper              | Host                                                                | Use when                                       |
 | ------------------- | ------------------------------------------------------------------- | ---------------------------------------------- |

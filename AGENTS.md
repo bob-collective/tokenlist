@@ -41,26 +41,14 @@ data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.
 
 **Key files:**
 
-- `config.ts` — Chain definitions, supported chain list and output file names. All chain-to-chainId mappings live here. Builds every viem chain at module scope, so keep it out of the import graph of anything a browser consumer needs.
-- `chain-ids.ts` — `SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`. Imports nothing; re-exported by `config.ts`.
-- `paths.ts` — `TOKEN_DIR`, `TOKENLIST_BASE_URL` (GitHub raw), `TOKENLIST_MIRROR_URL` (R2 mirror). Imports nothing; re-exported by `config.ts`.
-- `logo.ts` — `getLogoURI`, `getMirrorLogoURI`. Imports only `paths.ts`.
-- `address.ts` — `checksumAddress`, `toEvmAddress`, `toTronAddress`. Imports only `@scure/base` and viem's address/hash helpers.
-- `map-by-name.ts` — `mapByName`, the lodash-based chain name normalisation used by `config.ts`.
-- `utils.ts` — Re-exports `address.ts`, `logo.ts` and `map-by-name.ts`; defines nothing itself.
+- `config.ts` — Chain definitions, supported chain list and output file names. All chain-to-chainId mappings live here. Builds every viem chain and imports lodash, so `constants.ts` and `utils.ts` never import it.
+- `constants.ts` — Non-EVM chain IDs (`SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`), `TOKEN_DIR` and the two logo hosts. Imports nothing.
+- `utils.ts` — Logo URL and address helpers. Imports only `constants.ts`, viem and `@scure/base`, so browser consumers import it directly (`@gobob/tokenlist/utils`).
 - `types.ts` — `TokenData` (raw input shape from data.json), `Token` (output shape for tokenlist JSONs), `SupportedChain` type.
-- `index.ts` — Public API surface; re-exports from config, types, token-ids, utils.
+- `index.ts` — Public API surface; re-exports from config, constants, types, token-ids, utils.
 - `token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
 - `token.schema.json` — JSON Schema attached to `data/tokens/[TOKEN]/data.json` files for IDE autocompletion.
 - `chain.schema.json` — JSON Schema attached to `data/chains/chains.json` for IDE autocompletion.
-
-**Package entry points:**
-
-`package.json` declares `"sideEffects": false` and an `exports` map. Consumers bundle the TypeScript source directly, so:
-
-- Keep every module free of import-time side effects (no global mutation, no polyfills, no I/O at module scope). `scripts/` is not shipped and is exempt.
-- A leaf module (`chain-ids.ts`, `paths.ts`, `logo.ts`, `address.ts`) must not import `config.ts`, `utils.ts`, `index.ts` or lodash: they exist so browser consumers can skip those.
-- A new module that consumers import goes into both `files` and `exports`; a new generated JSON file goes into `exports` too. A path missing from `exports` cannot be imported at all.
 
 **data.json structure:**
 

@@ -1,3 +1,5 @@
+import camelCase from 'lodash/camelCase';
+import kebabCase from 'lodash/kebabCase';
 import { defineChain } from 'viem';
 import {
   arbitrum,
@@ -25,22 +27,24 @@ import {
   BITCOIN_CHAIN_ID,
   SIGNET_CHAIN_ID,
   SOLANA_CHAIN_ID,
-} from './chain-ids';
-import { mapByName } from './map-by-name';
+} from './constants';
+import type { KebabCase } from './types';
 
-// Defined in leaf modules that import nothing, so consumers can read them
-// without this module's viem chain definitions; re-exported to keep this
-// module's public surface unchanged.
-export {
-  BITCOIN_CHAIN_ID,
-  SIGNET_CHAIN_ID,
-  SOLANA_CHAIN_ID,
-} from './chain-ids';
-export { TOKEN_DIR, TOKENLIST_BASE_URL, TOKENLIST_MIRROR_URL } from './paths';
+export function mapByName<T extends { name: string }>(
+  arr: T[],
+): Record<KebabCase<T['name']>, T> {
+  return arr.reduce(
+    (acc, object) => {
+      acc[kebabCase(camelCase(object.name)) as KebabCase<T['name']>] = object;
+
+      return acc;
+    },
+    {} as Record<KebabCase<T['name']>, T>,
+  );
+}
 
 export const TOKENLIST_SCHEMA_URL =
   'https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json';
-
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
@@ -114,8 +118,7 @@ export const SUPPORTED_TESTNET_CHAINS = mapByName(supportedTestnetChains);
 export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
 
 // chain name (as used in data.json keys) → chain ID, for chains absent from
-// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe; their IDs are
-// defined in chain-ids.ts).
+// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
 export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
   solana: SOLANA_CHAIN_ID,
   bitcoin: BITCOIN_CHAIN_ID,

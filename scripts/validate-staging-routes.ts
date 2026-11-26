@@ -8,7 +8,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { glob } from 'glob';
-import { GATEWAY_CHAIN_ALIASES, TOKEN_DIR } from '../config';
+import { GATEWAY_CHAIN_ALIASES } from '../config';
+import { TOKEN_DIR } from '../constants';
 import type { TokenData } from '../types';
 
 const DEFAULT_ROUTES_URL =

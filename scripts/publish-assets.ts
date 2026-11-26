@@ -8,7 +8,8 @@ import {
   S3ServiceException,
 } from '@aws-sdk/client-s3';
 import { glob } from 'glob';
-import { CHAIN_DIR, TOKEN_DIR, TOKENLIST_MIRROR_URL } from '../config';
+import { CHAIN_DIR } from '../config';
+import { TOKEN_DIR, TOKENLIST_MIRROR_URL } from '../constants';
 
 const ASSET_PREFIX = 'tokenlist';
 const CACHE_CONTROL = 'public, max-age=300';
