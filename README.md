@@ -53,6 +53,19 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts`                    | Generated token identifier types                                                                                                  |
 
+### Entry points
+
+The package is marked `"sideEffects": false` and only the paths in its `exports` map can be imported. Besides the root and the JSON files above, these subpaths import neither `config.ts` (which builds every viem chain definition) nor lodash, so a browser bundle can take one value without the rest:
+
+| Subpath                        | Exports                                                       | Imports                        |
+| ------------------------------ | ------------------------------------------------------------- | ------------------------------ |
+| `@gobob/tokenlist/chain-ids`   | `SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`      | nothing                        |
+| `@gobob/tokenlist/paths`       | `TOKEN_DIR`, `TOKENLIST_BASE_URL`, `TOKENLIST_MIRROR_URL`     | nothing                        |
+| `@gobob/tokenlist/logo`        | `getLogoURI`, `getMirrorLogoURI`                              | `paths`                        |
+| `@gobob/tokenlist/address`     | `checksumAddress`, `toEvmAddress`, `toTronAddress`            | `@scure/base`, viem helpers    |
+
+`@gobob/tokenlist/config`, `@gobob/tokenlist/utils`, `@gobob/tokenlist/types` and `@gobob/tokenlist/token-ids` remain importable, and everything is still exported from the package root.
+
 ### TypeScript Types
 
 The package exports TypeScript types for type-safe development:
@@ -74,7 +87,7 @@ import type { Token, TokenData, SupportedChain } from "@gobob/tokenlist/types";
 
 ## Logo URLs
 
-Token logos are served from two hosts. Both helpers are exported from the package root, take the same arguments, and return the same path — only the host differs:
+Token logos are served from two hosts. Both helpers are exported from the package root and from `@gobob/tokenlist/logo`, take the same arguments, and return the same path — only the host differs:
 
 | Helper              | Host                                                                | Use when                                       |
 | ------------------- | ------------------------------------------------------------------- | ---------------------------------------------- |

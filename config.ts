@@ -21,15 +21,26 @@ import {
   tron,
   unichain,
 } from 'viem/chains';
-import { mapByName } from './utils';
+import {
+  BITCOIN_CHAIN_ID,
+  SIGNET_CHAIN_ID,
+  SOLANA_CHAIN_ID,
+} from './chain-ids';
+import { mapByName } from './map-by-name';
+
+// Defined in leaf modules that import nothing, so consumers can read them
+// without this module's viem chain definitions; re-exported to keep this
+// module's public surface unchanged.
+export {
+  BITCOIN_CHAIN_ID,
+  SIGNET_CHAIN_ID,
+  SOLANA_CHAIN_ID,
+} from './chain-ids';
+export { TOKEN_DIR, TOKENLIST_BASE_URL, TOKENLIST_MIRROR_URL } from './paths';
 
 export const TOKENLIST_SCHEMA_URL =
   'https://raw.githubusercontent.com/Uniswap/token-lists/refs/heads/main/src/tokenlist.schema.json';
-export const TOKENLIST_BASE_URL =
-  'https://raw.githubusercontent.com/bob-collective/tokenlist/refs/heads/main/';
-export const TOKENLIST_MIRROR_URL = 'https://static.gobob.xyz/tokenlist/';
 
-export const TOKEN_DIR = './data/tokens';
 export const OUTFILE_TOKENLIST = 'tokenlist.json';
 export const OUTFILE_BOB = 'tokenlist-bob.json';
 export const OUTFILE_OVERRIDES = 'tokenlist-overrides.json';
@@ -102,16 +113,9 @@ export const SUPPORTED_MAINNET_CHAINS = mapByName(supportedMainnetChains);
 export const SUPPORTED_TESTNET_CHAINS = mapByName(supportedTestnetChains);
 export const SUPPORTED_CHAIN_MAP = mapByName(SUPPORTED_CHAINS);
 
-// Non-EVM chains have no viem definition, so their chain IDs and name→id
-// mapping live here. Solana uses its genesis-derived numeric chain ID; the
-// Bitcoin networks use their genesis block timestamps (mainnet 2009-01-03,
-// signet 2020-09-01) since Bitcoin has no native chain-ID concept.
-export const SOLANA_CHAIN_ID = 1584368940;
-export const BITCOIN_CHAIN_ID = 1231006505;
-export const SIGNET_CHAIN_ID = 1598918400;
-
 // chain name (as used in data.json keys) → chain ID, for chains absent from
-// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe).
+// SUPPORTED_CHAINS (i.e. non-EVM chains viem cannot describe; their IDs are
+// defined in chain-ids.ts).
 export const NON_EVM_CHAIN_ID_BY_NAME: Partial<Record<string, number>> = {
   solana: SOLANA_CHAIN_ID,
   bitcoin: BITCOIN_CHAIN_ID,
