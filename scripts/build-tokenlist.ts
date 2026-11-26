@@ -11,9 +11,9 @@ import {
   OUTFILE_TOKENLIST,
   OUTFILE_TOKENLIST_MIRROR,
   SUPPORTED_CHAIN_MAP,
-  TOKEN_DIR,
   TOKENLIST_SCHEMA_URL,
 } from '../config';
+import { TOKEN_DIR } from '../constants';
 import { version } from '../package.json';
 import type { TokenId } from '../token-ids';
 import type { Entries, Token, TokenData } from '../types';

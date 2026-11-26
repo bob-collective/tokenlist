@@ -8,6 +8,7 @@
   "files": [
     "index.ts",
     "config.ts",
+    "constants.ts",
     "types.ts",
     "utils.ts",
     "token-ids.ts",

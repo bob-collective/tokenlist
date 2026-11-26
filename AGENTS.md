@@ -41,9 +41,11 @@ data/chains/chains.json        →  scripts/build-chainlist.ts   →  chainlist.
 
 **Key files:**
 
-- `config.ts` — Chain definitions, supported chain list, file path constants, and GitHub logo URI base. All chain-to-chainId mappings live here.
+- `config.ts` — Chain definitions, supported chain list and output file names. All chain-to-chainId mappings live here. Builds every viem chain and imports lodash, so `constants.ts` and `utils.ts` never import it.
+- `constants.ts` — Non-EVM chain IDs (`SOLANA_CHAIN_ID`, `BITCOIN_CHAIN_ID`, `SIGNET_CHAIN_ID`), `TOKEN_DIR` and the two logo hosts. Imports nothing.
+- `utils.ts` — Logo URL and address helpers. Imports only `constants.ts`, viem and `@scure/base`, so browser consumers import it directly (`@gobob/tokenlist/utils`).
 - `types.ts` — `TokenData` (raw input shape from data.json), `Token` (output shape for tokenlist JSONs), `SupportedChain` type.
-- `index.ts` — Public API surface; re-exports from config, types, token-ids, utils.
+- `index.ts` — Public API surface; re-exports from config, constants, types, token-ids, utils.
 - `token-ids.ts` — Auto-generated union type of all token symbols. Never edit by hand; run `pnpm build:types`.
 - `token.schema.json` — JSON Schema attached to `data/tokens/[TOKEN]/data.json` files for IDE autocompletion.
 - `chain.schema.json` — JSON Schema attached to `data/chains/chains.json` for IDE autocompletion.

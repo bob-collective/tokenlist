@@ -53,6 +53,15 @@ const tokenList = require("@gobob/tokenlist/tokenlist.json");
 | `compressedlist.json`             | Size-optimized token list; each `TokenId` maps to `[sharedTuple, ...chainTuples]` (see [Compact Token List](#compact-token-list)) |
 | `token-ids.ts`                    | Generated token identifier types                                                                                                  |
 
+### Importing one file
+
+The package root also loads `config.ts`, which builds every viem chain definition. To take a constant or a helper without it, import its file directly:
+
+```typescript
+import { BITCOIN_CHAIN_ID } from "@gobob/tokenlist/constants"; // imports nothing
+import { getMirrorLogoURI, toEvmAddress } from "@gobob/tokenlist/utils"; // imports viem and @scure/base
+```
+
 ### TypeScript Types
 
 The package exports TypeScript types for type-safe development:

@@ -5,8 +5,8 @@ import {
   NON_EVM_CHAIN_ID_BY_NAME,
   OUTFILE_COMPRESSED,
   SUPPORTED_CHAIN_MAP,
-  TOKEN_DIR,
 } from '../config';
+import { TOKEN_DIR } from '../constants';
 import type { TokenId } from '../token-ids';
 import type {
   CompressedChainEntry,

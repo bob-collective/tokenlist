@@ -1,11 +1,11 @@
-import path from 'node:path';
 import { base58check } from '@scure/base';
-import camelCase from 'lodash/camelCase';
-import kebabCase from 'lodash/kebabCase';
 import { bytesToHex, getAddress, hexToBytes, isAddress, sha256 } from 'viem';
-import { TOKEN_DIR, TOKENLIST_BASE_URL, TOKENLIST_MIRROR_URL } from './config';
+import {
+  TOKEN_DIR,
+  TOKENLIST_BASE_URL,
+  TOKENLIST_MIRROR_URL,
+} from './constants';
 import type { TokenId } from './token-ids';
-import type { KebabCase } from './types';
 
 // A Tron address is base58check over 21 bytes: the 0x41 prefix + a 20-byte EVM address.
 const TRON_ADDRESS_PREFIX = 0x41;
@@ -23,22 +23,9 @@ function decodeTronAddress(address: string): Uint8Array | null {
   }
 }
 
-export function mapByName<T extends { name: string }>(
-  arr: T[],
-): Record<KebabCase<T['name']>, T> {
-  return arr.reduce(
-    (acc, object) => {
-      acc[kebabCase(camelCase(object.name)) as KebabCase<T['name']>] = object;
-
-      return acc;
-    },
-    {} as Record<KebabCase<T['name']>, T>,
-  );
-}
-
 export function getLogoURI(tokenId: TokenId, logoext: 'svg' | 'webp'): string {
   return new URL(
-    path.posix.join(TOKEN_DIR, tokenId, `logo.${logoext}`),
+    `${TOKEN_DIR}/${tokenId}/logo.${logoext}`,
     TOKENLIST_BASE_URL,
   ).toString();
 }
@@ -48,7 +35,7 @@ export function getMirrorLogoURI(
   logoext: 'svg' | 'webp',
 ): string {
   return new URL(
-    path.posix.join(TOKEN_DIR, tokenId, `logo.${logoext}`),
+    `${TOKEN_DIR}/${tokenId}/logo.${logoext}`,
     TOKENLIST_MIRROR_URL,
   ).toString();
 }
